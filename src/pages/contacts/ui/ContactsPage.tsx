@@ -2,12 +2,19 @@ import { Card } from '@shared/ui';
 
 import { ContactForm } from './ContactForm/ContactForm';
 import { YandexMap } from './YandexMap/YandexMap';
+import {
+  RutubeIcon,
+  TelegramIcon,
+  VkIcon,
+  YouTubeIcon,
+} from './SocialIcons/SocialIcons';
+import { LocationIcon, MailIcon, PhoneIcon } from './ContactIcons/ContactIcons';
 
 import styles from './ContactsPage.module.css';
 
 const contactCards = [
   {
-    icon: '📍',
+    Icon: LocationIcon,
     title: 'Адрес',
     content: (
       <>
@@ -20,7 +27,7 @@ const contactCards = [
     ),
   },
   {
-    icon: '📞',
+    Icon: PhoneIcon,
     title: 'Телефон',
     content: (
       <>
@@ -33,7 +40,7 @@ const contactCards = [
     ),
   },
   {
-    icon: '✉️',
+    Icon: MailIcon,
     title: 'Email',
     content: (
       <>
@@ -55,28 +62,24 @@ const benefits = [
 
 const socialLinks = [
   {
-    icon: '📱',
+    Icon: VkIcon,
     title: 'VKontakte',
-    text: 'VR CONCEPT FC',
-    href: '#',
+    href: 'https://vk.com/vr_concept',
   },
   {
-    icon: '✈️',
+    Icon: TelegramIcon,
     title: 'Telegram',
-    text: '@vrconceptfc',
-    href: '#',
+    href: 'https://t.me/vrconcept',
   },
   {
-    icon: '📷',
-    title: 'Instagram',
-    text: 'vrconceptfc',
-    href: '#',
+    Icon: RutubeIcon,
+    title: 'RuTube',
+    href: 'https://rutube.ru/channel/25986992/',
   },
   {
-    icon: '▶️',
+    Icon: YouTubeIcon,
     title: 'YouTube',
-    text: 'VR CONCEPT FC',
-    href: '#',
+    href: 'https://www.youtube.com/channel/UCFEZgpwc2eKm_BzOfsB-k2g',
   },
 ];
 
@@ -89,7 +92,7 @@ const faqItems = [
   {
     question: 'Когда проходят тренировки?',
     answer:
-      'Тренировки проводятся 3 раза в неделю: Пн, Ср, Пт с 19:00 до 21:00 на стадионе «Луч».',
+      'Тренировки проводятся 2 раза в неделю: в Пн и Пт с 19:00 до 21:00 на стадионе «Луч».',
   },
   {
     question: 'Нужен ли опыт в футболе?',
@@ -125,12 +128,12 @@ export function ContactsPage() {
         </div>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.contactsSection}>
         <div className={styles.container}>
           <div className={styles.contactGrid}>
-            {contactCards.map((card) => (
+            {contactCards.map(({ Icon, ...card }) => (
               <Card className={styles.contactCard} key={card.title}>
-                <div className={styles.contactIcon}>{card.icon}</div>
+                <Icon className={styles.contactIcon} />
                 <h2>{card.title}</h2>
                 <p>{card.content}</p>
               </Card>
@@ -139,7 +142,7 @@ export function ContactsPage() {
         </div>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.formSection}>
         <div className={styles.container}>
           <div className={styles.formGrid}>
             <div className={styles.formIntro}>
@@ -176,16 +179,18 @@ export function ContactsPage() {
           </p>
 
           <div className={styles.socialGrid}>
-            {socialLinks.map((social) => (
+            {socialLinks.map(({ Icon, ...social }) => (
               <a
                 className={styles.socialCard}
                 href={social.href}
                 key={social.title}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${social.title}`}
               >
                 <Card className={styles.socialCardInner}>
-                  <div className={styles.socialIcon}>{social.icon}</div>
+                  <Icon className={styles.socialIcon} />
                   <h3>{social.title}</h3>
-                  <p>{social.text}</p>
                 </Card>
               </a>
             ))}

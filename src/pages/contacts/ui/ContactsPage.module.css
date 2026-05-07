@@ -64,6 +64,14 @@
   text-align: center;
 }
 
+.contactsSection {
+  padding: var(--spacing-2xl) 0 var(--spacing-md);
+}
+
+.formSection {
+  padding: var(--spacing-md) 0 var(--spacing-3xl);
+}
+
 .contactGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -89,9 +97,11 @@
 }
 
 .contactIcon {
-  margin-bottom: var(--spacing-lg);
-  font-size: 48px;
-  line-height: 1;
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--spacing-lg);
+  color: var(--color-primary-btn);
 }
 
 .formGrid {
@@ -148,9 +158,19 @@
 }
 
 .socialIcon {
-  margin-bottom: var(--spacing-md);
-  font-size: 48px;
-  line-height: 1;
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--spacing-md);
+  color: var(--color-primary-btn);
+  transition:
+    color var(--transition-fast),
+    transform var(--transition-normal);
+}
+
+.socialCard:hover .socialIcon {
+  color: var(--color-primary-hover);
+  transform: translateY(-2px);
 }
 
 .socialCardInner h3 {

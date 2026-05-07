@@ -135,12 +135,9 @@ export function ContactForm() {
           error={errors.message}
           maxLength={MAX_MESSAGE_LENGTH}
         />
-
-        <div className={styles.actions}>
-          <Button type="submit" size="large">
-            Отправить сообщение
-          </Button>
-        </div>
+        <Button type="submit" size="small">
+          Отправить сообщение
+        </Button>
       </form>
     </Card>
   );
