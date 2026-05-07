@@ -1,6 +1,6 @@
 import { Button, Card } from '@shared/ui';
 
-import { formatNewsDate } from '../../model/lib';
+import { formatNewsDate, getNewsImage } from '../../model/lib';
 import type { NewsItem } from '../../model/types';
 
 import styles from './NewsCard.module.css';
@@ -11,10 +11,13 @@ type NewsCardProps = {
 };
 
 export function NewsCard({ newsItem, onReadMore }: NewsCardProps) {
+  const newsImage = getNewsImage(newsItem);
+
   return (
     <Card className={styles.card}>
       <div className={styles.header}>
-        <div className={styles.image}>{newsItem.image}</div>
+        <img src={newsImage.src} alt={newsImage.alt} className={styles.image} />
+
         <span className={styles.category}>{newsItem.category}</span>
       </div>
 

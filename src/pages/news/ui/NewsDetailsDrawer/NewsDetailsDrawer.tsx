@@ -1,6 +1,6 @@
 import { Button, Drawer } from '@shared/ui';
 
-import { formatNewsDate } from '../../model/lib';
+import { formatNewsDate, getNewsImage } from '../../model/lib';
 import type { NewsItem } from '../../model/types';
 
 import styles from './NewsDetailsDrawer.module.css';
@@ -22,6 +22,8 @@ export function NewsDetailsDrawer({
     return null;
   }
 
+  const newsImage = getNewsImage(newsItem);
+
   const contentParagraphs = newsItem.content
     .split('\n\n')
     .map((paragraph) => paragraph.trim())
@@ -40,7 +42,13 @@ export function NewsDetailsDrawer({
       }}
     >
       <article className={styles.article}>
-        <div className={styles.image}>{newsItem.image}</div>
+        <div className={styles.imageWrapper}>
+          <img
+            src={newsImage.src}
+            alt={newsImage.alt}
+            className={styles.image}
+          />
+        </div>
 
         <span className={styles.category}>{newsItem.category}</span>
 

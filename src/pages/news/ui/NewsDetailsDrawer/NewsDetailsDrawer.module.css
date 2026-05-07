@@ -3,19 +3,18 @@
   flex-direction: column;
 }
 
-.image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  min-height: 180px;
+.imageWrapper {
+  overflow: hidden;
   margin-bottom: var(--spacing-lg);
   border-radius: var(--radius-lg);
+  background-color: var(--color-background);
+}
 
-  font-size: 96px;
-  line-height: 1;
-
-  background: var(--gradient-light);
+.image {
+  display: block;
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
 }
 
 .category {
@@ -72,8 +71,7 @@
 
 @media (max-width: 640px) {
   .image {
-    min-height: 140px;
-    font-size: 72px;
+    height: 200px;
   }
 
   .actions {

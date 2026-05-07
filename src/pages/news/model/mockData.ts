@@ -11,7 +11,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-05-06',
     category: 'Анонс',
     author: 'Администратор',
-    image: '🎯',
   },
   {
     id: 2,
@@ -23,7 +22,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-05-03',
     category: 'Тренировки',
     author: 'Тренерский штаб',
-    image: '📋',
   },
   {
     id: 3,
@@ -35,7 +33,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-04-29',
     category: 'Интервью',
     author: 'Пресс-служба клуба',
-    image: '🎤',
   },
   {
     id: 4,
@@ -47,7 +44,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-04-24',
     category: 'Тренировки',
     author: 'Тренерский штаб',
-    image: '🛡️',
   },
   {
     id: 5,
@@ -59,7 +55,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-04-20',
     category: 'Клуб',
     author: 'Администратор',
-    image: '🏆',
   },
   {
     id: 6,
@@ -71,7 +66,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-04-17',
     category: 'Матч',
     author: 'Администратор',
-    image: '⚽',
   },
   {
     id: 7,
@@ -82,7 +76,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-04-12',
     category: 'Матч',
     author: 'Администратор',
-    image: '🔥',
   },
   {
     id: 8,
@@ -94,7 +87,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-04-06',
     category: 'Матч',
     author: 'Администратор',
-    image: '🥅',
   },
   {
     id: 9,
@@ -106,7 +98,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-04-03',
     category: 'Матч',
     author: 'Администратор',
-    image: '⚽',
   },
   {
     id: 10,
@@ -117,7 +108,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-03-28',
     category: 'Клуб',
     author: 'Пресс-служба клуба',
-    image: '👕',
   },
   {
     id: 11,
@@ -129,7 +119,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-03-21',
     category: 'События',
     author: 'Администратор',
-    image: '👥',
   },
   {
     id: 12,
@@ -141,7 +130,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-03-14',
     category: 'Клуб',
     author: 'Администратор',
-    image: '🤝',
   },
   {
     id: 13,
@@ -153,7 +141,6 @@ export const newsItems: NewsItem[] = [
     date: '2026-02-28',
     category: 'Тренировки',
     author: 'Тренерский штаб',
-    image: '🏃',
   },
   {
     id: 14,
@@ -165,6 +152,5 @@ export const newsItems: NewsItem[] = [
     date: '2026-02-15',
     category: 'Клуб',
     author: 'Пресс-служба клуба',
-    image: '📊',
   },
 ];

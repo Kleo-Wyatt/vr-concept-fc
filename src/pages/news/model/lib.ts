@@ -1,4 +1,5 @@
 import type { NewsItem } from './types';
+import defaultNewsImage from '@shared/assets/images/news-default.png';
 
 const ONE_MONTH_IN_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -35,4 +36,11 @@ export function getActualNews(news: NewsItem[]) {
 
 export function getArchiveNews(news: NewsItem[]) {
   return sortNewsByDate(news).filter(isNewsOlderThanOneMonth);
+}
+
+export function getNewsImage(newsItem: NewsItem) {
+  return {
+    src: newsItem.image || defaultNewsImage,
+    alt: newsItem.imageAlt || newsItem.title,
+  };
 }

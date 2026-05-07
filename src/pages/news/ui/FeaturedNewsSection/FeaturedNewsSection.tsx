@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { Card } from '@shared/ui';
 
-import { formatNewsDate } from '../../model/lib';
+import { formatNewsDate, getNewsImage } from '../../model/lib';
 import type { NewsItem } from '../../model/types';
 
 import styles from './FeaturedNewsSection.module.css';
@@ -16,11 +16,19 @@ export function FeaturedNewsSection({
   newsItem,
   onReadMore,
 }: FeaturedNewsSectionProps) {
+  const newsImage = getNewsImage(newsItem);
+
   return (
     <section className={clsx(styles.section, styles.featuredSection)}>
       <div className={styles.container}>
         <Card className={styles.featuredNews}>
-          <div className={styles.featuredImage}>{newsItem.image}</div>
+          <div className={styles.featuredImageWrapper}>
+            <img
+              src={newsImage.src}
+              alt={newsImage.alt}
+              className={styles.featuredImage}
+            />
+          </div>
 
           <div className={styles.featuredContent}>
             <span className={styles.featuredBadge}>{newsItem.category}</span>
