@@ -106,7 +106,7 @@
 
 .formGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 640px);
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 720px);
   gap: var(--spacing-2xl);
   align-items: flex-start;
 }

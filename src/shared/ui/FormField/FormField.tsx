@@ -1,8 +1,8 @@
 import { DatePicker, Input, InputNumber, Select, TimePicker } from 'antd';
 import type { ReactNode } from 'react';
 
-import styles from './FormField.module.css';import clsx from 'clsx';
-
+import styles from './FormField.module.css';
+import clsx from 'clsx';
 
 export type FormFieldType =
   | 'text'
@@ -76,10 +76,7 @@ export function FormField({
   min,
   max,
 }: FormFieldProps) {
-  const fieldClassName = clsx(
-    styles.field,
-    className,
-  );
+  const fieldClassName = clsx(styles.field, className);
 
   const emitChange = (nextValue: unknown) => {
     onChange?.({
@@ -101,7 +98,6 @@ export function FormField({
           placeholder={placeholder}
           rows={rows}
           maxLength={maxLength}
-          showCount={Boolean(maxLength)}
           status={error ? 'error' : undefined}
         />
       );
@@ -167,7 +163,6 @@ export function FormField({
         onChange={(event) => emitChange(event.target.value)}
         placeholder={placeholder}
         maxLength={maxLength}
-        showCount={Boolean(maxLength)}
         status={error ? 'error' : undefined}
       />
     );

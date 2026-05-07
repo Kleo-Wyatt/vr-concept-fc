@@ -73,12 +73,6 @@ export function ContactForm() {
         Напишите нам, если у вас есть вопросы или предложения
       </p>
 
-      {isSubmitted && (
-        <div className={styles.success}>
-          ✓ Спасибо! Ваше сообщение отправлено
-        </div>
-      )}
-
       <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <FormField
           label="Ваше имя"
@@ -119,7 +113,7 @@ export function ContactForm() {
           name="subject"
           value={formData.subject}
           onChange={handleChange}
-          placeholder="О чем вы пишете?"
+          placeholder="Тема обращения"
           error={errors.subject}
           maxLength={MAX_SUBJECT_LENGTH}
         />
@@ -135,8 +129,14 @@ export function ContactForm() {
           error={errors.message}
           maxLength={MAX_MESSAGE_LENGTH}
         />
-        <Button type="submit" size="small">
-          Отправить сообщение
+        <Button
+          type="submit"
+          size="small"
+          variant={isSubmitted ? 'success' : 'primary'}
+        >
+          {isSubmitted
+            ? '✓ Сообщение отправлено'
+            : 'Отправить сообщение'}
         </Button>
       </form>
     </Card>
