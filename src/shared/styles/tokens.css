@@ -1,0 +1,119 @@
+:root {
+  /* Colors */
+  --color-primary-text: #222222;
+  --color-secondary-text: #545454;
+  --color-tertiary-text: #848383;
+
+  --color-white: #ffffff;
+  --color-background: #f5f5ef;
+  --color-border: #ebebeb;
+
+  --color-primary-btn: #00c4be;
+  --color-primary-hover: #02989e;
+  --color-accent: #05a2ac;
+  --color-cta: #dee149;
+  --color-cta-hover: #d4d63a;
+
+  --color-error: #d32f2f;
+  --color-success: #388e3c;
+
+  --color-error-bg: #ffebee;
+  --color-success-bg: #e8f5e9;
+
+  --color-primary-soft: rgb(0 196 190 / 10%);
+  --color-primary-extra-soft: rgb(0 196 190 / 5%);
+  --color-white-soft: rgb(255 255 255 / 10%);
+  --color-white-medium: rgb(255 255 255 / 20%);
+  --color-overlay: rgb(0 0 0 / 50%);
+  --color-overlay-dark: rgb(0 0 0 / 80%);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--color-primary-btn) 0%,
+    var(--color-accent) 100%
+  );
+
+  --gradient-light: linear-gradient(
+    135deg,
+    var(--color-background) 0%,
+    var(--color-white) 100%
+  );
+
+  --gradient-title-line: linear-gradient(
+    90deg,
+    var(--color-primary-btn),
+    var(--color-cta)
+  );
+
+  /* Fonts */
+  --font-family-base: 'Lexend', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', sans-serif;
+  --font-family-heading: 'Space Grotesk', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', sans-serif;
+
+  --font-size-h1: 48px;
+  --font-size-h2: 36px;
+  --font-size-h3: 28px;
+  --font-size-h4: 24px;
+  --font-size-body: 16px;
+  --font-size-small: 14px;
+  --font-size-extra-small: 12px;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-round: 50%;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgb(0 0 0 / 10%);
+  --shadow-md: 0 4px 8px rgb(0 0 0 / 15%);
+  --shadow-lg: 0 8px 16px rgb(0 0 0 / 20%);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* Layout */
+  --container-width: 1280px;
+  --header-height: 80px;
+  --admin-sidebar-width: 250px;
+
+  /* Z-index */
+  --z-header: 100;
+  --z-modal: 1000;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-h1: 36px;
+    --font-size-h2: 28px;
+    --font-size-h3: 24px;
+    --font-size-h4: 20px;
+    --font-size-body: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --font-size-h1: 28px;
+    --font-size-h2: 24px;
+    --font-size-h3: 20px;
+    --font-size-h4: 18px;
+    --font-size-body: 14px;
+    --font-size-small: 12px;
+
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+  }
+}

@@ -1,0 +1,144 @@
+.card :global(.ant-card-body) {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr) 140px;
+  gap: var(--spacing-xl);
+  align-items: flex-start;
+}
+
+.dateBox {
+  text-align: center;
+}
+
+.dateNumber {
+  color: var(--color-primary-btn);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.dateMonth {
+  margin-top: var(--spacing-xs);
+  color: var(--color-secondary-text);
+  font-size: var(--font-size-small);
+  text-transform: uppercase;
+}
+
+.main {
+  min-width: 0;
+}
+
+.title {
+  margin: 0 0 var(--spacing-md);
+  font-size: 20px;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 0;
+}
+
+.detailLabel {
+  color: var(--color-secondary-text);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+}
+
+.detailValue {
+  color: var(--color-primary-text);
+}
+
+.statusColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-md);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 110px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+
+  color: var(--color-white);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badgeFinished {
+  background-color: var(--color-success);
+}
+
+.badgeTraining {
+  color: var(--color-primary-text);
+  background-color: var(--color-cta);
+}
+
+.scoreBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+
+  min-width: 110px;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+
+  background-color: var(--color-background);
+}
+
+.scoreLabel {
+  color: var(--color-secondary-text);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+}
+
+.score {
+  color: var(--color-primary-btn);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media (max-width: 900px) {
+  .card :global(.ant-card-body) {
+    grid-template-columns: 70px minmax(0, 1fr);
+  }
+
+  .statusColumn {
+    grid-column: 2;
+    align-items: flex-start;
+  }
+
+  .details {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .card :global(.ant-card-body) {
+    grid-template-columns: 1fr;
+  }
+
+  .dateBox,
+  .statusColumn {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .statusColumn {
+    grid-column: auto;
+  }
+}

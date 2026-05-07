@@ -1,0 +1,66 @@
+.wrapper {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.positionBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+
+  font-size: var(--font-size-small);
+  font-weight: 700;
+
+  background-color: var(--color-background);
+}
+
+.teamName {
+  font-weight: 700;
+}
+
+.wins {
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.draws {
+  color: var(--color-tertiary-text);
+  font-weight: 700;
+}
+
+.losses {
+  color: var(--color-error);
+  font-weight: 700;
+}
+
+.points {
+  color: var(--color-primary-btn);
+  font-size: 18px;
+}
+
+.highlightRow td {
+  background-color: var(--color-primary-extra-soft) !important;
+}
+
+.highlightRow td:first-child {
+  border-left: 4px solid var(--color-primary-btn);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md) var(--spacing-lg);
+
+  padding: var(--spacing-lg);
+
+  color: var(--color-secondary-text);
+  font-size: var(--font-size-small);
+
+  background-color: var(--color-background);
+  border-top: 1px solid var(--color-border);
+}

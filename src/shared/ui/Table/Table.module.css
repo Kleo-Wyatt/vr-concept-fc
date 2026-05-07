@@ -1,0 +1,27 @@
+.table {
+  overflow: hidden;
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+}
+
+.table :global(.ant-table) {
+  border-radius: var(--radius-lg);
+}
+
+.table :global(.ant-table-thead > tr > th) {
+  font-weight: 700;
+  color: var(--color-primary-text);
+  background-color: var(--color-background);
+}
+
+.table :global(.ant-table-tbody > tr:hover > td) {
+  background-color: var(--color-background);
+}
+
+.table :global(.ant-pagination-item-active) {
+  border-color: var(--color-primary-btn);
+}
+
+.table :global(.ant-pagination-item-active a) {
+  color: var(--color-primary-btn);
+}

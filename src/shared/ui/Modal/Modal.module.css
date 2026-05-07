@@ -1,0 +1,17 @@
+.modal :global(.ant-modal-content) {
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+}
+
+.modal :global(.ant-modal-header) {
+  margin-bottom: var(--spacing-lg);
+}
+
+.modal :global(.ant-modal-title) {
+  font-family: var(--font-family-heading);
+  color: var(--color-primary-text);
+}
+
+.modal :global(.ant-modal-body) {
+  color: var(--color-secondary-text);
+}

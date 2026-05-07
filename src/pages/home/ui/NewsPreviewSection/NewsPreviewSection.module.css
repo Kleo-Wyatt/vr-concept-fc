@@ -1,0 +1,123 @@
+.section {
+  padding: var(--spacing-3xl) 0;
+  background-color: var(--color-white);
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.title {
+  position: relative;
+  margin-bottom: var(--spacing-2xl);
+  padding-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  width: 60px;
+  height: 4px;
+  border-radius: 2px;
+
+  background: var(--gradient-title-line);
+  transform: translateX(-50%);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.card {
+  overflow: hidden;
+}
+
+.card :global(.ant-card-body) {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: relative;
+
+  margin: calc(var(--spacing-lg) * -1) calc(var(--spacing-lg) * -1)
+    var(--spacing-lg);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+
+  background-color: var(--color-background);
+}
+
+.image {
+  margin-bottom: var(--spacing-md);
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+}
+
+.category {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-md);
+
+  color: var(--color-white);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+
+  background-color: var(--color-primary-btn);
+}
+
+.content {
+  flex: 1;
+}
+
+.newsTitle {
+  margin-bottom: var(--spacing-md);
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.excerpt {
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-secondary-text);
+  font-size: var(--font-size-small);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+
+  margin-bottom: var(--spacing-lg);
+
+  color: var(--color-tertiary-text);
+  font-size: var(--font-size-small);
+}
+
+.actions {
+  display: flex;
+  margin-top: auto;
+}
+
+.footer {
+  margin-top: var(--spacing-2xl);
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
