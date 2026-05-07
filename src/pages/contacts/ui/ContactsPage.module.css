@@ -1,0 +1,210 @@
+.page {
+  min-height: 100%;
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.pageHeader {
+  padding: var(--spacing-3xl) 0;
+  color: var(--color-white);
+  text-align: center;
+  background: var(--gradient-primary);
+}
+
+.pageTitle {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-white);
+}
+
+.pageDescription {
+  margin-bottom: 0;
+  color: rgb(255 255 255 / 90%);
+  font-size: 18px;
+}
+
+.section,
+.sectionAlt {
+  padding: var(--spacing-3xl) 0;
+}
+
+.sectionAlt {
+  background-color: var(--color-white);
+}
+
+.sectionTitle {
+  position: relative;
+  margin-bottom: var(--spacing-2xl);
+  padding-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  width: 60px;
+  height: 4px;
+  border-radius: 2px;
+
+  background: var(--gradient-title-line);
+  transform: translateX(-50%);
+}
+
+.sectionSubtitle {
+  max-width: 720px;
+  margin: 0 auto var(--spacing-xl);
+  color: var(--color-secondary-text);
+  font-size: 18px;
+  text-align: center;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.contactCard {
+  text-align: center;
+}
+
+.contactCard h2 {
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-h4);
+}
+
+.contactCard p {
+  margin-bottom: 0;
+}
+
+.contactCard a {
+  display: inline-flex;
+  margin-bottom: var(--spacing-xs);
+}
+
+.contactIcon {
+  margin-bottom: var(--spacing-lg);
+  font-size: 48px;
+  line-height: 1;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 640px);
+  gap: var(--spacing-2xl);
+  align-items: flex-start;
+}
+
+.formIntro h2 {
+  margin-bottom: var(--spacing-md);
+}
+
+.formIntro p {
+  margin-bottom: var(--spacing-lg);
+}
+
+.benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.benefit {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--color-secondary-text);
+}
+
+.benefitIcon {
+  color: var(--color-success);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.socialGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.socialCard {
+  color: inherit;
+}
+
+.socialCard:hover {
+  color: inherit;
+}
+
+.socialCardInner {
+  height: 100%;
+  text-align: center;
+}
+
+.socialIcon {
+  margin-bottom: var(--spacing-md);
+  font-size: 48px;
+  line-height: 1;
+}
+
+.socialCardInner h3 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.socialCardInner p {
+  margin-bottom: 0;
+  color: var(--color-secondary-text);
+  font-size: var(--font-size-small);
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.faqItem h3 {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-primary-btn);
+  font-size: var(--font-size-h4);
+}
+
+.faqItem p {
+  margin-bottom: 0;
+}
+
+.mapCard {
+  overflow: hidden;
+  background-color: var(--color-white);
+}
+
+@media (max-width: 1000px) {
+  .contactGrid,
+  .faqGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .socialGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .socialGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .yandexMapWrapper {
+    height: 320px;
+  }
+}

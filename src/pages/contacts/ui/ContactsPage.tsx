@@ -1,10 +1,222 @@
-import { PageStub } from '@shared/ui';
+import { Card } from '@shared/ui';
+
+import { ContactForm } from './ContactForm/ContactForm';
+import { YandexMap } from './YandexMap/YandexMap';
+
+import styles from './ContactsPage.module.css';
+
+const contactCards = [
+  {
+    icon: '📍',
+    title: 'Адрес',
+    content: (
+      <>
+        Москва, ул. Маши Порываевой, д. 34
+        <br />
+        Офис компании VR Concept
+        <br />
+        Метро: Комсомольская
+      </>
+    ),
+  },
+  {
+    icon: '📞',
+    title: 'Телефон',
+    content: (
+      <>
+        <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+        <br />
+        <a href="tel:+74959876543">+7 (495) 987-65-43</a>
+        <br />
+        Режим работы: Пн-Пт 09:00-18:00
+      </>
+    ),
+  },
+  {
+    icon: '✉️',
+    title: 'Email',
+    content: (
+      <>
+        <a href="mailto:info@vrconceptfc.ru">info@vrconceptfc.ru</a>
+        <br />
+        <a href="mailto:coach@vrconceptfc.ru">coach@vrconceptfc.ru</a>
+        <br />
+        Ответ в течение 24 часов
+      </>
+    ),
+  },
+];
+
+const benefits = [
+  'Быстрый ответ',
+  'Профессиональный подход',
+  'Конфиденциальность',
+];
+
+const socialLinks = [
+  {
+    icon: '📱',
+    title: 'VKontakte',
+    text: 'VR CONCEPT FC',
+    href: '#',
+  },
+  {
+    icon: '✈️',
+    title: 'Telegram',
+    text: '@vrconceptfc',
+    href: '#',
+  },
+  {
+    icon: '📷',
+    title: 'Instagram',
+    text: 'vrconceptfc',
+    href: '#',
+  },
+  {
+    icon: '▶️',
+    title: 'YouTube',
+    text: 'VR CONCEPT FC',
+    href: '#',
+  },
+];
+
+const faqItems = [
+  {
+    question: 'Как присоединиться к команде?',
+    answer:
+      'Заполните форму контактов или напишите на почту coach@vrconceptfc.ru. Мы проведем собеседование и тренировку.',
+  },
+  {
+    question: 'Когда проходят тренировки?',
+    answer:
+      'Тренировки проводятся 3 раза в неделю: Пн, Ср, Пт с 19:00 до 21:00 на стадионе «Луч».',
+  },
+  {
+    question: 'Нужен ли опыт в футболе?',
+    answer:
+      'Желателен опыт игры в футбол, но не обязателен. Главное — энтузиазм и желание развиваться.',
+  },
+  {
+    question: 'Какая экипировка нужна?',
+    answer:
+      'Спортивная форма, бутсы, гетры, щитки. Часть экипировки предоставляет команда.',
+  },
+  {
+    question: 'Сколько стоит участие?',
+    answer:
+      'Участие в команде бесплатно. Часть расходов покрывает спонсорская поддержка.',
+  },
+  {
+    question: 'Как купить билет на матч?',
+    answer:
+      'Билеты можно приобрести через форму заявки на странице расписания или уточнить информацию у администрации клуба.',
+  },
+];
 
 export function ContactsPage() {
   return (
-    <PageStub
-      title="Контакты"
-      description="Контактная информация и форма обратной связи."
-    />
+    <main className={styles.page}>
+      <section className={styles.pageHeader}>
+        <div className={styles.container}>
+          <h1 className={styles.pageTitle}>Контакты</h1>
+          <p className={styles.pageDescription}>
+            Свяжитесь с нами для получения информации
+          </p>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <div className={styles.contactGrid}>
+            {contactCards.map((card) => (
+              <Card className={styles.contactCard} key={card.title}>
+                <div className={styles.contactIcon}>{card.icon}</div>
+                <h2>{card.title}</h2>
+                <p>{card.content}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <div className={styles.formGrid}>
+            <div className={styles.formIntro}>
+              <h2>Напишите нам</h2>
+              <p>
+                Есть вопросы о команде, чемпионате или хотите присоединиться?
+                Заполните форму, и мы свяжемся с вами как можно скорее.
+              </p>
+
+              <div className={styles.benefits}>
+                {benefits.map((benefit) => (
+                  <div className={styles.benefit} key={benefit}>
+                    <span className={styles.benefitIcon}>✓</span>
+                    <span>{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <ContactForm />
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.sectionAlt}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>
+            Следите за нами в социальных сетях
+          </h2>
+
+          <p className={styles.sectionSubtitle}>
+            Подпишитесь на наши социальные сети, чтобы быть в курсе последних
+            новостей и событий команды
+          </p>
+
+          <div className={styles.socialGrid}>
+            {socialLinks.map((social) => (
+              <a
+                className={styles.socialCard}
+                href={social.href}
+                key={social.title}
+              >
+                <Card className={styles.socialCardInner}>
+                  <div className={styles.socialIcon}>{social.icon}</div>
+                  <h3>{social.title}</h3>
+                  <p>{social.text}</p>
+                </Card>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>Часто задаваемые вопросы</h2>
+
+          <div className={styles.faqGrid}>
+            {faqItems.map((item) => (
+              <Card className={styles.faqItem} key={item.question}>
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.sectionAlt}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>Как нас найти</h2>
+
+          <Card className={styles.mapCard}>
+            <YandexMap />
+          </Card>
+        </div>
+      </section>
+    </main>
   );
 }

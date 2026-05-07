@@ -33,7 +33,7 @@ export function Footer() {
             <ul className={styles.info}>
               <li>
                 <span className={styles.label}>Адрес:</span>
-                <span>Москва, ул. Инновационная, д. 42</span>
+                <span>Москва, ул. Маши Порываевой, д. 34</span>
               </li>
               <li>
                 <span className={styles.label}>Email:</span>
