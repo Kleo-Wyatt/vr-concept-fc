@@ -13,7 +13,8 @@ import type { NewsCategoryFilter } from '../model/types';
 
 import { NewsCard } from './NewsCard/NewsCard';
 
-import styles from './NewsPage.module.css';
+import styles from './NewsPage.module.css';import clsx from 'clsx';
+
 
 const ARCHIVE_VISIBLE_LIMIT = 5;
 
@@ -48,7 +49,7 @@ export function NewsPage() {
       </section>
 
       {featuredNews && (
-        <section className={[styles.section, styles.featuredSection].join(' ')}>
+        <section className={clsx(styles.section, styles.featuredSection)}>
           <div className={styles.container}>
             <Card className={styles.featuredNews}>
               <div className={styles.featuredImage}>{featuredNews.image}</div>
@@ -72,19 +73,15 @@ export function NewsPage() {
         </section>
       )}
 
-      <section className={[styles.section, styles.newsListSection].join(' ')}>
+      <section className={clsx(styles.section, styles.newsListSection)}>
         <div className={styles.container}>
           <div className={styles.categoryFilters}>
             {categories.map((category) => (
               <button
-                className={[
+                className={clsx(
                   styles.filterButton,
-                  selectedCategory === category
-                    ? styles.filterButtonActive
-                    : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
+                  selectedCategory === category && styles.filterButtonActive,
+                )}
                 key={category}
                 type="button"
                 onClick={() => setSelectedCategory(category)}
@@ -137,20 +134,16 @@ export function NewsPage() {
             <h2 className={styles.sectionTitle}>Архив новостей</h2>
 
             <div
-              className={[
+              className={clsx(
                 styles.archiveFrame,
-                hasScrollableArchive ? styles.archiveFrameWithFade : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
+                hasScrollableArchive && styles.archiveFrameWithFade,
+              )}
             >
               <div
-                className={[
+                className={clsx(
                   styles.archiveWrapper,
-                  hasScrollableArchive ? styles.archiveWrapperScrollable : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
+                  hasScrollableArchive && styles.archiveWrapperScrollable,
+                )}
               >
                 <div className={styles.archive}>
                   {archiveNews.map((newsItem) => (

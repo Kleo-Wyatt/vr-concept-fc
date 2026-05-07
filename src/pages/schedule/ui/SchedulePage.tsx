@@ -8,7 +8,8 @@ import { ScheduleEventCard } from './ScheduleEventCard/ScheduleEventCard';
 import { ScheduleFilter } from './ScheduleFilter/ScheduleFilter';
 import { ScheduleInfoSection } from './ScheduleInfoSection/ScheduleInfoSection';
 
-import styles from './SchedulePage.module.css';
+import styles from './SchedulePage.module.css';import clsx from 'clsx';
+
 
 const VISIBLE_EVENTS_LIMIT = 10;
 
@@ -60,22 +61,16 @@ export function SchedulePage() {
           />
 
           <div
-            className={[
+            className={clsx(
               styles.scheduleListFrame,
-              hasScrollableEvents ? styles.scheduleListFrameWithFade : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
+              hasScrollableEvents && styles.scheduleListFrameWithFade,
+            )}
           >
             <div
-              className={[
+              className={clsx(
                 styles.scheduleListWrapper,
-                shouldHideScrollbar
-                  ? styles.scheduleListWrapperWithoutScrollbar
-                  : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
+                shouldHideScrollbar && styles.scheduleListWrapperWithoutScrollbar,
+              )}
             >
               <div className={styles.scheduleList}>
                 {filteredEvents.map((event) => (

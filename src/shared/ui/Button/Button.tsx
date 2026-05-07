@@ -1,6 +1,7 @@
 import type { ElementType, MouseEventHandler, ReactNode } from 'react';
 
 import styles from './Button.module.css';
+import clsx from 'clsx';
 
 export type ButtonVariant =
   | 'primary'
@@ -56,15 +57,13 @@ export function Button({
   ariaLabel,
   onClick,
 }: ButtonProps) {
-  const buttonClassName = [
+  const buttonClassName = clsx(
     styles.button,
     styles[variant],
     styles[size],
-    disabled ? styles.disabled : '',
+    disabled && styles.disabled,
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   if (Component) {
     return (

@@ -2,7 +2,8 @@ import { NavLink } from 'react-router-dom';
 
 import { AppRoute, navigationItems } from '@shared/config/routes';
 
-import styles from './MobileMenu.module.css';
+import styles from './MobileMenu.module.css';import clsx from 'clsx';
+
 
 type MobileMenuProps = {
   onClose: () => void;
@@ -18,7 +19,10 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  [styles.link, isActive ? styles.active : ''].filter(Boolean).join(' ')
+                  clsx(
+                    styles.link,
+                    isActive && styles.active,
+                  )
                 }
                 onClick={onClose}
               >
@@ -31,9 +35,11 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
             <NavLink
               to={AppRoute.admin}
               className={({ isActive }) =>
-                [styles.link, styles.adminLink, isActive ? styles.active : '']
-                  .filter(Boolean)
-                  .join(' ')
+                clsx(
+                  styles.link,
+                  styles.adminLink,
+                  isActive && styles.active,
+                )
               }
               onClick={onClose}
             >

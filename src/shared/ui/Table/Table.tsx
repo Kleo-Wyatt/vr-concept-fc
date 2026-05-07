@@ -1,7 +1,8 @@
 import { Table as AntTable } from 'antd';
 import type { TableProps as AntTableProps } from 'antd';
 
-import styles from './Table.module.css';
+import styles from './Table.module.css';import clsx from 'clsx';
+
 
 export type TableProps<T extends object> = Omit<
   AntTableProps<T>,
@@ -19,7 +20,10 @@ export function Table<T extends object>({
   pagination = { pageSize: 8 },
   ...props
 }: TableProps<T>) {
-  const tableClassName = [styles.table, className].filter(Boolean).join(' ');
+  const tableClassName = clsx(
+    styles.table,
+    className,
+  );
 
   return (
     <AntTable<T>

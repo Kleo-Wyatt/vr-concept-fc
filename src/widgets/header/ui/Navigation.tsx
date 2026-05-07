@@ -2,16 +2,18 @@ import { NavLink } from 'react-router-dom';
 
 import { AppRoute, navigationItems } from '@shared/config/routes';
 
-import styles from './Navigation.module.css';
+import styles from './Navigation.module.css';import clsx from 'clsx';
+
 
 type NavigationProps = {
   className?: string;
 };
 
 export function Navigation({ className = '' }: NavigationProps) {
-  const navigationClassName = [styles.navigation, className]
-    .filter(Boolean)
-    .join(' ');
+  const navigationClassName = clsx(
+    styles.navigation,
+    className,
+  );
 
   return (
     <nav className={navigationClassName} aria-label="Основная навигация">
@@ -21,9 +23,10 @@ export function Navigation({ className = '' }: NavigationProps) {
             <NavLink
               to={item.path}
               className={({ isActive }) =>
-                [styles.link, isActive ? styles.active : '']
-                  .filter(Boolean)
-                  .join(' ')
+                clsx(
+                  styles.link,
+                  isActive && styles.active,
+                )
               }
             >
               {item.label}
@@ -35,9 +38,10 @@ export function Navigation({ className = '' }: NavigationProps) {
           <NavLink
             to={AppRoute.admin}
             className={({ isActive }) =>
-              [styles.adminLink, isActive ? styles.adminLinkActive : '']
-                .filter(Boolean)
-                .join(' ')
+              clsx(
+                styles.adminLink,
+                isActive && styles.adminLinkActive,
+              )
             }
           >
             Админ

@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '@shared/config/routes';
 import { Button, Card } from '@shared/ui';
 
-import styles from './TeamPage.module.css';
+import styles from './TeamPage.module.css';import clsx from 'clsx';
+
 
 type Player = {
   id: number;
@@ -119,14 +120,10 @@ export function TeamPage() {
           <div className={styles.filters}>
             {positions.map((position) => (
               <button
-                className={[
+                className={clsx(
                   styles.filterButton,
-                  selectedPosition === position
-                    ? styles.filterButtonActive
-                    : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
+                  selectedPosition === position && styles.filterButtonActive,
+                )}
                 key={position}
                 type="button"
                 onClick={() => setSelectedPosition(position)}
