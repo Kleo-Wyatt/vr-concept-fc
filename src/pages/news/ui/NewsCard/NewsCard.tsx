@@ -7,11 +7,12 @@ import styles from './NewsCard.module.css';
 
 type NewsCardProps = {
   newsItem: NewsItem;
+  onReadMore: (newsItem: NewsItem) => void;
 };
 
-export function NewsCard({ newsItem }: NewsCardProps) {
+export function NewsCard({ newsItem, onReadMore }: NewsCardProps) {
   return (
-    <Card className={styles.card} id={`news-${newsItem.id}`}>
+    <Card className={styles.card}>
       <div className={styles.header}>
         <div className={styles.image}>{newsItem.image}</div>
         <span className={styles.category}>{newsItem.category}</span>
@@ -27,7 +28,7 @@ export function NewsCard({ newsItem }: NewsCardProps) {
         </div>
       </div>
 
-      <Button href={`#news-${newsItem.id}`} size="small">
+      <Button size="small" onClick={() => onReadMore(newsItem)}>
         Читать далее
       </Button>
     </Card>

@@ -1,0 +1,110 @@
+.section {
+  padding: var(--spacing-3xl) 0;
+}
+
+.featuredSection {
+  padding-bottom: var(--spacing-lg);
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.featuredNews {
+  background: var(--gradient-light);
+}
+
+.featuredNews :global(.ant-card-body) {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--spacing-2xl);
+  align-items: center;
+}
+
+.featuredImage {
+  font-size: 120px;
+  line-height: 1;
+  text-align: center;
+}
+
+.featuredContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.featuredBadge {
+  display: inline-flex;
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-lg);
+
+  color: var(--color-white);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+
+  background-color: var(--color-primary-btn);
+}
+
+.featuredContent h2 {
+  margin-bottom: var(--spacing-lg);
+}
+
+.featuredExcerpt {
+  margin-bottom: var(--spacing-lg);
+}
+
+.featuredMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+
+  margin-bottom: var(--spacing-lg);
+
+  color: var(--color-secondary-text);
+  font-size: var(--font-size-small);
+}
+
+.featuredReadMore {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+
+  margin-top: auto;
+  padding: 0;
+  border: none;
+
+  color: var(--color-primary-btn);
+  font: inherit;
+  font-weight: 700;
+
+  background: none;
+  cursor: pointer;
+
+  transition:
+    color var(--transition-fast),
+    gap var(--transition-fast);
+}
+
+.featuredReadMore:hover {
+  gap: var(--spacing-md);
+  color: var(--color-primary-hover);
+}
+
+.featuredReadMore:focus-visible {
+  outline: 3px solid var(--color-primary-soft);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 900px) {
+  .featuredNews :global(.ant-card-body) {
+    grid-template-columns: 1fr;
+  }
+
+  .featuredImage {
+    font-size: 90px;
+  }
+}

@@ -18,4 +18,7 @@ export type {
   FormFieldType,
 } from './FormField/FormField';
 
+export { Drawer } from './Drawer/Drawer';
+export type { DrawerProps } from './Drawer/Drawer';
+
 export { PageStub } from './PageStub/PageStub';

@@ -1,26 +1,24 @@
 import { useMemo, useState } from 'react';
 
-import { Button, Card } from '@shared/ui';
-
-import {
-  formatNewsDate,
-  getActualNews,
-  getArchiveNews,
-  getNewsCategories,
-} from '../model/lib';
+import { getActualNews, getArchiveNews, getNewsCategories } from '../model/lib';
 import { newsItems } from '../model/mockData';
-import type { NewsCategoryFilter } from '../model/types';
+import type { NewsCategoryFilter, NewsItem } from '../model/types';
 
-import { NewsCard } from './NewsCard/NewsCard';
+import { FeaturedNewsSection } from './FeaturedNewsSection/FeaturedNewsSection';
+import { NewsArchiveSection } from './NewsArchiveSection/NewsArchiveSection';
+import { NewsDetailsDrawer } from './NewsDetailsDrawer/NewsDetailsDrawer';
+import { NewsListSection } from './NewsListSection/NewsListSection';
+import { NewsletterSection } from './NewsletterSection/NewsletterSection';
 
-import styles from './NewsPage.module.css';import clsx from 'clsx';
-
+import styles from './NewsPage.module.css';
 
 const ARCHIVE_VISIBLE_LIMIT = 5;
 
 export function NewsPage() {
   const [selectedCategory, setSelectedCategory] =
     useState<NewsCategoryFilter>('all');
+  const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
+  const [isNewsDrawerOpen, setIsNewsDrawerOpen] = useState(false);
 
   const actualNews = useMemo(() => getActualNews(newsItems), []);
   const archiveNews = useMemo(() => getArchiveNews(newsItems), []);
@@ -37,6 +35,19 @@ export function NewsPage() {
     return actualNews.filter((item) => item.category === selectedCategory);
   }, [selectedCategory, actualNews]);
 
+  const openNewsDrawer = (newsItem: NewsItem) => {
+    setSelectedNews(newsItem);
+    setIsNewsDrawerOpen(true);
+  };
+
+  const closeNewsDrawer = () => {
+    setIsNewsDrawerOpen(false);
+  };
+
+  const clearSelectedNews = () => {
+    setSelectedNews(null);
+  };
+
   return (
     <main className={styles.page}>
       <section className={styles.pageHeader}>
@@ -49,133 +60,34 @@ export function NewsPage() {
       </section>
 
       {featuredNews && (
-        <section className={clsx(styles.section, styles.featuredSection)}>
-          <div className={styles.container}>
-            <Card className={styles.featuredNews}>
-              <div className={styles.featuredImage}>{featuredNews.image}</div>
-
-              <div className={styles.featuredContent}>
-                <span className={styles.featuredBadge}>
-                  {featuredNews.category}
-                </span>
-
-                <h2>{featuredNews.title}</h2>
-
-                <p className={styles.featuredExcerpt}>{featuredNews.content}</p>
-
-                <div className={styles.featuredMeta}>
-                  <span>📅 {formatNewsDate(featuredNews.date)}</span>
-                  <span>✍️ {featuredNews.author}</span>
-                </div>
-              </div>
-            </Card>
-          </div>
-        </section>
+        <FeaturedNewsSection
+          newsItem={featuredNews}
+          onReadMore={openNewsDrawer}
+        />
       )}
 
-      <section className={clsx(styles.section, styles.newsListSection)}>
-        <div className={styles.container}>
-          <div className={styles.categoryFilters}>
-            {categories.map((category) => (
-              <button
-                className={clsx(
-                  styles.filterButton,
-                  selectedCategory === category && styles.filterButtonActive,
-                )}
-                key={category}
-                type="button"
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category === 'all' ? 'Все новости' : category}
-              </button>
-            ))}
-          </div>
+      <NewsListSection
+        categories={categories}
+        selectedCategory={selectedCategory}
+        news={filteredNews}
+        onSelectCategory={setSelectedCategory}
+        onReadMore={openNewsDrawer}
+      />
 
-          <div className={styles.newsGrid}>
-            {filteredNews.map((newsItem) => (
-              <NewsCard newsItem={newsItem} key={newsItem.id} />
-            ))}
-          </div>
+      <NewsletterSection />
 
-          {filteredNews.length === 0 && (
-            <div className={styles.emptyState}>
-              <p>Нет актуальных новостей в этой категории</p>
-            </div>
-          )}
-        </div>
-      </section>
+      <NewsArchiveSection
+        news={archiveNews}
+        hasScrollableArchive={hasScrollableArchive}
+        onReadMore={openNewsDrawer}
+      />
 
-      <section className={styles.sectionAlt}>
-        <div className={styles.container}>
-          <Card className={styles.newsletter}>
-            <h2>Подпишитесь на новости</h2>
-            <p>
-              Получайте свежие новости о матчах и событиях команды прямо на вашу
-              почту
-            </p>
-
-            <form
-              className={styles.newsletterForm}
-              onSubmit={(event) => {
-                event.preventDefault();
-                alert('Спасибо за подписку!');
-              }}
-            >
-              <input type="email" placeholder="Ваш email" required />
-              <Button type="submit">Подписаться</Button>
-            </form>
-          </Card>
-        </div>
-      </section>
-
-      {archiveNews.length > 0 && (
-        <section className={styles.section}>
-          <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>Архив новостей</h2>
-
-            <div
-              className={clsx(
-                styles.archiveFrame,
-                hasScrollableArchive && styles.archiveFrameWithFade,
-              )}
-            >
-              <div
-                className={clsx(
-                  styles.archiveWrapper,
-                  hasScrollableArchive && styles.archiveWrapperScrollable,
-                )}
-              >
-                <div className={styles.archive}>
-                  {archiveNews.map((newsItem) => (
-                    <article className={styles.archiveItem} key={newsItem.id}>
-                      <div className={styles.archiveDate}>
-                        {formatNewsDate(newsItem.date)}
-                      </div>
-
-                      <div className={styles.archiveContent}>
-                        <a
-                          href={`#news-${newsItem.id}`}
-                          className={styles.archiveTitle}
-                        >
-                          {newsItem.title}
-                        </a>
-
-                        <p>{newsItem.excerpt}</p>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {hasScrollableArchive && (
-              <p className={styles.archiveScrollHint}>
-                Прокрутите, чтобы посмотреть больше новостей
-              </p>
-            )}
-          </div>
-        </section>
-      )}
+      <NewsDetailsDrawer
+        newsItem={selectedNews}
+        open={isNewsDrawerOpen}
+        onClose={closeNewsDrawer}
+        onAfterClose={clearSelectedNews}
+      />
     </main>
   );
 }
