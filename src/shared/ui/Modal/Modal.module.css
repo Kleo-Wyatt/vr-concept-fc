@@ -1,6 +1,5 @@
 .modal :global(.ant-modal-content) {
   border-radius: var(--radius-xl);
-  padding: var(--spacing-lg);
 }
 
 .modal :global(.ant-modal-header) {
@@ -14,4 +13,25 @@
 
 .modal :global(.ant-modal-body) {
   color: var(--color-secondary-text);
+}
+
+.noContentPadding :global(.ant-modal-content) {
+  --ant-modal-content-padding: 0px;
+
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+.noContentPadding :global(.ant-modal-body) {
+  padding: 0 !important;
+}
+
+.noContentPadding :global(.ant-modal-header) {
+  display: none;
+}
+
+.noPaddingModalRender :global(.ant-modal-content) {
+  --ant-modal-content-padding: 0px;
+
+  padding: 0 !important;
 }

@@ -1,0 +1,68 @@
+import type { GalleryItem } from './types';
+
+export const galleryItems: GalleryItem[] = [
+  {
+    id: 1,
+    title: 'Матч против TECH United',
+    description: 'Наша команда в атаке',
+    image: '⚽',
+    category: 'Матчи',
+    date: '2024-06-15',
+  },
+  {
+    id: 2,
+    title: 'Тренировка на поле',
+    description: 'Работа над техникой',
+    image: '🏃',
+    category: 'Тренировки',
+    date: '2024-06-10',
+  },
+  {
+    id: 3,
+    title: 'Команда на стадионе',
+    description: 'Полный состав перед матчем',
+    image: '👥',
+    category: 'Матчи',
+    date: '2024-06-08',
+  },
+  {
+    id: 4,
+    title: 'Победное торжество',
+    description: 'Празднование после победы 3:0',
+    image: '🎉',
+    category: 'События',
+    date: '2024-06-05',
+  },
+  {
+    id: 5,
+    title: 'Фитнес-подготовка',
+    description: 'Тренировки в спортзале',
+    image: '🏋️',
+    category: 'Тренировки',
+    date: '2024-05-28',
+  },
+  {
+    id: 6,
+    title: 'Презентация спонсора',
+    description: 'Встреча с представителями DataTech',
+    image: '🎯',
+    category: 'События',
+    date: '2024-05-20',
+  },
+  {
+    id: 7,
+    title: 'Молодежный турнир',
+    description: 'Резерв команды играет',
+    image: '⭐',
+    category: 'Матчи',
+    date: '2024-05-15',
+  },
+  {
+    id: 8,
+    title: 'Медицинский осмотр',
+    description: 'Обязательное медобследование игроков',
+    image: '⚕️',
+    category: 'Клуб',
+    date: '2024-05-10',
+  },
+];

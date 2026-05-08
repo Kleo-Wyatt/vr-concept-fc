@@ -1,0 +1,270 @@
+.page {
+  min-height: 100%;
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.pageHeader {
+  padding: var(--spacing-3xl) 0;
+  color: var(--color-white);
+  text-align: center;
+  background: var(--gradient-primary);
+}
+
+.pageTitle {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-white);
+}
+
+.pageDescription {
+  margin-bottom: 0;
+  color: rgb(255 255 255 / 90%);
+  font-size: 18px;
+}
+
+.section,
+.sectionAlt {
+  padding: var(--spacing-3xl) 0;
+}
+
+.sectionAlt {
+  background-color: var(--color-white);
+}
+
+.sectionTitle {
+  position: relative;
+  margin-bottom: var(--spacing-2xl);
+  padding-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  width: 60px;
+  height: 4px;
+  border-radius: 2px;
+
+  background: var(--gradient-title-line);
+  transform: translateX(-50%);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.filterButton {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  color: var(--color-primary-text);
+  font-weight: 600;
+
+  background-color: var(--color-white);
+  transition:
+    color var(--transition-normal),
+    background-color var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+.filterButton:hover,
+.filterButtonActive {
+  color: var(--color-white);
+  background-color: var(--color-primary-btn);
+  border-color: var(--color-primary-btn);
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.galleryCard {
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.galleryCard :global(.ant-card-body) {
+  position: relative;
+  overflow: hidden;
+  height: 280px;
+  padding: 0;
+}
+
+.galleryCard:focus-visible {
+  outline: 3px solid var(--color-primary-soft);
+  outline-offset: 4px;
+}
+
+.galleryImage {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 96px;
+  line-height: 1;
+
+  background-color: var(--color-background);
+  transition: transform var(--transition-normal);
+}
+
+.galleryOverlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  padding: var(--spacing-lg);
+
+  color: var(--color-white);
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 82%),
+    rgb(0 0 0 / 56%),
+    rgb(0 0 0 / 0%)
+  );
+
+  transform: translateY(100%);
+  transition: transform var(--transition-normal);
+}
+
+.galleryCard:hover .galleryOverlay,
+.galleryCard:focus-within .galleryOverlay {
+  transform: translateY(0);
+}
+
+.galleryCard:hover .galleryImage,
+.galleryCard:focus-within .galleryImage {
+  transform: scale(1.04);
+}
+
+.galleryOverlay h2 {
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-white);
+  font-size: 20px;
+}
+
+.galleryOverlay p {
+  margin-bottom: var(--spacing-md);
+  color: rgb(255 255 255 / 88%);
+  font-size: var(--font-size-small);
+}
+
+.galleryDate {
+  color: rgb(255 255 255 / 76%);
+  font-size: var(--font-size-small);
+}
+
+.emptyState {
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  color: var(--color-secondary-text);
+  text-align: center;
+}
+
+.emptyState p {
+  margin-bottom: 0;
+  font-size: 18px;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.infoCard h3 {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-primary-btn);
+}
+
+.infoCard p {
+  margin-bottom: 0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.statCard {
+  text-align: center;
+}
+
+.statValue {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-primary-btn);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.statLabel {
+  color: var(--color-secondary-text);
+}
+
+.cta {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cta h2 {
+  margin-bottom: var(--spacing-md);
+}
+
+.cta p {
+  margin-bottom: var(--spacing-lg);
+}
+
+.photoModalImage {
+  width: 100%;
+  height: min(80vh, 620px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  font-size: 160px;
+  line-height: 1;
+
+  background-color: var(--color-background);
+}
+
+@media (max-width: 1100px) {
+  .galleryGrid,
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .galleryGrid,
+  .infoGrid,
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .photoModalImage {
+    min-height: 360px;
+    font-size: 112px;
+  }
+}
