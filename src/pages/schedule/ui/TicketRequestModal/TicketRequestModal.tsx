@@ -38,6 +38,8 @@ export function TicketRequestModal({
   );
   const [errors, setErrors] = useState<TicketRequestFormErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const matchTitle = `${match.homeTeam} — ${match.awayTeam}`;
 
@@ -45,6 +47,8 @@ export function TicketRequestModal({
     setFormData(initialTicketRequestFormData);
     setErrors({});
     setIsSubmitted(false);
+    setIsSending(false);
+    setSubmitError('');
     onClose();
   };
 
@@ -61,9 +65,11 @@ export function TicketRequestModal({
       ...prevState,
       [fieldName]: undefined,
     }));
+
+    setSubmitError('');
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const nextErrors = validateTicketRequestForm(formData);
@@ -73,15 +79,26 @@ export function TicketRequestModal({
       return;
     }
 
-    saveTicketRequest({
-      ...normalizeTicketRequestForm(formData),
-      matchTitle,
-      matchDate: match.date,
-      matchTime: match.time,
-      location: match.location,
-    });
+    setIsSending(true);
+    setSubmitError('');
 
-    setIsSubmitted(true);
+    try {
+      await saveTicketRequest({
+        ...normalizeTicketRequestForm(formData),
+        matchTitle,
+        matchDate: match.date,
+        matchTime: match.time,
+        location: match.location,
+      });
+
+      setIsSubmitted(true);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error ? error.message : 'Не удалось отправить заявку',
+      );
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -104,9 +121,12 @@ export function TicketRequestModal({
             <p>{match.location}</p>
           </div>
 
+          {submitError && <p className={styles.errorText}>{submitError}</p>}
+
           <TicketRequestForm
             formData={formData}
             errors={errors}
+            isSending={isSending}
             onChange={handleChange}
             onSubmit={handleSubmit}
             onCancel={handleClose}

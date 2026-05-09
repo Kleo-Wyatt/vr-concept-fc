@@ -18,6 +18,7 @@ import styles from './TicketRequestModal.module.css';
 type TicketRequestFormProps = {
   formData: TicketRequestFormData;
   errors: TicketRequestFormErrors;
+  isSending: boolean;
   onChange: (event: FormFieldChangeEvent) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   onCancel: () => void;
@@ -26,6 +27,7 @@ type TicketRequestFormProps = {
 export function TicketRequestForm({
   formData,
   errors,
+  isSending,
   onChange,
   onSubmit,
   onCancel,
@@ -91,11 +93,13 @@ export function TicketRequestForm({
       />
 
       <div className={styles.actions}>
-        <Button variant="ghost" onClick={onCancel}>
+        <Button variant="ghost" onClick={onCancel} disabled={isSending}>
           Отмена
         </Button>
 
-        <Button type="submit">Отправить заявку</Button>
+        <Button type="submit" disabled={isSending}>
+          {isSending ? 'Отправляем...' : 'Отправить заявку'}
+        </Button>
       </div>
     </form>
   );

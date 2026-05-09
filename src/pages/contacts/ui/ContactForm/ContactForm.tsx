@@ -26,6 +26,8 @@ export function ContactForm() {
   );
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (event: FormFieldChangeEvent) => {
     const { name, value } = event.target;
@@ -42,9 +44,10 @@ export function ContactForm() {
     }));
 
     setIsSubmitted(false);
+    setSubmitError('');
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const nextErrors = validateContactForm(formData);
@@ -55,15 +58,29 @@ export function ContactForm() {
       return;
     }
 
-    saveContactMessage(normalizeContactForm(formData));
+    setIsSending(true);
+    setSubmitError('');
 
-    setFormData(initialContactFormData);
-    setErrors({});
-    setIsSubmitted(true);
+    try {
+      await saveContactMessage(normalizeContactForm(formData));
 
-    window.setTimeout(() => {
+      setFormData(initialContactFormData);
+      setErrors({});
+      setIsSubmitted(true);
+
+      window.setTimeout(() => {
+        setIsSubmitted(false);
+      }, 3000);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : 'Не удалось отправить сообщение',
+      );
       setIsSubmitted(false);
-    }, 3000);
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -72,6 +89,8 @@ export function ContactForm() {
       <p className={styles.description}>
         Напишите нам, если у вас есть вопросы или предложения
       </p>
+
+      {submitError && <div className={styles.error}>{submitError}</div>}
 
       <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <FormField
@@ -129,14 +148,18 @@ export function ContactForm() {
           error={errors.message}
           maxLength={MAX_MESSAGE_LENGTH}
         />
+
         <Button
           type="submit"
           size="small"
           variant={isSubmitted ? 'success' : 'primary'}
+          disabled={isSending}
         >
-          {isSubmitted
-            ? '✓ Сообщение отправлено'
-            : 'Отправить сообщение'}
+          {isSending
+            ? 'Отправляем...'
+            : isSubmitted
+              ? '✓ Сообщение отправлено'
+              : 'Отправить сообщение'}
         </Button>
       </form>
     </Card>
