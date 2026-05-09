@@ -12,7 +12,9 @@
     "server:dev": "nodemon server/index.js"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.100.9",
     "antd": "6.3.7",
+    "axios": "^1.16.0",
     "better-sqlite3": "^12.9.0",
     "clsx": "^2.1.1",
     "cors": "^2.8.6",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@tanstack/react-query-devtools": "^5.100.9",
     "@types/node": "24.12.2",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",

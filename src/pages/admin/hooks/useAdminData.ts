@@ -1,7 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-
-import type { ContactMessage } from '@pages/contacts/model/types';
-import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
+import { useMemo } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
   deleteAdminContactMessage,
@@ -19,28 +17,53 @@ import {
   type Player,
   type PlayerPayload,
 } from '../model/playersApi';
+import { adminQueryKeys } from '../model/queryKeys';
+import type { ContactMessage } from '@pages/contacts/model/types';
+import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
 
-async function loadAdminData() {
-  const [messages, ticketRequests, players] = await Promise.all([
-    getAdminContactMessages(),
-    getAdminTicketRequests(),
-    getAdminPlayers(),
-  ]);
+function getUnknownErrorMessage(error: unknown, fallback: string) {
+  if (error instanceof Error) {
+    return error.message;
+  }
 
-  return {
-    messages,
-    ticketRequests,
-    players,
-  };
+  return fallback;
 }
 
-export function useAdminData() {
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [messages, setMessages] = useState<ContactMessage[]>([]);
-  const [ticketRequests, setTicketRequests] = useState<TicketRequest[]>([]);
+const EMPTY_PLAYERS: Player[] = [];
+const EMPTY_MESSAGES: ContactMessage[] = [];
+const EMPTY_TICKET_REQUESTS: TicketRequest[] = [];
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadError, setLoadError] = useState('');
+export function useAdminData() {
+  const queryClient = useQueryClient();
+
+  const playersQuery = useQuery({
+    queryKey: adminQueryKeys.players,
+    queryFn: getAdminPlayers,
+  });
+
+  const messagesQuery = useQuery({
+    queryKey: adminQueryKeys.contactMessages,
+    queryFn: getAdminContactMessages,
+  });
+
+  const ticketRequestsQuery = useQuery({
+    queryKey: adminQueryKeys.ticketRequests,
+    queryFn: getAdminTicketRequests,
+  });
+
+  const players = playersQuery.data ?? EMPTY_PLAYERS;
+  const messages = messagesQuery.data ?? EMPTY_MESSAGES;
+  const ticketRequests = ticketRequestsQuery.data ?? EMPTY_TICKET_REQUESTS;
+
+  const isLoading =
+    playersQuery.isLoading ||
+    messagesQuery.isLoading ||
+    ticketRequestsQuery.isLoading;
+
+  const loadError =
+    getUnknownErrorMessage(playersQuery.error, '') ||
+    getUnknownErrorMessage(messagesQuery.error, '') ||
+    getUnknownErrorMessage(ticketRequestsQuery.error, '');
 
   const unreadMessagesCount = useMemo(
     () => messages.filter((message) => !message.read).length,
@@ -52,137 +75,125 @@ export function useAdminData() {
     [ticketRequests],
   );
 
-  useEffect(() => {
-    let isMounted = true;
+  const refreshAdminData = async () => {
+    await Promise.all([
+      queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.players,
+      }),
+      queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.contactMessages,
+      }),
+      queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.ticketRequests,
+      }),
+    ]);
+  };
 
-    async function loadInitialAdminData() {
-      try {
-        const nextData = await loadAdminData();
+  const markMessageAsReadMutation = useMutation({
+    mutationFn: markAdminContactMessageAsRead,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.contactMessages,
+      });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось обновить сообщение'));
+    },
+  });
 
-        if (!isMounted) {
-          return;
-        }
+  const deleteMessageMutation = useMutation({
+    mutationFn: deleteAdminContactMessage,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.contactMessages,
+      });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось удалить сообщение'));
+    },
+  });
 
-        setMessages(nextData.messages);
-        setTicketRequests(nextData.ticketRequests);
-        setPlayers(nextData.players);
-      } catch (error) {
-        if (!isMounted) {
-          return;
-        }
+  const markTicketRequestAsReadMutation = useMutation({
+    mutationFn: markAdminTicketRequestAsRead,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.ticketRequests,
+      });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось обновить заявку'));
+    },
+  });
 
-        setLoadError(
-          error instanceof Error
-            ? error.message
-            : 'Не удалось загрузить данные админ-панели',
-        );
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    }
+  const deleteTicketRequestMutation = useMutation({
+    mutationFn: deleteAdminTicketRequest,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.ticketRequests,
+      });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось удалить заявку'));
+    },
+  });
 
-    void loadInitialAdminData();
+  const createPlayerMutation = useMutation({
+    mutationFn: createAdminPlayer,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.players,
+      });
+    },
+  });
 
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const updatePlayerMutation = useMutation({
+    mutationFn: ({ id, payload }: { id: number; payload: PlayerPayload }) =>
+      updateAdminPlayer(id, payload),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.players,
+      });
+    },
+  });
 
-  const refreshAdminData = useCallback(async () => {
-    setIsLoading(true);
-    setLoadError('');
-
-    try {
-      const nextData = await loadAdminData();
-
-      setMessages(nextData.messages);
-      setTicketRequests(nextData.ticketRequests);
-      setPlayers(nextData.players);
-    } catch (error) {
-      setLoadError(
-        error instanceof Error
-          ? error.message
-          : 'Не удалось загрузить данные админ-панели',
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const deletePlayerMutation = useMutation({
+    mutationFn: deleteAdminPlayer,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.players,
+      });
+    },
+  });
 
   const handleMarkMessageAsRead = async (id: number) => {
-    try {
-      const nextMessages = await markAdminContactMessageAsRead(id);
-
-      setMessages(nextMessages);
-    } catch (error) {
-      alert(
-        error instanceof Error
-          ? error.message
-          : 'Не удалось обновить сообщение',
-      );
-    }
+    await markMessageAsReadMutation.mutateAsync(id);
   };
 
   const handleDeleteMessage = async (id: number) => {
-    try {
-      const nextMessages = await deleteAdminContactMessage(id);
-
-      setMessages(nextMessages);
-    } catch (error) {
-      alert(
-        error instanceof Error ? error.message : 'Не удалось удалить сообщение',
-      );
-    }
+    await deleteMessageMutation.mutateAsync(id);
   };
 
   const handleMarkTicketRequestAsRead = async (id: number) => {
-    try {
-      const nextRequests = await markAdminTicketRequestAsRead(id);
-
-      setTicketRequests(nextRequests);
-    } catch (error) {
-      alert(
-        error instanceof Error ? error.message : 'Не удалось обновить заявку',
-      );
-    }
+    await markTicketRequestAsReadMutation.mutateAsync(id);
   };
 
   const handleDeleteTicketRequest = async (id: number) => {
-    try {
-      const nextRequests = await deleteAdminTicketRequest(id);
-
-      setTicketRequests(nextRequests);
-    } catch (error) {
-      alert(
-        error instanceof Error ? error.message : 'Не удалось удалить заявку',
-      );
-    }
+    await deleteTicketRequestMutation.mutateAsync(id);
   };
 
   const handleCreatePlayer = async (payload: PlayerPayload) => {
-    await createAdminPlayer(payload);
-
-    const nextPlayers = await getAdminPlayers();
-
-    setPlayers(nextPlayers);
+    await createPlayerMutation.mutateAsync(payload);
   };
 
   const handleUpdatePlayer = async (id: number, payload: PlayerPayload) => {
-    await updateAdminPlayer(id, payload);
-
-    const nextPlayers = await getAdminPlayers();
-
-    setPlayers(nextPlayers);
+    await updatePlayerMutation.mutateAsync({
+      id,
+      payload,
+    });
   };
 
   const handleDeletePlayer = async (id: number) => {
-    await deleteAdminPlayer(id);
-
-    const nextPlayers = await getAdminPlayers();
-
-    setPlayers(nextPlayers);
+    await deletePlayerMutation.mutateAsync(id);
   };
 
   return {

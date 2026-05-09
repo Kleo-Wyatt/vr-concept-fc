@@ -8,38 +8,30 @@ export function getAdminContactMessages() {
   return getContactMessages();
 }
 
-export async function markAdminContactMessageAsRead(id: number) {
-  await apiRequest<ContactMessage>(`/contact-messages/${id}/read`, {
+export function markAdminContactMessageAsRead(id: number) {
+  return apiRequest<ContactMessage>(`/contact-messages/${id}/read`, {
     method: 'PATCH',
   });
-
-  return getAdminContactMessages();
 }
 
-export async function deleteAdminContactMessage(id: number) {
-  await apiRequest<void>(`/contact-messages/${id}`, {
+export function deleteAdminContactMessage(id: number) {
+  return apiRequest<void>(`/contact-messages/${id}`, {
     method: 'DELETE',
   });
-
-  return getAdminContactMessages();
 }
 
 export function getAdminTicketRequests() {
   return getTicketRequests();
 }
 
-export async function markAdminTicketRequestAsRead(id: number) {
-  await apiRequest<TicketRequest>(`/ticket-requests/${id}/read`, {
+export function markAdminTicketRequestAsRead(id: number) {
+  return apiRequest<TicketRequest>(`/ticket-requests/${id}/read`, {
     method: 'PATCH',
   });
-
-  return getAdminTicketRequests();
 }
 
-export async function deleteAdminTicketRequest(id: number) {
-  await apiRequest<void>(`/ticket-requests/${id}`, {
+export function deleteAdminTicketRequest(id: number) {
+  return apiRequest<void>(`/ticket-requests/${id}`, {
     method: 'DELETE',
   });
-
-  return getAdminTicketRequests();
 }

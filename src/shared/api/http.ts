@@ -1,45 +1,48 @@
+import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
+
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ?? 'http://localhost:3001/api';
 
-type ApiRequestOptions = Omit<RequestInit, 'body' | 'headers'> & {
-  body?: unknown;
-  headers?: Record<string, string>;
+type ApiErrorResponse = {
+  message?: string;
 };
+
+type ApiRequestOptions = Omit<AxiosRequestConfig, 'url' | 'data'> & {
+  body?: unknown;
+};
+
+export const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export function getApiErrorMessage(error: unknown) {
+  if (error instanceof AxiosError) {
+    const responseData = error.response?.data as ApiErrorResponse | undefined;
+
+    return responseData?.message || error.message || 'Ошибка запроса к серверу';
+  }
+
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return 'Ошибка запроса к серверу';
+}
 
 export async function apiRequest<T>(
   path: string,
   options: ApiRequestOptions = {},
 ): Promise<T> {
-  const { body, headers, ...requestOptions } = options;
+  const { body, ...requestConfig } = options;
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...requestOptions,
-    headers: {
-      'Content-Type': 'application/json',
-      ...headers,
-    },
-    body: body === undefined ? undefined : JSON.stringify(body),
+  const response = await apiClient.request<T>({
+    url: path,
+    data: body,
+    ...requestConfig,
   });
 
-  if (response.status === 204) {
-    return undefined as T;
-  }
-
-  if (!response.ok) {
-    let message = 'Ошибка запроса к серверу';
-
-    try {
-      const errorBody = (await response.json()) as { message?: string };
-
-      if (errorBody.message) {
-        message = errorBody.message;
-      }
-    } catch {
-      // Ответ сервера не JSON — оставляем стандартное сообщение.
-    }
-
-    throw new Error(message);
-  }
-
-  return response.json() as Promise<T>;
+  return response.data;
 }
