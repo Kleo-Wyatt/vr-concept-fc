@@ -75,6 +75,49 @@ export function AdminPage() {
     [ticketRequests],
   );
 
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadInitialAdminData() {
+      try {
+        const [nextMessages, nextTicketRequests, nextPlayers] =
+          await Promise.all([
+            getAdminContactMessages(),
+            getAdminTicketRequests(),
+            getAdminPlayers(),
+          ]);
+
+        if (!isMounted) {
+          return;
+        }
+
+        setMessages(nextMessages);
+        setTicketRequests(nextTicketRequests);
+        setPlayers(nextPlayers);
+      } catch (error) {
+        if (!isMounted) {
+          return;
+        }
+
+        setLoadError(
+          error instanceof Error
+            ? error.message
+            : 'Не удалось загрузить данные админ-панели',
+        );
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    void loadInitialAdminData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const refreshAdminData = useCallback(async () => {
     setIsLoading(true);
     setLoadError('');
@@ -101,10 +144,6 @@ export function AdminPage() {
       setIsLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    void refreshAdminData();
-  }, [refreshAdminData]);
 
   const handleMarkMessageAsRead = async (id: number) => {
     try {

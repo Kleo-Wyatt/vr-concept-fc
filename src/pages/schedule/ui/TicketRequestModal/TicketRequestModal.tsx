@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react';
+import type { SubmitEventHandler } from 'react';
 import { useState } from 'react';
 
 import { Modal } from '@shared/ui';
@@ -69,7 +69,7 @@ export function TicketRequestModal({
     setSubmitError('');
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     const nextErrors = validateTicketRequestForm(formData);

@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react';
+import type { SubmitEventHandler } from 'react';
 
 import { Button, FormField } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
@@ -20,7 +20,7 @@ type TicketRequestFormProps = {
   errors: TicketRequestFormErrors;
   isSending: boolean;
   onChange: (event: FormFieldChangeEvent) => void;
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onSubmit: SubmitEventHandler<HTMLFormElement>;
   onCancel: () => void;
 };
 
@@ -93,7 +93,12 @@ export function TicketRequestForm({
       />
 
       <div className={styles.actions}>
-        <Button variant="ghost" onClick={onCancel} disabled={isSending}>
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={onCancel}
+          disabled={isSending}
+        >
           Отмена
         </Button>
 

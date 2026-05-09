@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react';
+import type { SubmitEventHandler } from 'react';
 import { useState } from 'react';
 
 import { Button, Card, FormField } from '@shared/ui';
@@ -47,7 +47,7 @@ export function ContactForm() {
     setSubmitError('');
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     const nextErrors = validateContactForm(formData);
