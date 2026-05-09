@@ -32,31 +32,6 @@ export function GalleryPage() {
   const hasScrollableGallery =
     filteredItems.length > VISIBLE_GALLERY_ITEMS_LIMIT;
 
-  const galleryStats = useMemo(
-    () => [
-      {
-        value: String(galleryItems.length),
-        label: 'Всего фото',
-      },
-      {
-        value: String(categories.length - 1),
-        label: 'Категорий',
-      },
-      {
-        value: String(
-          galleryItems.filter((item) => item.category === 'Матчи').length,
-        ),
-        label: 'Фото с матчей',
-      },
-      {
-        value: String(
-          galleryItems.filter((item) => item.category === 'События').length,
-        ),
-        label: 'События',
-      },
-    ],
-    [categories.length],
-  );
 
   const closeModal = () => {
     setSelectedItem(null);
@@ -160,21 +135,6 @@ export function GalleryPage() {
                 важных моментов из жизни команды.
               </p>
             </Card>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.container}>
-          <h2 className={styles.sectionTitle}>Статистика галереи</h2>
-
-          <div className={styles.statsGrid}>
-            {galleryStats.map((stat) => (
-              <Card className={styles.statCard} key={stat.label}>
-                <div className={styles.statValue}>{stat.value}</div>
-                <div className={styles.statLabel}>{stat.label}</div>
-              </Card>
-            ))}
           </div>
         </div>
       </section>
