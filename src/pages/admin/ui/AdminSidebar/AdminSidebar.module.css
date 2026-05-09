@@ -1,0 +1,124 @@
+.sidebar {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+  padding: var(--spacing-xl);
+
+  color: var(--color-white);
+  background-color: var(--color-primary-text);
+}
+
+.sidebarHeader {
+  margin-bottom: var(--spacing-2xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 2px solid var(--color-primary-btn);
+}
+
+.sidebarTitle {
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-cta);
+  font-size: 20px;
+}
+
+.sidebarSubtitle {
+  margin-bottom: 0;
+  color: var(--color-tertiary-text);
+  font-size: var(--font-size-small);
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.navItem {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  gap: var(--spacing-md);
+  align-items: center;
+
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-lg);
+
+  color: var(--color-tertiary-text);
+  font: inherit;
+  text-align: left;
+
+  background: none;
+  cursor: pointer;
+  transition:
+    color var(--transition-normal),
+    background-color var(--transition-normal);
+}
+
+.navItem:hover,
+.navItemActive {
+  color: var(--color-white);
+  background-color: var(--color-primary-btn);
+}
+
+.navIcon {
+  font-size: 20px;
+}
+
+.navLabel {
+  font-weight: 700;
+}
+
+.navBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 24px;
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-round);
+
+  color: var(--color-primary-text);
+  font-size: 12px;
+  font-weight: 700;
+
+  background-color: var(--color-cta);
+}
+
+.sidebarFooter {
+  margin-top: auto;
+  padding-top: var(--spacing-xl);
+  color: var(--color-tertiary-text);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.sidebarFooter p {
+  margin-bottom: var(--spacing-xs);
+  color: inherit;
+}
+
+@media (max-width: 1100px) {
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .sidebarNav {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    padding: var(--spacing-lg);
+  }
+
+  .sidebarNav {
+    grid-template-columns: 1fr;
+  }
+}

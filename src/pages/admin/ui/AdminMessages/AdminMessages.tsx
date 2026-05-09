@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import type { ContactMessage } from '@pages/contacts/model/types';
 import { Button, Card } from '@shared/ui';
 
-import styles from '../AdminPage.module.css';
+import styles from './AdminMessages.module.css';
 
 type MessageFilter = 'all' | 'unread' | 'read';
 

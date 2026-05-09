@@ -5,7 +5,7 @@ import type { FormFieldChangeEvent } from '@shared/ui';
 
 import type { Player, PlayerPayload } from '../../model/playersApi';
 
-import styles from '../AdminPage.module.css';
+import styles from './AdminPlayers.module.css';
 
 type AdminPlayersProps = {
   players: Player[];

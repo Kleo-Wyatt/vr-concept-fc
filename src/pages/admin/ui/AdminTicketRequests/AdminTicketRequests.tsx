@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
 import { Button, Card } from '@shared/ui';
 
-import styles from '../AdminPage.module.css';
+import styles from './AdminTicketRequests.module.css';
 
 type RequestFilter = 'all' | 'unread' | 'read';
 

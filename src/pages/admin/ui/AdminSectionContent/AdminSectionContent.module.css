@@ -1,0 +1,24 @@
+.errorBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md);
+  border-left: 4px solid var(--color-error);
+  border-radius: var(--radius-md);
+
+  color: var(--color-error);
+  background-color: var(--color-error-bg);
+}
+
+.errorBox p {
+  margin-bottom: 0;
+  color: var(--color-error);
+}
+
+.emptyText {
+  margin-bottom: 0;
+  color: var(--color-secondary-text);
+}

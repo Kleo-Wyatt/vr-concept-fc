@@ -8,7 +8,7 @@ import { Card } from '@shared/ui';
 
 import type { AdminSection } from '../../model/types';
 
-import styles from '../AdminPage.module.css';
+import styles from './AdminDashboard.module.css';
 
 type AdminDashboardProps = {
   playersCount: number;

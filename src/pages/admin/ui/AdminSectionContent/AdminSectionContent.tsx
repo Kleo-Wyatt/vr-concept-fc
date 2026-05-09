@@ -1,0 +1,124 @@
+import { Button, Card } from '@shared/ui';
+
+import type { ContactMessage } from '@pages/contacts/model/types';
+import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
+
+import type { Player, PlayerPayload } from '../../model/playersApi';
+import type { AdminSection } from '../../model/types';
+
+import { AdminDashboard } from '../AdminDashboard/AdminDashboard';
+import { AdminMessages } from '../AdminMessages/AdminMessages';
+import { AdminPlayers } from '../AdminPlayers/AdminPlayers';
+import { AdminTicketRequests } from '../AdminTicketRequests/AdminTicketRequests';
+
+import styles from './AdminSectionContent.module.css';
+
+type AdminSectionContentProps = {
+  activeSection: AdminSection;
+
+  players: Player[];
+  messages: ContactMessage[];
+  ticketRequests: TicketRequest[];
+
+  isLoading: boolean;
+  loadError: string;
+
+  onRefresh: () => Promise<void>;
+  onSelectSection: (section: AdminSection) => void;
+
+  onCreatePlayer: (payload: PlayerPayload) => Promise<void>;
+  onUpdatePlayer: (id: number, payload: PlayerPayload) => Promise<void>;
+  onDeletePlayer: (id: number) => Promise<void>;
+
+  onMarkMessageAsRead: (id: number) => Promise<void>;
+  onDeleteMessage: (id: number) => Promise<void>;
+
+  onMarkTicketRequestAsRead: (id: number) => Promise<void>;
+  onDeleteTicketRequest: (id: number) => Promise<void>;
+};
+
+export function AdminSectionContent({
+  activeSection,
+
+  players,
+  messages,
+  ticketRequests,
+
+  isLoading,
+  loadError,
+
+  onRefresh,
+  onSelectSection,
+
+  onCreatePlayer,
+  onUpdatePlayer,
+  onDeletePlayer,
+
+  onMarkMessageAsRead,
+  onDeleteMessage,
+
+  onMarkTicketRequestAsRead,
+  onDeleteTicketRequest,
+}: AdminSectionContentProps) {
+  if (isLoading) {
+    return (
+      <Card>
+        <p className={styles.emptyText}>Загрузка данных...</p>
+      </Card>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <Card>
+        <div className={styles.errorBox}>
+          <p>{loadError}</p>
+          <Button onClick={onRefresh}>Повторить загрузку</Button>
+        </div>
+      </Card>
+    );
+  }
+
+  if (activeSection === 'players') {
+    return (
+      <AdminPlayers
+        players={players}
+        onRefresh={onRefresh}
+        onCreate={onCreatePlayer}
+        onUpdate={onUpdatePlayer}
+        onDelete={onDeletePlayer}
+      />
+    );
+  }
+
+  if (activeSection === 'messages') {
+    return (
+      <AdminMessages
+        messages={messages}
+        onRefresh={onRefresh}
+        onMarkAsRead={onMarkMessageAsRead}
+        onDelete={onDeleteMessage}
+      />
+    );
+  }
+
+  if (activeSection === 'tickets') {
+    return (
+      <AdminTicketRequests
+        ticketRequests={ticketRequests}
+        onRefresh={onRefresh}
+        onMarkAsRead={onMarkTicketRequestAsRead}
+        onDelete={onDeleteTicketRequest}
+      />
+    );
+  }
+
+  return (
+    <AdminDashboard
+      playersCount={players.length}
+      messages={messages}
+      ticketRequests={ticketRequests}
+      onSelectSection={onSelectSection}
+    />
+  );
+}
