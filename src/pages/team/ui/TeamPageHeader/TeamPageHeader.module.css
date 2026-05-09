@@ -1,0 +1,23 @@
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.pageHeader {
+  padding: var(--spacing-3xl) 0;
+  color: var(--color-white);
+  text-align: center;
+  background: var(--gradient-primary);
+}
+
+.pageTitle {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-white);
+}
+
+.pageDescription {
+  margin-bottom: 0;
+  color: rgb(255 255 255 / 90%);
+  font-size: 18px;
+}

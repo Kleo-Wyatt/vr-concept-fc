@@ -1,0 +1,72 @@
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.section {
+  padding: var(--spacing-3xl) 0;
+}
+
+.sectionTitle {
+  position: relative;
+  margin-bottom: var(--spacing-2xl);
+  padding-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  width: 60px;
+  height: 4px;
+  border-radius: 2px;
+
+  background: var(--gradient-title-line);
+  transform: translateX(-50%);
+}
+
+.requirementsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.requirementCard h3 {
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-primary-btn);
+}
+
+.requirementCard ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.requirementCard li {
+  padding: var(--spacing-md) 0;
+  color: var(--color-secondary-text);
+}
+
+.contactBlock {
+  margin-top: var(--spacing-2xl);
+  text-align: center;
+}
+
+.contactBlock h3 {
+  color: var(--color-primary-btn);
+}
+
+.contactBlock p {
+  max-width: 720px;
+  margin: 0 auto var(--spacing-lg);
+}
+
+@media (max-width: 700px) {
+  .requirementsGrid {
+    grid-template-columns: 1fr;
+  }
+}
