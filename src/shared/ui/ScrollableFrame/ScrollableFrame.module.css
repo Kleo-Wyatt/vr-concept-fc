@@ -1,0 +1,69 @@
+.frame {
+  position: relative;
+  width: 100%;
+}
+
+.frameWithFade::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: calc(var(--spacing-md) + 8px);
+  bottom: 0;
+  z-index: 2;
+
+  height: 80px;
+  pointer-events: none;
+
+  background: linear-gradient(
+    to bottom,
+    rgb(245 245 239 / 0%),
+    rgb(245 245 239 / 45%),
+    rgb(245 245 239 / 95%)
+  );
+
+  backdrop-filter: blur(0.5px);
+}
+
+.content {
+  width: 100%;
+  max-height: var(--scrollable-frame-max-height);
+  overflow-y: scroll;
+  padding: var(--spacing-md);
+  margin: calc(var(--spacing-md) * -1);
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+.content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content::-webkit-scrollbar-track {
+  background-color: var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary-btn);
+  border-radius: var(--radius-lg);
+}
+
+.contentWithoutScrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.contentWithoutScrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+@media (max-width: 1100px) {
+  .content {
+    max-height: var(--scrollable-frame-tablet-max-height);
+  }
+}
+
+@media (max-width: 760px) {
+  .content {
+    max-height: var(--scrollable-frame-mobile-max-height);
+  }
+}

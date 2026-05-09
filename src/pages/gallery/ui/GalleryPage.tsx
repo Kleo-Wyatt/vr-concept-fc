@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { AppRoute } from '@shared/config/routes';
-import { Button, Card, Modal } from '@shared/ui';
+import { Button, Card, Modal, ScrollableFrame } from '@shared/ui';
 
 import {
   filterGalleryItems,
@@ -14,6 +14,8 @@ import { galleryItems } from '../model/mockData';
 import type { GalleryCategoryFilter, GalleryItem } from '../model/types';
 
 import styles from './GalleryPage.module.css';
+
+const VISIBLE_GALLERY_ITEMS_LIMIT = 6;
 
 export function GalleryPage() {
   const [selectedCategory, setSelectedCategory] =
@@ -26,6 +28,9 @@ export function GalleryPage() {
     () => filterGalleryItems(galleryItems, selectedCategory),
     [selectedCategory],
   );
+
+  const hasScrollableGallery =
+    filteredItems.length > VISIBLE_GALLERY_ITEMS_LIMIT;
 
   const galleryStats = useMemo(
     () => [
@@ -86,34 +91,45 @@ export function GalleryPage() {
             ))}
           </div>
 
-          <div className={styles.galleryGrid}>
-            {filteredItems.map((item) => (
-              <Card
-                className={styles.galleryCard}
-                hoverable
-                key={item.id}
-                role="button"
-                tabIndex={0}
-                onClick={() => setSelectedItem(item)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    setSelectedItem(item);
-                  }
-                }}
-              >
-                <div className={styles.galleryImage}>{item.image}</div>
+          <ScrollableFrame
+            isScrollable={hasScrollableGallery}
+            maxHeight="880px"
+            tabletMaxHeight="980px"
+            mobileMaxHeight="760px"
+          >
+            <div className={styles.galleryGrid}>
+              {filteredItems.map((item) => (
+                <Card
+                  className={styles.galleryCard}
+                  hoverable
+                  key={item.id}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setSelectedItem(item)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      setSelectedItem(item);
+                    }
+                  }}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className={styles.galleryImage}
+                  />
 
-                <div className={styles.galleryOverlay}>
-                  <h2>{item.title}</h2>
-                  <p>{item.description}</p>
-                  <span className={styles.galleryDate}>
-                    {formatGalleryDate(item.date)}
-                  </span>
-                </div>
-              </Card>
-            ))}
-          </div>
+                  <div className={styles.galleryOverlay}>
+                    <h2>{item.title}</h2>
+                    <p>{item.description}</p>
+                    <span className={styles.galleryDate}>
+                      {formatGalleryDate(item.date)}
+                    </span>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </ScrollableFrame>
 
           {filteredItems.length === 0 && (
             <div className={styles.emptyState}>
@@ -184,12 +200,16 @@ export function GalleryPage() {
         <Modal
           open={Boolean(selectedItem)}
           title={null}
-          width={820}
+          width="fit-content"
           footer={null}
           contentPadding="none"
           onCancel={closeModal}
         >
-          <div className={styles.photoModalImage}>{selectedItem.image}</div>
+          <img
+            src={selectedItem.image}
+            alt={selectedItem.title}
+            className={styles.photoModalImage}
+          />
         </Modal>
       )}
     </main>

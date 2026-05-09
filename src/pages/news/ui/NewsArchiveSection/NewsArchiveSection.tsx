@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { ScrollableFrame } from '@shared/ui';
 
 import { formatNewsDate } from '../../model/lib';
 import type { NewsItem } from '../../model/types';
@@ -25,41 +25,29 @@ export function NewsArchiveSection({
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Архив новостей</h2>
 
-        <div
-          className={clsx(
-            styles.archiveFrame,
-            hasScrollableArchive && styles.archiveFrameWithFade,
-          )}
-        >
-          <div
-            className={clsx(
-              styles.archiveWrapper,
-              hasScrollableArchive && styles.archiveWrapperScrollable,
-            )}
-          >
-            <div className={styles.archive}>
-              {news.map((newsItem) => (
-                <article className={styles.archiveItem} key={newsItem.id}>
-                  <div className={styles.archiveDate}>
-                    {formatNewsDate(newsItem.date)}
-                  </div>
+        <ScrollableFrame isScrollable={hasScrollableArchive} maxHeight="560px">
+          <div className={styles.archive}>
+            {news.map((newsItem) => (
+              <article className={styles.archiveItem} key={newsItem.id}>
+                <div className={styles.archiveDate}>
+                  {formatNewsDate(newsItem.date)}
+                </div>
 
-                  <div className={styles.archiveContent}>
-                    <button
-                      className={styles.archiveTitle}
-                      type="button"
-                      onClick={() => onReadMore(newsItem)}
-                    >
-                      {newsItem.title}
-                    </button>
+                <div className={styles.archiveContent}>
+                  <button
+                    className={styles.archiveTitle}
+                    type="button"
+                    onClick={() => onReadMore(newsItem)}
+                  >
+                    {newsItem.title}
+                  </button>
 
-                    <p>{newsItem.excerpt}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
+                  <p>{newsItem.excerpt}</p>
+                </div>
+              </article>
+            ))}
           </div>
-        </div>
+        </ScrollableFrame>
       </div>
     </section>
   );

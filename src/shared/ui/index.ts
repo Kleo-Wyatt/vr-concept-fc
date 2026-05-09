@@ -21,4 +21,6 @@ export type {
 export { Drawer } from './Drawer/Drawer';
 export type { DrawerProps } from './Drawer/Drawer';
 
+export { ScrollableFrame } from './ScrollableFrame/ScrollableFrame';
+
 export { PageStub } from './PageStub/PageStub';

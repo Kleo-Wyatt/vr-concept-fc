@@ -30,79 +30,10 @@
   padding: var(--spacing-3xl) 0;
 }
 
-.scheduleListFrame {
-  position: relative;
-  width: 100%;
-}
-
-.scheduleListFrameWithFade::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: calc(var(--spacing-md) + 8px);
-  bottom: 0;
-  z-index: 2;
-
-  height: 80px;
-  pointer-events: none;
-
-  background: linear-gradient(
-    to bottom,
-    rgb(245 245 239 / 0%),
-    rgb(245 245 239 / 45%),
-    rgb(245 245 239 / 95%)
-  );
-
-  backdrop-filter: blur(0.5px);
-}
-
-.scheduleListWrapper {
-  width: 100%;
-  max-height: 1180px;
-  overflow-y: scroll;
-  padding: var(--spacing-md);
-  margin: calc(var(--spacing-md) * -1);
-  scroll-behavior: smooth;
-  scrollbar-gutter: stable;
-}
-
-.scheduleListWrapper::-webkit-scrollbar {
-  width: 8px;
-}
-
-.scheduleListWrapper::-webkit-scrollbar-track {
-  background-color: var(--color-border);
-  border-radius: var(--radius-lg);
-}
-
-.scheduleListWrapper::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary-btn);
-  border-radius: var(--radius-lg);
-}
-
-.scheduleListWrapperWithoutScrollbar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.scheduleListWrapperWithoutScrollbar::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-.scheduleListWrapperWithoutScrollbar::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-
 .scheduleList {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
-}
-
-.scrollHint {
-  margin: var(--spacing-md) 0 0;
-  color: var(--color-secondary-text);
-  font-size: var(--font-size-small);
-  text-align: center;
 }
 
 .emptyState {
