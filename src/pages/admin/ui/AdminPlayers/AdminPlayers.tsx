@@ -1,14 +1,17 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
 
+import { getApiErrorMessage } from '@shared/api/http';
 import { Button, Card, FormField, Modal } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
-
-import type { Player, PlayerPayload } from '../../model/playersApi';
-
-import styles from './AdminPlayers.module.css';
 import { PlayerPhotoCard } from '@entities/player/ui/PlayerPhotoCard';
 
-const PLAYER_PLACEHOLDER_IMAGE = '/images/players/player-placeholder.png';
+import {
+  uploadAdminPlayerPhoto,
+  type Player,
+  type PlayerPayload,
+} from '../../model/playersApi';
+
+import styles from './AdminPlayers.module.css';
 
 type AdminPlayersProps = {
   players: Player[];
@@ -17,6 +20,8 @@ type AdminPlayersProps = {
   onUpdate: (id: number, payload: PlayerPayload) => Promise<void>;
   onDelete: (id: number) => Promise<void>;
 };
+
+const PLAYER_PLACEHOLDER_IMAGE = '/images/players/player-placeholder.png';
 
 const initialFormData: PlayerPayload = {
   number: 0,
@@ -30,6 +35,8 @@ const initialFormData: PlayerPayload = {
 };
 
 const positionOptions = ['Вратарь', 'Защитник', 'Полузащитник', 'Нападающий'];
+
+const allowedPhotoTypes = ['image/png', 'image/jpeg', 'image/webp'];
 
 function validatePlayerForm(formData: PlayerPayload) {
   if (
@@ -63,6 +70,18 @@ export function AdminPlayers({
   const [formError, setFormError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
+  const [selectedPhotoFile, setSelectedPhotoFile] = useState<File | null>(null);
+  const [selectedPhotoName, setSelectedPhotoName] = useState('');
+  const [selectedPhotoPreviewUrl, setSelectedPhotoPreviewUrl] = useState('');
+
+  useEffect(() => {
+    return () => {
+      if (selectedPhotoPreviewUrl) {
+        URL.revokeObjectURL(selectedPhotoPreviewUrl);
+      }
+    };
+  }, [selectedPhotoPreviewUrl]);
+
   const sortedPlayers = useMemo(
     () =>
       [...players].sort((a, b) => {
@@ -75,10 +94,25 @@ export function AdminPlayers({
     [players],
   );
 
+  const resetSelectedPhoto = () => {
+    setSelectedPhotoFile(null);
+    setSelectedPhotoName('');
+    setSelectedPhotoPreviewUrl('');
+  };
+
+  const resetModalState = () => {
+    setIsModalOpen(false);
+    setEditingPlayer(null);
+    setFormData(initialFormData);
+    setFormError('');
+    resetSelectedPhoto();
+  };
+
   const openCreateModal = () => {
     setEditingPlayer(null);
     setFormData(initialFormData);
     setFormError('');
+    resetSelectedPhoto();
     setIsModalOpen(true);
   };
 
@@ -88,13 +122,14 @@ export function AdminPlayers({
       number: player.number,
       name: player.name,
       position: player.position,
-      image: player.image,
+      image: player.image || PLAYER_PLACEHOLDER_IMAGE,
       bio: player.bio,
       joinedDate: player.joinedDate,
       height: player.height,
       weight: player.weight,
     });
     setFormError('');
+    resetSelectedPhoto();
     setIsModalOpen(true);
   };
 
@@ -103,10 +138,7 @@ export function AdminPlayers({
       return;
     }
 
-    setIsModalOpen(false);
-    setEditingPlayer(null);
-    setFormData(initialFormData);
-    setFormError('');
+    resetModalState();
   };
 
   const handleChange = (event: FormFieldChangeEvent) => {
@@ -120,6 +152,33 @@ export function AdminPlayers({
     setFormError('');
   };
 
+  const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (!allowedPhotoTypes.includes(file.type)) {
+      setFormError('Можно выбрать только PNG, JPG или WEBP');
+      event.target.value = '';
+      return;
+    }
+
+    if (file.size > 3 * 1024 * 1024) {
+      setFormError('Размер фото не должен превышать 3 МБ');
+      event.target.value = '';
+      return;
+    }
+
+    setSelectedPhotoFile(file);
+    setSelectedPhotoName(file.name);
+    setSelectedPhotoPreviewUrl(URL.createObjectURL(file));
+    setFormError('');
+
+    event.target.value = '';
+  };
+
   const handleSubmit = async () => {
     const validationError = validatePlayerForm(formData);
 
@@ -131,17 +190,26 @@ export function AdminPlayers({
     setIsSaving(true);
 
     try {
-      if (editingPlayer) {
-        await onUpdate(editingPlayer.id, formData);
-      } else {
-        await onCreate(formData);
+      let payload: PlayerPayload = formData;
+
+      if (selectedPhotoFile) {
+        const uploadedPhoto = await uploadAdminPlayerPhoto(selectedPhotoFile);
+
+        payload = {
+          ...formData,
+          image: uploadedPhoto.image,
+        };
       }
 
-      closeModal();
+      if (editingPlayer) {
+        await onUpdate(editingPlayer.id, payload);
+      } else {
+        await onCreate(payload);
+      }
+
+      resetModalState();
     } catch (error) {
-      setFormError(
-        error instanceof Error ? error.message : 'Не удалось сохранить игрока',
-      );
+      setFormError(getApiErrorMessage(error));
     } finally {
       setIsSaving(false);
     }
@@ -160,6 +228,9 @@ export function AdminPlayers({
       );
     }
   };
+
+  const photoPreviewSrc =
+    selectedPhotoPreviewUrl || formData.image || PLAYER_PLACEHOLDER_IMAGE;
 
   return (
     <div>
@@ -247,13 +318,35 @@ export function AdminPlayers({
             options={positionOptions}
           />
 
-          <FormField
-            label="Фото игрока"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            placeholder="/images/players/ivan-petrov.png"
-          />
+          <div className={styles.photoUploadBlock}>
+            <label className={styles.photoUploadLabel}>Фото игрока</label>
+
+            <div className={styles.photoPreview}>
+              <img
+                src={photoPreviewSrc}
+                alt={formData.name || 'Фото игрока'}
+                onError={(event) => {
+                  event.currentTarget.src = PLAYER_PLACEHOLDER_IMAGE;
+                }}
+              />
+            </div>
+
+            <div className={styles.fileUploadRow}>
+              <label className={styles.fileUploadButton}>
+                Выбрать фото
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={handlePhotoChange}
+                  disabled={isSaving}
+                />
+              </label>
+
+              <span className={styles.fileUploadName}>
+                {selectedPhotoName || 'Файл не выбран'}
+              </span>
+            </div>
+          </div>
 
           <FormField
             label="Описание"
