@@ -8,6 +8,7 @@ import './db/database.js';
 import { contactMessagesRouter } from './routes/contactMessages.js';
 import { ticketRequestsRouter } from './routes/ticketRequests.js';
 import { playersRouter } from './routes/players.js';
+import { scheduleEventsRouter } from './routes/scheduleEvents.js';
 import { uploadsRouter } from './routes/uploads.js';
 
 const app = express();
@@ -51,6 +52,7 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/contact-messages', contactMessagesRouter);
 app.use('/api/ticket-requests', ticketRequestsRouter);
 app.use('/api/players', playersRouter);
+app.use('/api/schedule-events', scheduleEventsRouter);
 app.use('/api/uploads', uploadsRouter);
 
 app.use((_req, res) => {

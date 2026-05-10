@@ -1,9 +1,14 @@
 import { useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { ScrollableFrame } from '@shared/ui';
+import { Button, Card, ScrollableFrame } from '@shared/ui';
 
 import { getEventTimestamp, isPastTrainingEvent } from '../model/lib';
-import { scheduleEvents, scheduleFilters } from '../model/mockData';
+import { scheduleFilters } from '../model/mockData';
+import {
+  getScheduleEvents,
+  scheduleEventsQueryKey,
+} from '../model/scheduleEventsApi';
 import type { StatusFilter } from '../model/types';
 
 import { ScheduleEventCard } from './ScheduleEventCard/ScheduleEventCard';
@@ -16,6 +21,16 @@ const VISIBLE_EVENTS_LIMIT = 10;
 
 export function SchedulePage() {
   const [selectedFilter, setSelectedFilter] = useState<StatusFilter>('all');
+
+  const {
+    data: scheduleEvents = [],
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: scheduleEventsQueryKey,
+    queryFn: getScheduleEvents,
+  });
 
   const filteredEvents = useMemo(() => {
     const actualEvents = scheduleEvents.filter(
@@ -37,9 +52,12 @@ export function SchedulePage() {
 
       return getEventTimestamp(b) - getEventTimestamp(a);
     });
-  }, [selectedFilter]);
+  }, [scheduleEvents, selectedFilter]);
 
   const hasScrollableEvents = filteredEvents.length > VISIBLE_EVENTS_LIMIT;
+
+  const errorMessage =
+    error instanceof Error ? error.message : 'Не удалось загрузить расписание';
 
   return (
     <main className={styles.page}>
@@ -60,21 +78,38 @@ export function SchedulePage() {
             onSelectFilter={setSelectedFilter}
           />
 
-          <ScrollableFrame
-            isScrollable={hasScrollableEvents}
-            maxHeight="1180px"
-          >
-            <div className={styles.scheduleList}>
-              {filteredEvents.map((event) => (
-                <ScheduleEventCard event={event} key={event.id} />
-              ))}
-            </div>
-          </ScrollableFrame>
+          {isLoading && (
+            <Card>
+              <p>Загрузка расписания...</p>
+            </Card>
+          )}
 
-          {filteredEvents.length === 0 && (
-            <div className={styles.emptyState}>
-              <p>Нет событий в этой категории</p>
-            </div>
+          {error && (
+            <Card>
+              <p>{errorMessage}</p>
+              <Button onClick={() => refetch()}>Повторить загрузку</Button>
+            </Card>
+          )}
+
+          {!isLoading && !error && (
+            <>
+              <ScrollableFrame
+                isScrollable={hasScrollableEvents}
+                maxHeight="1180px"
+              >
+                <div className={styles.scheduleList}>
+                  {filteredEvents.map((event) => (
+                    <ScheduleEventCard event={event} key={event.id} />
+                  ))}
+                </div>
+              </ScrollableFrame>
+
+              {filteredEvents.length === 0 && (
+                <div className={styles.emptyState}>
+                  <p>Нет событий в этой категории</p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
