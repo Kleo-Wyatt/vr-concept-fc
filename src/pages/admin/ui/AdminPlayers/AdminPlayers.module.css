@@ -26,94 +26,9 @@
 
 .playersGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 300px));
+  justify-content: flex-start;
   gap: var(--spacing-lg);
-}
-
-.playerAdminCard {
-  overflow: hidden;
-}
-
-.playerAdminCard :global(.ant-card-body) {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.playerAdminTop {
-  position: relative;
-
-  margin: calc(var(--spacing-lg) * -1) calc(var(--spacing-lg) * -1)
-    var(--spacing-lg);
-  padding: var(--spacing-xl);
-  text-align: center;
-
-  background: var(--gradient-primary);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
-.playerAdminAvatar {
-  font-size: 72px;
-  line-height: 1;
-}
-
-.playerAdminNumber {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-width: 48px;
-  height: 48px;
-  padding: 0 var(--spacing-sm);
-  border-radius: var(--radius-round);
-
-  color: var(--color-primary-text);
-  font-weight: 800;
-
-  background-color: var(--color-cta);
-}
-
-.playerAdminBody {
-  flex: 1;
-}
-
-.playerAdminBody h3 {
-  margin-bottom: var(--spacing-sm);
-}
-
-.playerAdminBody p {
-  margin-bottom: var(--spacing-md);
-}
-
-.playerAdminPosition {
-  color: var(--color-primary-btn);
-  font-size: var(--font-size-small);
-  font-weight: 700;
-}
-
-.playerAdminStats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-md);
-
-  margin-top: var(--spacing-lg);
-  padding: var(--spacing-md);
-  border-radius: var(--radius-md);
-
-  color: var(--color-secondary-text);
-  font-size: var(--font-size-small);
-
-  background-color: var(--color-background);
-}
-
-.playerAdminActions {
-  display: flex;
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
 }
 
 .adminForm {
@@ -159,7 +74,7 @@
 
 @media (max-width: 1100px) {
   .playersGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 300px));
   }
 }
 
@@ -168,14 +83,23 @@
     flex-direction: column;
   }
 
-  .playersGrid,
+  .playersGrid {
+    grid-template-columns: 300px;
+    justify-content: center;
+  }
+
   .formGridTwo {
     grid-template-columns: 1fr;
   }
 
-  .playerAdminActions,
   .modalActions,
   .headerActions {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 360px) {
+  .playersGrid {
+    grid-template-columns: 1fr;
   }
 }

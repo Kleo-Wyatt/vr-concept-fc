@@ -4,7 +4,7 @@ import { Button, Card } from '@shared/ui';
 
 import type { TeamPlayer } from '../../model/playersApi';
 
-import { PlayerCard } from '../PlayerCard/PlayerCard';
+import { PlayerPhotoCard } from '@entities/player/ui/PlayerPhotoCard';
 
 import styles from './TeamPlayersSection.module.css';
 
@@ -66,7 +66,7 @@ export function TeamPlayersSection({
 
             <div className={styles.playersGrid}>
               {players.map((player) => (
-                <PlayerCard player={player} key={player.id} />
+                <PlayerPhotoCard key={player.id} player={player} />
               ))}
             </div>
 

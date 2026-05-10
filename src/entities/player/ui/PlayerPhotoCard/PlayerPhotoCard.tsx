@@ -1,23 +1,32 @@
+import type { ReactNode } from 'react';
+
 import { Card } from '@shared/ui';
 
-import type { TeamPlayer } from '../../model/playersApi';
+import styles from './PlayerPhotoCard.module.css';
 
-import styles from './PlayerCard.module.css';
+export type PlayerPhotoCardData = {
+  number: number;
+  name: string;
+  position: string;
+  image?: string;
+  bio?: string;
+  height?: string;
+  weight?: string;
+};
 
-type PlayerCardProps = {
-  player: TeamPlayer;
+type PlayerPhotoCardProps = {
+  player: PlayerPhotoCardData;
+  actions?: ReactNode;
 };
 
 const PLAYER_PLACEHOLDER_IMAGE = '/images/players/player-placeholder.png';
 
-export function PlayerCard({ player }: PlayerCardProps) {
-  const playerImage = player.image || PLAYER_PLACEHOLDER_IMAGE;
-
+export function PlayerPhotoCard({ player, actions }: PlayerPhotoCardProps) {
   return (
     <Card className={styles.playerCard} hoverable tabIndex={0}>
       <div className={styles.playerImage}>
         <img
-          src={playerImage}
+          src={player.image || PLAYER_PLACEHOLDER_IMAGE}
           alt={player.name}
           className={styles.playerPhoto}
           loading="lazy"
@@ -31,7 +40,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
         <div className={styles.playerOverlay}>
           <p className={styles.playerPosition}>{player.position}</p>
 
-          <h2 className={styles.playerName}>{player.name}</h2>
+          <h3 className={styles.playerName}>{player.name}</h3>
 
           <p className={styles.playerBio}>
             {player.bio || 'Описание игрока пока не добавлено'}
@@ -52,6 +61,8 @@ export function PlayerCard({ player }: PlayerCardProps) {
               </span>
             </div>
           </div>
+
+          {actions && <div className={styles.playerActions}>{actions}</div>}
         </div>
       </div>
     </Card>

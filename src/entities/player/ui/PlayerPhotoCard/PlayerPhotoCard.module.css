@@ -93,12 +93,13 @@
 
 .playerPosition {
   position: relative;
-  font-family: 'Exo 2', var(--font-family-heading), sans-serif;
+
   display: inline-flex;
   margin-bottom: var(--spacing-sm);
   padding: 0;
 
   color: rgb(0, 255, 234);
+  font-family: 'Exo 2', var(--font-family-heading), sans-serif;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -168,6 +169,16 @@
   line-height: 1.2;
 }
 
+.playerActions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.playerActions button {
+  flex: 1;
+}
+
 @keyframes neonTextFlicker {
   0% {
     opacity: 0;
@@ -176,9 +187,6 @@
 
   12% {
     opacity: 1;
-    /* text-shadow:
-      0 0 3px rgba(119, 228, 255, 0.9),
-      0 0 8px rgba(0, 187, 255, 0.65); */
   }
 
   22% {
@@ -197,11 +205,6 @@
   62%,
   100% {
     opacity: 1;
-    /* text-shadow:
-      0 0 4px rgba(133, 231, 255, 0.95),
-      0 0 10px rgba(56, 202, 255, 0.85),
-      0 0 18px rgba(3, 147, 200, 0.65),
-      0 0 30px rgba(0, 0, 0, 0.42); */
   }
 }
 

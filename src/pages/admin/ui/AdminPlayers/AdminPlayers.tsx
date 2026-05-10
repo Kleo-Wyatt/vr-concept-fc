@@ -6,6 +6,9 @@ import type { FormFieldChangeEvent } from '@shared/ui';
 import type { Player, PlayerPayload } from '../../model/playersApi';
 
 import styles from './AdminPlayers.module.css';
+import { PlayerPhotoCard } from '@entities/player/ui/PlayerPhotoCard';
+
+const PLAYER_PLACEHOLDER_IMAGE = '/images/players/player-placeholder.png';
 
 type AdminPlayersProps = {
   players: Player[];
@@ -19,7 +22,7 @@ const initialFormData: PlayerPayload = {
   number: 0,
   name: '',
   position: 'Полузащитник',
-  image: '⚽',
+  image: PLAYER_PLACEHOLDER_IMAGE,
   bio: '',
   joinedDate: '',
   height: '',
@@ -178,37 +181,25 @@ export function AdminPlayers({
       {sortedPlayers.length > 0 ? (
         <div className={styles.playersGrid}>
           {sortedPlayers.map((player) => (
-            <Card className={styles.playerAdminCard} key={player.id}>
-              <div className={styles.playerAdminTop}>
-                <div className={styles.playerAdminAvatar}>{player.image}</div>
-                <div className={styles.playerAdminNumber}>#{player.number}</div>
-              </div>
+            <PlayerPhotoCard
+              key={player.id}
+              player={player}
+              actions={
+                <>
+                  <Button size="small" onClick={() => openEditModal(player)}>
+                    Редактировать
+                  </Button>
 
-              <div className={styles.playerAdminBody}>
-                <h3>{player.name}</h3>
-                <p className={styles.playerAdminPosition}>{player.position}</p>
-                <p>{player.bio || 'Описание не указано'}</p>
-
-                <div className={styles.playerAdminStats}>
-                  <span>Рост: {player.height || '—'} см</span>
-                  <span>Вес: {player.weight || '—'} кг</span>
-                </div>
-              </div>
-
-              <div className={styles.playerAdminActions}>
-                <Button size="small" onClick={() => openEditModal(player)}>
-                  Редактировать
-                </Button>
-
-                <Button
-                  size="small"
-                  variant="danger"
-                  onClick={() => handleDelete(player)}
-                >
-                  Удалить
-                </Button>
-              </div>
-            </Card>
+                  <Button
+                    size="small"
+                    variant="danger"
+                    onClick={() => handleDelete(player)}
+                  >
+                    Удалить
+                  </Button>
+                </>
+              }
+            />
           ))}
         </div>
       ) : (
@@ -257,11 +248,11 @@ export function AdminPlayers({
           />
 
           <FormField
-            label="Иконка"
+            label="Фото игрока"
             name="image"
             value={formData.image}
             onChange={handleChange}
-            placeholder="⚽"
+            placeholder="/images/players/ivan-petrov.png"
           />
 
           <FormField
