@@ -1,0 +1,46 @@
+.adminForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGridTwo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.errorBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md);
+  border-left: 4px solid var(--color-error);
+  border-radius: var(--radius-md);
+
+  color: var(--color-error);
+  background-color: var(--color-error-bg);
+}
+
+@media (max-width: 700px) {
+  .formGridTwo {
+    grid-template-columns: 1fr;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+}

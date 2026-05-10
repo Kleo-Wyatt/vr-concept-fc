@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { getApiErrorMessage } from '@shared/api/http';
-import { Button, Card, FormField, Modal } from '@shared/ui';
+import { Button, Card } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
 import { PlayerPhotoCard } from '@entities/player/ui/PlayerPhotoCard';
 
@@ -10,6 +10,15 @@ import {
   type Player,
   type PlayerPayload,
 } from '../../model/playersApi';
+
+import { PlayerFormModal } from './PlayerFormModal';
+import {
+  getPlayerFormData,
+  initialPlayerFormData,
+  PLAYER_PLACEHOLDER_IMAGE,
+  validatePlayerForm,
+  validatePlayerPhoto,
+} from './playerForm';
 
 import styles from './AdminPlayers.module.css';
 
@@ -21,42 +30,6 @@ type AdminPlayersProps = {
   onDelete: (id: number) => Promise<void>;
 };
 
-const PLAYER_PLACEHOLDER_IMAGE = '/images/players/player-placeholder.png';
-
-const initialFormData: PlayerPayload = {
-  number: 0,
-  name: '',
-  position: 'Полузащитник',
-  image: PLAYER_PLACEHOLDER_IMAGE,
-  bio: '',
-  joinedDate: '',
-  height: '',
-  weight: '',
-};
-
-const positionOptions = ['Вратарь', 'Защитник', 'Полузащитник', 'Нападающий'];
-
-const allowedPhotoTypes = ['image/png', 'image/jpeg', 'image/webp'];
-
-function validatePlayerForm(formData: PlayerPayload) {
-  if (
-    !Number.isInteger(Number(formData.number)) ||
-    Number(formData.number) < 0
-  ) {
-    return 'Введите корректный номер игрока';
-  }
-
-  if (!formData.name.trim()) {
-    return 'Введите имя игрока';
-  }
-
-  if (!formData.position.trim()) {
-    return 'Выберите позицию игрока';
-  }
-
-  return '';
-}
-
 export function AdminPlayers({
   players,
   onRefresh,
@@ -66,7 +39,8 @@ export function AdminPlayers({
 }: AdminPlayersProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPlayer, setEditingPlayer] = useState<Player | null>(null);
-  const [formData, setFormData] = useState<PlayerPayload>(initialFormData);
+  const [formData, setFormData] =
+    useState<PlayerPayload>(initialPlayerFormData);
   const [formError, setFormError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
@@ -103,14 +77,14 @@ export function AdminPlayers({
   const resetModalState = () => {
     setIsModalOpen(false);
     setEditingPlayer(null);
-    setFormData(initialFormData);
+    setFormData(initialPlayerFormData);
     setFormError('');
     resetSelectedPhoto();
   };
 
   const openCreateModal = () => {
     setEditingPlayer(null);
-    setFormData(initialFormData);
+    setFormData(initialPlayerFormData);
     setFormError('');
     resetSelectedPhoto();
     setIsModalOpen(true);
@@ -118,16 +92,7 @@ export function AdminPlayers({
 
   const openEditModal = (player: Player) => {
     setEditingPlayer(player);
-    setFormData({
-      number: player.number,
-      name: player.name,
-      position: player.position,
-      image: player.image || PLAYER_PLACEHOLDER_IMAGE,
-      bio: player.bio,
-      joinedDate: player.joinedDate,
-      height: player.height,
-      weight: player.weight,
-    });
+    setFormData(getPlayerFormData(player));
     setFormError('');
     resetSelectedPhoto();
     setIsModalOpen(true);
@@ -152,31 +117,22 @@ export function AdminPlayers({
     setFormError('');
   };
 
-  const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handlePhotoSelect = (file: File) => {
+    const validationError = validatePlayerPhoto(file);
 
-    if (!file) {
+    if (validationError) {
+      setFormError(validationError);
       return;
     }
 
-    if (!allowedPhotoTypes.includes(file.type)) {
-      setFormError('Можно выбрать только PNG, JPG или WEBP');
-      event.target.value = '';
-      return;
-    }
-
-    if (file.size > 3 * 1024 * 1024) {
-      setFormError('Размер фото не должен превышать 3 МБ');
-      event.target.value = '';
-      return;
+    if (selectedPhotoPreviewUrl) {
+      URL.revokeObjectURL(selectedPhotoPreviewUrl);
     }
 
     setSelectedPhotoFile(file);
     setSelectedPhotoName(file.name);
     setSelectedPhotoPreviewUrl(URL.createObjectURL(file));
     setFormError('');
-
-    event.target.value = '';
   };
 
   const handleSubmit = async () => {
@@ -229,8 +185,12 @@ export function AdminPlayers({
     }
   };
 
+  const hasSavedPhoto = Boolean(
+    editingPlayer?.image && editingPlayer.image !== PLAYER_PLACEHOLDER_IMAGE,
+  );
+
   const shouldShowPhotoPreview = Boolean(
-    selectedPhotoPreviewUrl || (editingPlayer && formData.image),
+    selectedPhotoPreviewUrl || hasSavedPhoto,
   );
 
   const photoPreviewSrc =
@@ -283,123 +243,20 @@ export function AdminPlayers({
         </Card>
       )}
 
-      <Modal
+      <PlayerFormModal
         open={isModalOpen}
-        title={editingPlayer ? 'Редактировать игрока' : 'Добавить игрока'}
-        width={640}
-        onCancel={closeModal}
-        footer={null}
-      >
-        <div className={styles.adminForm}>
-          {formError && <div className={styles.errorBox}>{formError}</div>}
-
-          <FormField
-            label="Номер"
-            name="number"
-            type="number"
-            value={formData.number}
-            onChange={handleChange}
-            required
-            min={0}
-          />
-
-          <FormField
-            label="Имя"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            placeholder="Иван Петров"
-          />
-
-          <FormField
-            label="Позиция"
-            name="position"
-            type="select"
-            value={formData.position}
-            onChange={handleChange}
-            required
-            options={positionOptions}
-          />
-
-          <div className={styles.photoUploadBlock}>
-            <label className={styles.photoUploadLabel}>Фото игрока</label>
-
-            {shouldShowPhotoPreview && (
-              <div className={styles.photoPreview}>
-                <img
-                  src={photoPreviewSrc}
-                  alt={formData.name || 'Фото игрока'}
-                  onError={(event) => {
-                    event.currentTarget.src = PLAYER_PLACEHOLDER_IMAGE;
-                  }}
-                />
-              </div>
-            )}
-
-            <div className={styles.fileUploadRow}>
-              <label className={styles.fileUploadButton}>
-                Выбрать фото
-                <input
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
-                  onChange={handlePhotoChange}
-                  disabled={isSaving}
-                />
-              </label>
-
-              <span className={styles.fileUploadName}>
-                {selectedPhotoName || 'Файл не выбран'}
-              </span>
-            </div>
-          </div>
-
-          <FormField
-            label="Описание"
-            name="bio"
-            type="textarea"
-            value={formData.bio}
-            onChange={handleChange}
-            placeholder="Краткое описание игрока"
-          />
-
-          <FormField
-            label="Дата вступления"
-            name="joinedDate"
-            value={formData.joinedDate}
-            onChange={handleChange}
-            placeholder="2026-05-09"
-          />
-
-          <div className={styles.formGridTwo}>
-            <FormField
-              label="Рост"
-              name="height"
-              value={formData.height}
-              onChange={handleChange}
-              placeholder="180"
-            />
-
-            <FormField
-              label="Вес"
-              name="weight"
-              value={formData.weight}
-              onChange={handleChange}
-              placeholder="75"
-            />
-          </div>
-
-          <div className={styles.modalActions}>
-            <Button variant="ghost" onClick={closeModal} disabled={isSaving}>
-              Отмена
-            </Button>
-
-            <Button onClick={handleSubmit} disabled={isSaving}>
-              {isSaving ? 'Сохраняем...' : 'Сохранить'}
-            </Button>
-          </div>
-        </div>
-      </Modal>
+        isEditing={Boolean(editingPlayer)}
+        formData={formData}
+        formError={formError}
+        isSaving={isSaving}
+        photoPreviewSrc={photoPreviewSrc}
+        shouldShowPhotoPreview={shouldShowPhotoPreview}
+        selectedPhotoName={selectedPhotoName}
+        onClose={closeModal}
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        onPhotoSelect={handlePhotoSelect}
+      />
     </div>
   );
 }
