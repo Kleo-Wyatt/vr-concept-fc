@@ -229,6 +229,10 @@ export function AdminPlayers({
     }
   };
 
+  const shouldShowPhotoPreview = Boolean(
+    selectedPhotoPreviewUrl || (editingPlayer && formData.image),
+  );
+
   const photoPreviewSrc =
     selectedPhotoPreviewUrl || formData.image || PLAYER_PLACEHOLDER_IMAGE;
 
@@ -321,15 +325,17 @@ export function AdminPlayers({
           <div className={styles.photoUploadBlock}>
             <label className={styles.photoUploadLabel}>Фото игрока</label>
 
-            <div className={styles.photoPreview}>
-              <img
-                src={photoPreviewSrc}
-                alt={formData.name || 'Фото игрока'}
-                onError={(event) => {
-                  event.currentTarget.src = PLAYER_PLACEHOLDER_IMAGE;
-                }}
-              />
-            </div>
+            {shouldShowPhotoPreview && (
+              <div className={styles.photoPreview}>
+                <img
+                  src={photoPreviewSrc}
+                  alt={formData.name || 'Фото игрока'}
+                  onError={(event) => {
+                    event.currentTarget.src = PLAYER_PLACEHOLDER_IMAGE;
+                  }}
+                />
+              </div>
+            )}
 
             <div className={styles.fileUploadRow}>
               <label className={styles.fileUploadButton}>

@@ -12,9 +12,11 @@ const currentDir = path.dirname(currentFilePath);
 
 const playersUploadDir = path.resolve(currentDir, '../uploads/players');
 
-fs.mkdirSync(playersUploadDir, {
-  recursive: true,
-});
+function ensurePlayersUploadDir() {
+  fs.mkdirSync(playersUploadDir, {
+    recursive: true,
+  });
+}
 
 const allowedMimeTypes = new Set(['image/png', 'image/jpeg', 'image/webp']);
 
@@ -36,7 +38,12 @@ function getExtensionByMimeType(mimeType) {
 
 const storage = multer.diskStorage({
   destination(_req, _file, callback) {
-    callback(null, playersUploadDir);
+    try {
+      ensurePlayersUploadDir();
+      callback(null, playersUploadDir);
+    } catch (error) {
+      callback(error);
+    }
   },
 
   filename(_req, file, callback) {
