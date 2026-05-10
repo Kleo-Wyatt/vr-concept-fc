@@ -17,7 +17,16 @@ import {
   type Player,
   type PlayerPayload,
 } from '../model/playersApi';
+import {
+  createAdminScheduleEvent,
+  deleteAdminScheduleEvent,
+  getAdminScheduleEvents,
+  updateAdminScheduleEvent,
+  type AdminScheduleEvent,
+  type ScheduleEventPayload,
+} from '../model/scheduleEventsApi';
 import { adminQueryKeys } from '../model/queryKeys';
+
 import type { ContactMessage } from '@pages/contacts/model/types';
 import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
 
@@ -30,6 +39,7 @@ function getUnknownErrorMessage(error: unknown, fallback: string) {
 }
 
 const EMPTY_PLAYERS: Player[] = [];
+const EMPTY_SCHEDULE_EVENTS: AdminScheduleEvent[] = [];
 const EMPTY_MESSAGES: ContactMessage[] = [];
 const EMPTY_TICKET_REQUESTS: TicketRequest[] = [];
 
@@ -39,6 +49,11 @@ export function useAdminData() {
   const playersQuery = useQuery({
     queryKey: adminQueryKeys.players,
     queryFn: getAdminPlayers,
+  });
+
+  const scheduleEventsQuery = useQuery({
+    queryKey: adminQueryKeys.scheduleEvents,
+    queryFn: getAdminScheduleEvents,
   });
 
   const messagesQuery = useQuery({
@@ -52,16 +67,19 @@ export function useAdminData() {
   });
 
   const players = playersQuery.data ?? EMPTY_PLAYERS;
+  const scheduleEvents = scheduleEventsQuery.data ?? EMPTY_SCHEDULE_EVENTS;
   const messages = messagesQuery.data ?? EMPTY_MESSAGES;
   const ticketRequests = ticketRequestsQuery.data ?? EMPTY_TICKET_REQUESTS;
 
   const isLoading =
     playersQuery.isLoading ||
+    scheduleEventsQuery.isLoading ||
     messagesQuery.isLoading ||
     ticketRequestsQuery.isLoading;
 
   const loadError =
     getUnknownErrorMessage(playersQuery.error, '') ||
+    getUnknownErrorMessage(scheduleEventsQuery.error, '') ||
     getUnknownErrorMessage(messagesQuery.error, '') ||
     getUnknownErrorMessage(ticketRequestsQuery.error, '');
 
@@ -79,6 +97,9 @@ export function useAdminData() {
     await Promise.all([
       queryClient.invalidateQueries({
         queryKey: adminQueryKeys.players,
+      }),
+      queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.scheduleEvents,
       }),
       queryClient.invalidateQueries({
         queryKey: adminQueryKeys.contactMessages,
@@ -144,6 +165,9 @@ export function useAdminData() {
         queryKey: adminQueryKeys.players,
       });
     },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось добавить игрока'));
+    },
   });
 
   const updatePlayerMutation = useMutation({
@@ -154,6 +178,9 @@ export function useAdminData() {
         queryKey: adminQueryKeys.players,
       });
     },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось обновить игрока'));
+    },
   });
 
   const deletePlayerMutation = useMutation({
@@ -162,6 +189,51 @@ export function useAdminData() {
       void queryClient.invalidateQueries({
         queryKey: adminQueryKeys.players,
       });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось удалить игрока'));
+    },
+  });
+
+  const createScheduleEventMutation = useMutation({
+    mutationFn: createAdminScheduleEvent,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.scheduleEvents,
+      });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось добавить событие'));
+    },
+  });
+
+  const updateScheduleEventMutation = useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: number;
+      payload: ScheduleEventPayload;
+    }) => updateAdminScheduleEvent(id, payload),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.scheduleEvents,
+      });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось обновить событие'));
+    },
+  });
+
+  const deleteScheduleEventMutation = useMutation({
+    mutationFn: deleteAdminScheduleEvent,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.scheduleEvents,
+      });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось удалить событие'));
     },
   });
 
@@ -196,8 +268,27 @@ export function useAdminData() {
     await deletePlayerMutation.mutateAsync(id);
   };
 
+  const handleCreateScheduleEvent = async (payload: ScheduleEventPayload) => {
+    await createScheduleEventMutation.mutateAsync(payload);
+  };
+
+  const handleUpdateScheduleEvent = async (
+    id: number,
+    payload: ScheduleEventPayload,
+  ) => {
+    await updateScheduleEventMutation.mutateAsync({
+      id,
+      payload,
+    });
+  };
+
+  const handleDeleteScheduleEvent = async (id: number) => {
+    await deleteScheduleEventMutation.mutateAsync(id);
+  };
+
   return {
     players,
+    scheduleEvents,
     messages,
     ticketRequests,
 
@@ -218,5 +309,9 @@ export function useAdminData() {
     handleCreatePlayer,
     handleUpdatePlayer,
     handleDeletePlayer,
+
+    handleCreateScheduleEvent,
+    handleUpdateScheduleEvent,
+    handleDeleteScheduleEvent,
   };
 }

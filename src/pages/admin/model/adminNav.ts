@@ -12,6 +12,11 @@ export const adminNavItems: AdminNavItem[] = [
     icon: '👥',
   },
   {
+    id: 'schedule',
+    label: 'Расписание',
+    icon: '📅',
+  },
+  {
     id: 'messages',
     label: 'Сообщения',
     icon: '💬',

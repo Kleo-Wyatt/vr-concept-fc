@@ -1,4 +1,9 @@
-export type AdminSection = 'dashboard' | 'players' | 'messages' | 'tickets';
+export type AdminSection =
+  | 'dashboard'
+  | 'players'
+  | 'schedule'
+  | 'messages'
+  | 'tickets';
 
 export type AdminNavItem = {
   id: AdminSection;

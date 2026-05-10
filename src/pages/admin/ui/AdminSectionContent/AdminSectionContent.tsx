@@ -4,11 +4,16 @@ import type { ContactMessage } from '@pages/contacts/model/types';
 import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
 
 import type { Player, PlayerPayload } from '../../model/playersApi';
+import type {
+  AdminScheduleEvent,
+  ScheduleEventPayload,
+} from '../../model/scheduleEventsApi';
 import type { AdminSection } from '../../model/types';
 
 import { AdminDashboard } from '../AdminDashboard/AdminDashboard';
 import { AdminMessages } from '../AdminMessages/AdminMessages';
 import { AdminPlayers } from '../AdminPlayers/AdminPlayers';
+import { AdminScheduleEvents } from '../AdminScheduleEvents/AdminScheduleEvents';
 import { AdminTicketRequests } from '../AdminTicketRequests/AdminTicketRequests';
 
 import styles from './AdminSectionContent.module.css';
@@ -17,6 +22,7 @@ type AdminSectionContentProps = {
   activeSection: AdminSection;
 
   players: Player[];
+  scheduleEvents: AdminScheduleEvent[];
   messages: ContactMessage[];
   ticketRequests: TicketRequest[];
 
@@ -30,6 +36,13 @@ type AdminSectionContentProps = {
   onUpdatePlayer: (id: number, payload: PlayerPayload) => Promise<void>;
   onDeletePlayer: (id: number) => Promise<void>;
 
+  onCreateScheduleEvent: (payload: ScheduleEventPayload) => Promise<void>;
+  onUpdateScheduleEvent: (
+    id: number,
+    payload: ScheduleEventPayload,
+  ) => Promise<void>;
+  onDeleteScheduleEvent: (id: number) => Promise<void>;
+
   onMarkMessageAsRead: (id: number) => Promise<void>;
   onDeleteMessage: (id: number) => Promise<void>;
 
@@ -41,6 +54,7 @@ export function AdminSectionContent({
   activeSection,
 
   players,
+  scheduleEvents,
   messages,
   ticketRequests,
 
@@ -53,6 +67,10 @@ export function AdminSectionContent({
   onCreatePlayer,
   onUpdatePlayer,
   onDeletePlayer,
+
+  onCreateScheduleEvent,
+  onUpdateScheduleEvent,
+  onDeleteScheduleEvent,
 
   onMarkMessageAsRead,
   onDeleteMessage,
@@ -87,6 +105,18 @@ export function AdminSectionContent({
         onCreate={onCreatePlayer}
         onUpdate={onUpdatePlayer}
         onDelete={onDeletePlayer}
+      />
+    );
+  }
+
+  if (activeSection === 'schedule') {
+    return (
+      <AdminScheduleEvents
+        scheduleEvents={scheduleEvents}
+        onRefresh={onRefresh}
+        onCreate={onCreateScheduleEvent}
+        onUpdate={onUpdateScheduleEvent}
+        onDelete={onDeleteScheduleEvent}
       />
     );
   }
