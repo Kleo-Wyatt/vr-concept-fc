@@ -1,112 +1,265 @@
 .playerCard {
+  position: relative;
   overflow: hidden;
+  width: 100%;
+  max-width: 300px;
+  cursor: pointer;
 }
 
 .playerCard :global(.ant-card-body) {
+  position: relative;
+  overflow: hidden;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  padding: 0;
+}
+
+.playerCard:focus-visible {
+  outline: 3px solid var(--color-primary-soft);
+  outline-offset: 4px;
 }
 
 .playerImage {
   position: relative;
-
-  margin: calc(var(--spacing-lg) * -1) calc(var(--spacing-lg) * -1)
-    var(--spacing-lg);
-  padding: var(--spacing-xl);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-
-  text-align: center;
-  background: var(--gradient-primary);
+  overflow: hidden;
+  width: 100%;
+  height: 440px;
+  background-color: var(--color-background);
 }
 
-.playerAvatar {
-  margin-bottom: var(--spacing-md);
-  font-size: 80px;
-  line-height: 1;
+.playerPhoto {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform var(--transition-normal);
+}
+
+.playerCard:hover .playerPhoto,
+.playerCard:focus-within .playerPhoto {
+  transform: scale(1.04);
 }
 
 .playerNumber {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 2;
 
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  width: 50px;
-  height: 50px;
-  border-radius: var(--radius-round);
+  min-width: 52px;
+  height: 52px;
+  padding: 0 var(--spacing-sm);
+  border-radius: 50%;
 
   color: var(--color-primary-text);
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 800;
 
   background-color: var(--color-cta);
+  box-shadow: var(--shadow-md);
 }
 
-.playerInfo {
-  flex: 1;
+.playerOverlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 1;
+
+  padding: var(--spacing-lg);
+
+  color: var(--color-white);
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 88%),
+    rgb(0 0 0 / 68%),
+    rgb(0 0 0 / 18%),
+    rgb(0 0 0 / 0%)
+  );
+
+  transform: translateY(calc(100% - 58px));
+  transition: transform var(--transition-normal);
 }
 
-.playerName {
-  margin-bottom: var(--spacing-sm);
-  font-size: 20px;
+.playerCard:hover .playerOverlay,
+.playerCard:focus-within .playerOverlay {
+  transform: translateY(0);
 }
 
 .playerPosition {
-  margin-bottom: var(--spacing-md);
-  color: var(--color-primary-btn);
-  font-size: var(--font-size-small);
-  font-weight: 600;
+  position: relative;
+  font-family: 'Exo 2', var(--font-family-heading), sans-serif;
+  display: inline-flex;
+  margin-bottom: var(--spacing-sm);
+  padding: 0;
+
+  color: rgb(0, 255, 234);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  -webkit-text-stroke: 3px rgb(0 0 0 / 75%);
+  paint-order: stroke fill;
+
+  background: none;
+  border-radius: 0;
+
+  opacity: 0;
+  transform: translateY(8px) skewX(-8deg);
+
+  transition:
+    opacity var(--transition-normal),
+    transform var(--transition-normal),
+    text-shadow var(--transition-normal);
+}
+
+.playerCard:hover .playerPosition,
+.playerCard:focus-within .playerPosition {
+  opacity: 1;
+  transform: translateY(0) skewX(-8deg);
+  animation: neonTextFlicker 1.1s ease-out both;
+}
+
+.playerName {
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-white);
+  font-size: 24px;
 }
 
 .playerBio {
-  margin-bottom: var(--spacing-lg);
-  color: var(--color-secondary-text);
+  margin-bottom: var(--spacing-sm);
+  color: rgb(255 255 255 / 88%);
   font-size: var(--font-size-small);
+  line-height: 1.35;
 }
 
 .playerStats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-md);
-
-  margin-bottom: var(--spacing-lg);
-  padding: var(--spacing-md);
-  border-radius: var(--radius-md);
-
-  background-color: var(--color-background);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-sm);
 }
 
 .stat {
   display: flex;
   flex-direction: column;
+  gap: 0;
+
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+
+  background-color: rgb(255 255 255 / 14%);
+  backdrop-filter: blur(8px);
 }
 
 .statLabel {
-  color: var(--color-secondary-text);
-  font-size: var(--font-size-small);
+  color: rgb(255 255 255 / 72%);
+  line-height: 1.2;
 }
 
 .statValue {
-  color: var(--color-primary-text);
-  font-weight: 700;
+  color: var(--color-white);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+@keyframes neonTextFlicker {
+  0% {
+    opacity: 0;
+    text-shadow: none;
+  }
+
+  12% {
+    opacity: 1;
+    /* text-shadow:
+      0 0 3px rgba(119, 228, 255, 0.9),
+      0 0 8px rgba(0, 187, 255, 0.65); */
+  }
+
+  22% {
+    opacity: 0.35;
+    text-shadow: none;
+  }
+
+  34% {
+    opacity: 1;
+  }
+
+  48% {
+    opacity: 0.55;
+  }
+
+  62%,
+  100% {
+    opacity: 1;
+    /* text-shadow:
+      0 0 4px rgba(133, 231, 255, 0.95),
+      0 0 10px rgba(56, 202, 255, 0.85),
+      0 0 18px rgba(3, 147, 200, 0.65),
+      0 0 30px rgba(0, 0, 0, 0.42); */
+  }
 }
 
 @media (max-width: 700px) {
-  .playerStats {
-    grid-template-columns: 1fr;
+  .playerCard {
+    max-width: 300px;
+    margin: 0 auto;
   }
 
-  .playerAvatar {
-    font-size: 60px;
+  .playerImage {
+    height: 440px;
+  }
+
+  .playerOverlay {
+    padding: var(--spacing-lg);
+    transform: translateY(calc(100% - 58px));
+  }
+
+  .playerCard:hover .playerOverlay,
+  .playerCard:focus .playerOverlay,
+  .playerCard:focus-within .playerOverlay,
+  .playerCard:active .playerOverlay {
+    transform: translateY(0);
+  }
+
+  .playerPosition {
+    opacity: 0;
+    transform: translateY(8px) skewX(-8deg);
+    text-shadow: none;
+  }
+
+  .playerCard:hover .playerPosition,
+  .playerCard:focus .playerPosition,
+  .playerCard:focus-within .playerPosition,
+  .playerCard:active .playerPosition {
+    opacity: 1;
+    transform: translateY(0) skewX(-8deg);
+    animation: neonTextFlicker 1.1s ease-out both;
+  }
+
+  .playerName {
+    font-size: 24px;
   }
 
   .playerNumber {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
+    min-width: 52px;
+    height: 52px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .playerCard {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .playerImage {
+    height: 440px;
   }
 }

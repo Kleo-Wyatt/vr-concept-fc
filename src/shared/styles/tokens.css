@@ -47,8 +47,12 @@
   );
 
   /* Fonts */
-  --font-family-base: 'Lexend', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', sans-serif;
-  --font-family-heading: 'Space Grotesk', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', sans-serif;
+  --font-family-base:
+    'Lexend', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI',
+    sans-serif;
+  --font-family-heading:
+    'Lexend', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI',
+    sans-serif;
 
   --font-size-h1: 48px;
   --font-size-h2: 36px;
