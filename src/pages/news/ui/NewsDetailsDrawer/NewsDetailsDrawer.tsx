@@ -32,7 +32,7 @@ export function NewsDetailsDrawer({
   return (
     <Drawer
       open={open}
-      size="large"
+      size="100vh"
       title="Новость"
       onClose={onClose}
       afterOpenChange={(isOpen) => {
