@@ -168,3 +168,21 @@ export function normalizeScheduleEventForm(
     tournament: formData.tournament.trim(),
   };
 }
+
+function getTodayDateString() {
+  const currentDate = new Date();
+
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+export function isScheduleEventNeedsScore(event: AdminScheduleEvent) {
+  return event.status === 'upcoming' && event.date < getTodayDateString();
+}
+
+export function isPastTrainingEvent(event: AdminScheduleEvent) {
+  return event.status === 'training' && event.date < getTodayDateString();
+}

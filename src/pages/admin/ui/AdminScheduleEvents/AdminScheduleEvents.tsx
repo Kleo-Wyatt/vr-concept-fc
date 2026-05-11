@@ -17,6 +17,8 @@ import {
   initialScheduleEventFormData,
   normalizeScheduleEventForm,
   validateScheduleEventForm,
+  isScheduleEventNeedsScore,
+  isPastTrainingEvent,
 } from './scheduleEventForm';
 
 import styles from './AdminScheduleEvents.module.css';
@@ -48,11 +50,23 @@ export function AdminScheduleEvents({
 
   const sortedEvents = useMemo(
     () =>
-      [...scheduleEvents].sort(
-        (a, b) =>
-          new Date(`${a.date}T${a.time}`).getTime() -
-          new Date(`${b.date}T${b.time}`).getTime(),
-      ),
+      [...scheduleEvents].sort((a, b) => {
+        const aNeedsScore = isScheduleEventNeedsScore(a);
+        const bNeedsScore = isScheduleEventNeedsScore(b);
+
+        if (aNeedsScore !== bNeedsScore) {
+          return aNeedsScore ? -1 : 1;
+        }
+
+        const aTimestamp = new Date(`${a.date}T${a.time}`).getTime();
+        const bTimestamp = new Date(`${b.date}T${b.time}`).getTime();
+
+        if (aNeedsScore && bNeedsScore) {
+          return bTimestamp - aTimestamp;
+        }
+
+        return aTimestamp - bTimestamp;
+      }),
     [scheduleEvents],
   );
 
@@ -72,7 +86,20 @@ export function AdminScheduleEvents({
 
   const openEditModal = (event: AdminScheduleEvent) => {
     setEditingEvent(event);
-    setFormData(getScheduleEventFormData(event));
+
+    const nextFormData = getScheduleEventFormData(event);
+
+    if (isScheduleEventNeedsScore(event)) {
+      setFormData({
+        ...nextFormData,
+        status: 'finished',
+        homeScore: 0,
+        awayScore: 0,
+      });
+    } else {
+      setFormData(nextFormData);
+    }
+
     setFormError('');
     setIsModalOpen(true);
   };
@@ -196,6 +223,8 @@ export function AdminScheduleEvents({
               key={event.id}
               onEdit={openEditModal}
               onDelete={handleDelete}
+              needsScore={isScheduleEventNeedsScore(event)}
+              isPastTraining={isPastTrainingEvent(event)}
             />
           ))}
         </div>
