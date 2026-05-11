@@ -1,7 +1,8 @@
+import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
+import { getNews } from '../model/api';
 import { getActualNews, getArchiveNews, getNewsCategories } from '../model/lib';
-import { newsItems } from '../model/mockData';
 import type { NewsCategoryFilter, NewsItem } from '../model/types';
 
 import { FeaturedNewsSection } from './FeaturedNewsSection/FeaturedNewsSection';
@@ -20,8 +21,15 @@ export function NewsPage() {
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [isNewsDrawerOpen, setIsNewsDrawerOpen] = useState(false);
 
-  const actualNews = useMemo(() => getActualNews(newsItems), []);
-  const archiveNews = useMemo(() => getArchiveNews(newsItems), []);
+  const newsQuery = useQuery({
+    queryKey: ['news'],
+    queryFn: getNews,
+  });
+
+  const news = useMemo(() => newsQuery.data ?? [], [newsQuery.data]);
+
+  const actualNews = useMemo(() => getActualNews(news), [news]);
+  const archiveNews = useMemo(() => getArchiveNews(news), [news]);
   const categories = useMemo(() => getNewsCategories(actualNews), [actualNews]);
 
   const featuredNews = actualNews[0];

@@ -10,6 +10,7 @@ import { ticketRequestsRouter } from './routes/ticketRequests.js';
 import { playersRouter } from './routes/players.js';
 import { scheduleEventsRouter } from './routes/scheduleEvents.js';
 import { uploadsRouter } from './routes/uploads.js';
+import { newsRouter } from './routes/news.js';
 
 const app = express();
 
@@ -54,6 +55,7 @@ app.use('/api/ticket-requests', ticketRequestsRouter);
 app.use('/api/players', playersRouter);
 app.use('/api/schedule-events', scheduleEventsRouter);
 app.use('/api/uploads', uploadsRouter);
+app.use('/api/news', newsRouter);
 
 app.use((_req, res) => {
   res.status(404).json({
