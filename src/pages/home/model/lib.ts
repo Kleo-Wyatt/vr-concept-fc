@@ -6,11 +6,3 @@ export function formatMatchDate(date: string) {
     day: 'numeric',
   });
 }
-
-export function formatNewsDate(date: string) {
-  return new Date(date).toLocaleDateString('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-}
