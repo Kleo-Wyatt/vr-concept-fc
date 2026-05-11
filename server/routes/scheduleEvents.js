@@ -1,10 +1,48 @@
 import { Router } from 'express';
+import { z } from 'zod';
 
 import { db } from '../db/database.js';
 
 export const scheduleEventsRouter = Router();
 
-const allowedStatuses = new Set(['upcoming', 'finished', 'training']);
+const allowedStatuses = ['upcoming', 'finished', 'training'];
+
+const scheduleEventSchema = z.object({
+  date: z.string().min(1, 'Введите дату события'),
+  time: z.string().min(1, 'Введите время события'),
+  status: z.enum(allowedStatuses, { error: 'Выберите корректный статус события' }),
+  homeTeam: z.string(),
+  awayTeam: z.string(),
+  homeScore: z.number().int().min(0).nullable(),
+  awayScore: z.number().int().min(0).nullable(),
+  location: z.string().min(1, 'Введите место проведения'),
+  tournament: z.string().min(1, 'Введите турнир или тип события'),
+});
+
+const scheduleEventPayloadSchema = scheduleEventSchema.refine(
+  (data) => {
+    if (data.status === 'training') return true;
+    return data.homeTeam.length > 0 && data.awayTeam.length > 0;
+  },
+  { message: 'Введите домашнюю команду' },
+).refine(
+  (data) => {
+    if (data.status === 'training') return true;
+    return data.awayTeam.length > 0;
+  },
+  { message: 'Введите гостевую команду' },
+).refine(
+  (data) => {
+    if (data.status !== 'finished') return true;
+    return (
+      data.homeScore !== null &&
+      data.awayScore !== null &&
+      Number.isInteger(data.homeScore) &&
+      Number.isInteger(data.awayScore)
+    );
+  },
+  { message: 'Для завершенного матча укажите корректный счет' },
+);
 
 function mapScheduleEvent(row) {
   const baseEvent = {
@@ -88,45 +126,10 @@ function normalizeScheduleEventPayload(body) {
 }
 
 function validateScheduleEventPayload(payload) {
-  if (!payload.date) {
-    return 'Введите дату события';
-  }
+  const result = scheduleEventPayloadSchema.safeParse(payload);
 
-  if (!payload.time) {
-    return 'Введите время события';
-  }
-
-  if (!allowedStatuses.has(payload.status)) {
-    return 'Выберите корректный статус события';
-  }
-
-  if (!payload.location) {
-    return 'Введите место проведения';
-  }
-
-  if (!payload.tournament) {
-    return 'Введите турнир или тип события';
-  }
-
-  if (payload.status !== 'training') {
-    if (!payload.homeTeam) {
-      return 'Введите домашнюю команду';
-    }
-
-    if (!payload.awayTeam) {
-      return 'Введите гостевую команду';
-    }
-  }
-
-  if (payload.status === 'finished') {
-    if (
-      !Number.isInteger(payload.homeScore) ||
-      !Number.isInteger(payload.awayScore) ||
-      payload.homeScore < 0 ||
-      payload.awayScore < 0
-    ) {
-      return 'Для завершенного матча укажите корректный счет';
-    }
+  if (!result.success) {
+    return result.error.errors[0].message;
   }
 
   return '';
