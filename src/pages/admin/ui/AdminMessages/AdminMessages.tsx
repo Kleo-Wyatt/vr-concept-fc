@@ -5,6 +5,7 @@ import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
 
 import styles from './AdminMessages.module.css';
 import { formatDateTimeRu } from '@shared/lib/date';
+import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 
 type MessageFilter = 'all' | 'unread' | 'read';
 
@@ -89,18 +90,19 @@ export function AdminMessages({
 
   return (
     <div>
-      <div className={styles.sectionHeader}>
-        <div>
-          <h2>Сообщения</h2>
-          <p>
+      <AdminSectionHeader
+        title="Сообщения"
+        description={
+          <>
             Всего: {messages.length} · Непрочитано: {unreadMessagesCount}
-          </p>
-        </div>
-
-        <Button variant="secondary" onClick={onRefresh}>
-          Обновить
-        </Button>
-      </div>
+          </>
+        }
+        actions={
+          <Button variant="secondary" onClick={onRefresh}>
+            Обновить
+          </Button>
+        }
+      />
 
       <FilterTabs
         items={filterItems}

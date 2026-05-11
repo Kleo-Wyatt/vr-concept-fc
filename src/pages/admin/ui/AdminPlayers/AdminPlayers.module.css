@@ -1,29 +1,3 @@
-.sectionHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--spacing-lg);
-
-  margin-bottom: var(--spacing-xl);
-  padding-bottom: var(--spacing-lg);
-
-  border-bottom: 2px solid var(--color-border);
-}
-
-.sectionHeader h2 {
-  margin-bottom: var(--spacing-sm);
-}
-
-.sectionHeader p {
-  margin-bottom: 0;
-}
-
-.headerActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-}
-
 .playersGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 300px));
@@ -174,10 +148,6 @@
 }
 
 @media (max-width: 700px) {
-  .sectionHeader {
-    flex-direction: column;
-  }
-
   .playersGrid {
     grid-template-columns: 300px;
     justify-content: center;

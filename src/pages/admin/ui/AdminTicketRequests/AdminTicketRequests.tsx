@@ -5,6 +5,7 @@ import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
 
 import styles from './AdminTicketRequests.module.css';
 import { formatDateTimeRu, formatMatchDateTimeRu } from '@shared/lib/date';
+import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 
 type RequestFilter = 'all' | 'unread' | 'read';
 
@@ -87,18 +88,19 @@ export function AdminTicketRequests({
 
   return (
     <div>
-      <div className={styles.sectionHeader}>
-        <div>
-          <h2>Заявки на билеты</h2>
-          <p>
+      <AdminSectionHeader
+        title="Заявки на билеты"
+        description={
+          <>
             Всего: {ticketRequests.length} · Непрочитано: {unreadRequestsCount}
-          </p>
-        </div>
-
-        <Button variant="secondary" onClick={onRefresh}>
-          Обновить
-        </Button>
-      </div>
+          </>
+        }
+        actions={
+          <Button variant="secondary" onClick={onRefresh}>
+            Обновить
+          </Button>
+        }
+      />
 
       <FilterTabs
         items={filterItems}

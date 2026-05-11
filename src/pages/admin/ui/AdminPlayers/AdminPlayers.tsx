@@ -21,6 +21,8 @@ import {
 } from './playerForm';
 
 import styles from './AdminPlayers.module.css';
+import { scheduleEvents } from '@pages/schedule/model/mockData';
+import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 
 type AdminPlayersProps = {
   players: Player[];
@@ -39,8 +41,9 @@ export function AdminPlayers({
 }: AdminPlayersProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPlayer, setEditingPlayer] = useState<Player | null>(null);
-  const [formData, setFormData] =
-    useState<PlayerPayload>(initialPlayerFormData);
+  const [formData, setFormData] = useState<PlayerPayload>(
+    initialPlayerFormData,
+  );
   const [formError, setFormError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
@@ -198,20 +201,19 @@ export function AdminPlayers({
 
   return (
     <div>
-      <div className={styles.sectionHeader}>
-        <div>
-          <h2>Игроки</h2>
-          <p>Всего игроков: {players.length}</p>
-        </div>
+      <AdminSectionHeader
+        title="Игроки"
+        description={`Всего игроков: ${players.length}`}
+        actions={
+          <>
+            <Button variant="secondary" onClick={onRefresh}>
+              Обновить
+            </Button>
 
-        <div className={styles.headerActions}>
-          <Button variant="secondary" onClick={onRefresh}>
-            Обновить
-          </Button>
-
-          <Button onClick={openCreateModal}>Добавить игрока</Button>
-        </div>
-      </div>
+            <Button onClick={openCreateModal}>Добавить игрока</Button>
+          </>
+        }
+      />
 
       {sortedPlayers.length > 0 ? (
         <div className={styles.playersGrid}>

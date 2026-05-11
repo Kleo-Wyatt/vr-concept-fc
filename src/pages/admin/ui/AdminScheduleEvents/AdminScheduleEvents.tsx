@@ -22,6 +22,7 @@ import {
 } from './scheduleEventForm';
 
 import styles from './AdminScheduleEvents.module.css';
+import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 
 type AdminScheduleEventsProps = {
   scheduleEvents: AdminScheduleEvent[];
@@ -200,20 +201,19 @@ export function AdminScheduleEvents({
 
   return (
     <div>
-      <div className={styles.sectionHeader}>
-        <div>
-          <h2>Расписание</h2>
-          <p>Всего событий: {scheduleEvents.length}</p>
-        </div>
+      <AdminSectionHeader
+        title="Расписание"
+        description={`Всего событий: ${scheduleEvents.length}`}
+        actions={
+          <>
+            <Button variant="secondary" onClick={onRefresh}>
+              Обновить
+            </Button>
 
-        <div className={styles.headerActions}>
-          <Button variant="secondary" onClick={onRefresh}>
-            Обновить
-          </Button>
-
-          <Button onClick={openCreateModal}>Добавить событие</Button>
-        </div>
-      </div>
+            <Button onClick={openCreateModal}>Добавить событие</Button>
+          </>
+        }
+      />
 
       {sortedEvents.length > 0 ? (
         <div className={styles.eventsList}>

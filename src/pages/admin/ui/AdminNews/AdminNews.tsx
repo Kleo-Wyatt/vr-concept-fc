@@ -15,6 +15,7 @@ import {
 
 import styles from './AdminNews.module.css';
 import { formatShortDateRu } from '@shared/lib/date';
+import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 
 type AdminNewsProps = {
   news: AdminNewsItem[];
@@ -123,20 +124,19 @@ export function AdminNews({
 
   return (
     <div>
-      <div className={styles.sectionHeader}>
-        <div>
-          <h2>Новости</h2>
-          <p>Всего статей: {news.length}</p>
-        </div>
+      <AdminSectionHeader
+        title="Новости"
+        description={`Всего новостей: ${news.length}`}
+        actions={
+          <>
+            <Button variant="secondary" onClick={onRefresh}>
+              Обновить
+            </Button>
 
-        <div className={styles.headerActions}>
-          <Button variant="secondary" onClick={onRefresh}>
-            Обновить
-          </Button>
-
-          <Button onClick={openCreateModal}>Добавить новость</Button>
-        </div>
-      </div>
+            <Button onClick={openCreateModal}>Добавить новость</Button>
+          </>
+        }
+      />
 
       {sortedNews.length > 0 ? (
         <div className={styles.newsList}>

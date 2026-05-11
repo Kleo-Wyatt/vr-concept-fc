@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+
+  border-bottom: 2px solid var(--color-border);
+}
+
+.header h2 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.header p {
+  margin-bottom: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+@media (max-width: 700px) {
+  .header {
+    flex-direction: column;
+  }
+}
