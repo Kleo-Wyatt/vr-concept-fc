@@ -2,10 +2,12 @@ import { useMemo, useState } from 'react';
 
 import type { ContactMessage } from '@pages/contacts/model/types';
 import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
+import { formatDateTimeRu } from '@shared/lib/date';
+
+import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
+import { type AdminInfoGridItem, AdminInfoGrid } from '../AdminInfoGrid/AdminInfoGrid';
 
 import styles from './AdminMessages.module.css';
-import { formatDateTimeRu } from '@shared/lib/date';
-import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 
 type MessageFilter = 'all' | 'unread' | 'read';
 
@@ -69,6 +71,33 @@ export function AdminMessages({
 
     return messages;
   }, [filter, messages]);
+
+  const selectedMessageInfoItems: AdminInfoGridItem[] = selectedMessage
+    ? [
+        {
+          label: 'Имя',
+          value: <strong>{selectedMessage.name}</strong>,
+        },
+        {
+          label: 'Email',
+          value: (
+            <a href={`mailto:${selectedMessage.email}`}>
+              {selectedMessage.email}
+            </a>
+          ),
+        },
+        {
+          label: 'Телефон',
+          value: <strong>{selectedMessage.phone}</strong>,
+          hidden: !selectedMessage.phone,
+        },
+        {
+          label: 'Тема',
+          value: <strong>{selectedMessage.subject}</strong>,
+          hidden: !selectedMessage.subject,
+        },
+      ]
+    : [];
 
   const handleSelectMessage = (message: ContactMessage) => {
     setSelectedMessageId(message.id);
@@ -139,7 +168,7 @@ export function AdminMessages({
                 </span>
 
                 <span className={styles.listItemDate}>
-                  {formatDateTimeRu(message.date)}{' '}
+                  {formatDateTimeRu(message.date)}
                 </span>
               </button>
             ))
@@ -168,33 +197,7 @@ export function AdminMessages({
                 </Button>
               </div>
 
-              <div className={styles.detailInfo}>
-                <div>
-                  <span>Имя</span>
-                  <strong>{selectedMessage.name}</strong>
-                </div>
-
-                <div>
-                  <span>Email</span>
-                  <a href={`mailto:${selectedMessage.email}`}>
-                    {selectedMessage.email}
-                  </a>
-                </div>
-
-                {selectedMessage.phone && (
-                  <div>
-                    <span>Телефон</span>
-                    <strong>{selectedMessage.phone}</strong>
-                  </div>
-                )}
-
-                {selectedMessage.subject && (
-                  <div>
-                    <span>Тема</span>
-                    <strong>{selectedMessage.subject}</strong>
-                  </div>
-                )}
-              </div>
+              <AdminInfoGrid items={selectedMessageInfoItems} />
 
               <div className={styles.messageBody}>
                 <h4>Сообщение</h4>

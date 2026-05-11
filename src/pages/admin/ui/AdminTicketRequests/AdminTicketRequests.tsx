@@ -1,11 +1,16 @@
 import { useMemo, useState } from 'react';
 
 import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
+import { formatDateTimeRu, formatMatchDateTimeRu } from '@shared/lib/date';
 import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
 
-import styles from './AdminTicketRequests.module.css';
-import { formatDateTimeRu, formatMatchDateTimeRu } from '@shared/lib/date';
+import {
+  type AdminInfoGridItem,
+  AdminInfoGrid,
+} from '../AdminInfoGrid/AdminInfoGrid';
 import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
+
+import styles from './AdminTicketRequests.module.css';
 
 type RequestFilter = 'all' | 'unread' | 'read';
 
@@ -67,6 +72,49 @@ export function AdminTicketRequests({
 
     return ticketRequests;
   }, [filter, ticketRequests]);
+
+  const selectedRequestInfoItems: AdminInfoGridItem[] = selectedRequest
+    ? [
+        {
+          label: 'Имя',
+          value: <strong>{selectedRequest.name}</strong>,
+        },
+        {
+          label: 'Email',
+          value: (
+            <a href={`mailto:${selectedRequest.email}`}>
+              {selectedRequest.email}
+            </a>
+          ),
+        },
+        {
+          label: 'Телефон',
+          value: (
+            <a href={`tel:${selectedRequest.phone}`}>{selectedRequest.phone}</a>
+          ),
+          hidden: !selectedRequest.phone,
+        },
+        {
+          label: 'Количество билетов',
+          value: <strong>{selectedRequest.ticketCount}</strong>,
+        },
+        {
+          label: 'Дата матча',
+          value: (
+            <strong>
+              {formatMatchDateTimeRu(
+                selectedRequest.matchDate,
+                selectedRequest.matchTime,
+              )}
+            </strong>
+          ),
+        },
+        {
+          label: 'Место',
+          value: <strong>{selectedRequest.location}</strong>,
+        },
+      ]
+    : [];
 
   const handleSelectRequest = (request: TicketRequest) => {
     setSelectedRequestId(request.id);
@@ -166,48 +214,7 @@ export function AdminTicketRequests({
                 </Button>
               </div>
 
-              <div className={styles.detailInfo}>
-                <div>
-                  <span>Имя</span>
-                  <strong>{selectedRequest.name}</strong>
-                </div>
-
-                <div>
-                  <span>Email</span>
-                  <a href={`mailto:${selectedRequest.email}`}>
-                    {selectedRequest.email}
-                  </a>
-                </div>
-
-                {selectedRequest.phone && (
-                  <div>
-                    <span>Телефон</span>
-                    <a href={`tel:${selectedRequest.phone}`}>
-                      {selectedRequest.phone}
-                    </a>
-                  </div>
-                )}
-
-                <div>
-                  <span>Количество билетов</span>
-                  <strong>{selectedRequest.ticketCount}</strong>
-                </div>
-
-                <div>
-                  <span>Дата матча</span>
-                  <strong>
-                    {formatMatchDateTimeRu(
-                      selectedRequest.matchDate,
-                      selectedRequest.matchTime,
-                    )}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Место</span>
-                  <strong>{selectedRequest.location}</strong>
-                </div>
-              </div>
+              <AdminInfoGrid items={selectedRequestInfoItems} />
 
               {selectedRequest.comment && (
                 <div className={styles.messageBody}>
