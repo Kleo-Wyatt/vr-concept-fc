@@ -6,6 +6,7 @@ import { Card } from '@shared/ui';
 import type { AdminSection } from '../../model/types';
 
 import styles from './AdminDashboard.module.css';
+import { formatShortDateRu } from '@shared/lib/date';
 
 type AdminDashboardProps = {
   playersCount: number;
@@ -14,14 +15,6 @@ type AdminDashboardProps = {
   ticketRequests: TicketRequest[];
   onSelectSection: (section: AdminSection) => void;
 };
-
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('ru-RU', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  });
-}
 
 export function AdminDashboard({
   playersCount,
@@ -123,7 +116,7 @@ export function AdminDashboard({
                 <article className={styles.previewItem} key={message.id}>
                   <strong>{message.name}</strong>
                   <p>{message.message}</p>
-                  <span>{formatDate(message.date)}</span>
+                  <span>{formatShortDateRu(message.date)}</span>
                 </article>
               ))}
             </div>
@@ -156,7 +149,7 @@ export function AdminDashboard({
                   <p>
                     {request.matchTitle}, билетов: {request.ticketCount}
                   </p>
-                  <span>{formatDate(request.createdAt)}</span>
+                  <span>{formatShortDateRu(request.createdAt)}</span>
                 </article>
               ))}
             </div>

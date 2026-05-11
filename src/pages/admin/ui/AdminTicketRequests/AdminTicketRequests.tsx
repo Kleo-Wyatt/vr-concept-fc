@@ -4,6 +4,7 @@ import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
 import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
 
 import styles from './AdminTicketRequests.module.css';
+import { formatDateTimeRu, formatMatchDateTimeRu } from '@shared/lib/date';
 
 type RequestFilter = 'all' | 'unread' | 'read';
 
@@ -13,14 +14,6 @@ type AdminTicketRequestsProps = {
   onMarkAsRead: (id: number) => void;
   onDelete: (id: number) => void;
 };
-
-function formatDate(date: string) {
-  return new Date(date).toLocaleString('ru-RU');
-}
-
-function formatMatchDate(date: string, time: string) {
-  return `${new Date(date).toLocaleDateString('ru-RU')} в ${time}`;
-}
 
 export function AdminTicketRequests({
   ticketRequests,
@@ -142,7 +135,7 @@ export function AdminTicketRequests({
                 </span>
 
                 <span className={styles.listItemDate}>
-                  {formatDate(request.createdAt)}
+                  {formatDateTimeRu(request.createdAt)}
                 </span>
               </button>
             ))
@@ -159,7 +152,7 @@ export function AdminTicketRequests({
               <div className={styles.detailHeader}>
                 <div>
                   <h3>{selectedRequest.matchTitle}</h3>
-                  <p>{formatDate(selectedRequest.createdAt)}</p>
+                  <p>{formatDateTimeRu(selectedRequest.createdAt)}</p>
                 </div>
 
                 <Button
@@ -201,7 +194,7 @@ export function AdminTicketRequests({
                 <div>
                   <span>Дата матча</span>
                   <strong>
-                    {formatMatchDate(
+                    {formatMatchDateTimeRu(
                       selectedRequest.matchDate,
                       selectedRequest.matchTime,
                     )}

@@ -8,6 +8,7 @@ import type { ScheduleEvent } from '../../model/types';
 import { TicketRequestModal } from '../TicketRequestModal/TicketRequestModal';
 
 import styles from './ScheduleEventCard.module.css';
+import { formatShortMonthRu } from '@shared/lib/date';
 
 type ScheduleEventCardProps = {
   event: ScheduleEvent;
@@ -31,18 +32,16 @@ function getStatusClassName(status: BadgeStatus) {
 export function ScheduleEventCard({ event }: ScheduleEventCardProps) {
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
 
-  const eventDate = new Date(event.date);
-
   return (
     <>
       <Card className={styles.card}>
         <div className={styles.dateBox}>
-          <div className={styles.dateNumber}>{eventDate.getDate()}</div>
+          <div className={styles.dateNumber}>
+            {new Date(event.date).getDate()}
+          </div>
 
           <div className={styles.dateMonth}>
-            {eventDate.toLocaleDateString('ru-RU', {
-              month: 'short',
-            })}
+            {formatShortMonthRu(event.date)}
           </div>
         </div>
 

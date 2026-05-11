@@ -4,6 +4,7 @@ import type { ContactMessage } from '@pages/contacts/model/types';
 import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
 
 import styles from './AdminMessages.module.css';
+import { formatDateTimeRu } from '@shared/lib/date';
 
 type MessageFilter = 'all' | 'unread' | 'read';
 
@@ -13,10 +14,6 @@ type AdminMessagesProps = {
   onMarkAsRead: (id: number) => void;
   onDelete: (id: number) => void;
 };
-
-function formatDate(date: string) {
-  return new Date(date).toLocaleString('ru-RU');
-}
 
 function getMessagePreview(message: string) {
   return message.length > 100 ? `${message.slice(0, 100)}...` : message;
@@ -140,7 +137,7 @@ export function AdminMessages({
                 </span>
 
                 <span className={styles.listItemDate}>
-                  {formatDate(message.date)}
+                  {formatDateTimeRu(message.date)}{' '}
                 </span>
               </button>
             ))
@@ -157,7 +154,7 @@ export function AdminMessages({
               <div className={styles.detailHeader}>
                 <div>
                   <h3>Сообщение от {selectedMessage.name}</h3>
-                  <p>{formatDate(selectedMessage.date)}</p>
+                  <p>{formatDateTimeRu(selectedMessage.date)}</p>
                 </div>
 
                 <Button

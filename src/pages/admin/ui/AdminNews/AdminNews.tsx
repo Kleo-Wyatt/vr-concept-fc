@@ -14,6 +14,7 @@ import {
 } from './newsForm';
 
 import styles from './AdminNews.module.css';
+import { formatShortDateRu } from '@shared/lib/date';
 
 type AdminNewsProps = {
   news: AdminNewsItem[];
@@ -22,14 +23,6 @@ type AdminNewsProps = {
   onUpdate: (id: number, payload: NewsPayload) => Promise<void>;
   onDelete: (id: number) => Promise<void>;
 };
-
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('ru-RU', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  });
-}
 
 export function AdminNews({
   news,
@@ -161,7 +154,7 @@ export function AdminNews({
                   )}
 
                   <div className={styles.newsMeta}>
-                    <span>{formatDate(item.date)}</span>
+                    <span>{formatShortDateRu(item.date)}</span>
                     <span>{item.author}</span>
                   </div>
                 </div>
