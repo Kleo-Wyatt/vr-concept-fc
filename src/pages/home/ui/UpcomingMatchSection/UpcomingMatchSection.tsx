@@ -6,10 +6,56 @@ import type { UpcomingMatch } from '../../model/types';
 import styles from './UpcomingMatchSection.module.css';
 
 type UpcomingMatchSectionProps = {
-  match: UpcomingMatch;
+  match: UpcomingMatch | null;
+  isLoading?: boolean;
+  error?: string;
 };
 
-export function UpcomingMatchSection({ match }: UpcomingMatchSectionProps) {
+export function UpcomingMatchSection({
+  match,
+  isLoading = false,
+  error = '',
+}: UpcomingMatchSectionProps) {
+  if (isLoading) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <h2 className={styles.title}>Ближайший матч</h2>
+
+          <div className={styles.state}>
+            Загружаем информацию о ближайшем матче...
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <h2 className={styles.title}>Ближайший матч</h2>
+
+          <div className={styles.state}>{error}</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!match) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <h2 className={styles.title}>Ближайший матч</h2>
+
+          <div className={styles.state}>
+            Ближайший матч пока не запланирован
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   const matchDate = new Date(`${match.date}T${match.time}`);
 
   return (

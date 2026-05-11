@@ -51,11 +51,15 @@ function normalizeScheduleEventPayload(body) {
     homeTeam: String(body.homeTeam ?? '').trim(),
     awayTeam: String(body.awayTeam ?? '').trim(),
     homeScore:
-      body.homeScore === null || body.homeScore === '' || body.homeScore === undefined
+      body.homeScore === null ||
+      body.homeScore === '' ||
+      body.homeScore === undefined
         ? null
         : Number(body.homeScore),
     awayScore:
-      body.awayScore === null || body.awayScore === '' || body.awayScore === undefined
+      body.awayScore === null ||
+      body.awayScore === '' ||
+      body.awayScore === undefined
         ? null
         : Number(body.awayScore),
     location: String(body.location ?? '').trim(),
@@ -139,6 +143,32 @@ function getScheduleEventById(id) {
     )
     .get(id);
 }
+
+scheduleEventsRouter.get('/upcoming-match', (_req, res) => {
+  const row = db
+    .prepare(
+      `
+      SELECT *
+      FROM schedule_events
+      WHERE status = 'upcoming'
+        AND home_team <> ''
+        AND away_team <> ''
+        AND datetime(date || ' ' || time) >= datetime('now', 'localtime')
+      ORDER BY date ASC, time ASC
+      LIMIT 1
+      `,
+    )
+    .get();
+
+  if (!row) {
+    res.status(404).json({
+      message: 'Ближайший матч не найден',
+    });
+    return;
+  }
+
+  res.json(mapScheduleEvent(row));
+});
 
 scheduleEventsRouter.get('/', (_req, res) => {
   const rows = db
