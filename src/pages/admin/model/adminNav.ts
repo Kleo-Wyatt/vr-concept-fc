@@ -17,6 +17,11 @@ export const adminNavItems: AdminNavItem[] = [
     icon: '📅',
   },
   {
+    id: 'news',
+    label: 'Новости',
+    icon: '📰',
+  },
+  {
     id: 'messages',
     label: 'Сообщения',
     icon: '💬',

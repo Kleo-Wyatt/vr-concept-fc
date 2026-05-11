@@ -2,6 +2,7 @@ export type AdminSection =
   | 'dashboard'
   | 'players'
   | 'schedule'
+  | 'news'
   | 'messages'
   | 'tickets';
 

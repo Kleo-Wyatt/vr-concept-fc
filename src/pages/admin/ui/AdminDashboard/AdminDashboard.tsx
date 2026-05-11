@@ -1,9 +1,6 @@
-// src/pages/admin/ui/AdminDashboard/AdminDashboard.tsx
-
 import type { ContactMessage } from '@pages/contacts/model/types';
 import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
 import { galleryItems } from '@pages/gallery/model/mockData';
-import { newsItems } from '@pages/news/model/mockData';
 import { Card } from '@shared/ui';
 
 import type { AdminSection } from '../../model/types';
@@ -12,6 +9,7 @@ import styles from './AdminDashboard.module.css';
 
 type AdminDashboardProps = {
   playersCount: number;
+  newsCount: number;
   messages: ContactMessage[];
   ticketRequests: TicketRequest[];
   onSelectSection: (section: AdminSection) => void;
@@ -27,6 +25,7 @@ function formatDate(date: string) {
 
 export function AdminDashboard({
   playersCount,
+  newsCount,
   messages,
   ticketRequests,
   onSelectSection,
@@ -55,7 +54,7 @@ export function AdminDashboard({
     },
     {
       icon: '📰',
-      value: String(newsItems.length),
+      value: String(newsCount),
       label: 'Новостей',
     },
     {

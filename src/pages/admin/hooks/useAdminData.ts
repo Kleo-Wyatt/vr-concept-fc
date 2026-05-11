@@ -25,6 +25,14 @@ import {
   type AdminScheduleEvent,
   type ScheduleEventPayload,
 } from '../model/scheduleEventsApi';
+import {
+  createAdminNews,
+  deleteAdminNews,
+  getAdminNews,
+  updateAdminNews,
+  type AdminNewsItem,
+  type NewsPayload,
+} from '../model/newsApi';
 import { adminQueryKeys } from '../model/queryKeys';
 
 import type { ContactMessage } from '@pages/contacts/model/types';
@@ -40,6 +48,7 @@ function getUnknownErrorMessage(error: unknown, fallback: string) {
 
 const EMPTY_PLAYERS: Player[] = [];
 const EMPTY_SCHEDULE_EVENTS: AdminScheduleEvent[] = [];
+const EMPTY_NEWS: AdminNewsItem[] = [];
 const EMPTY_MESSAGES: ContactMessage[] = [];
 const EMPTY_TICKET_REQUESTS: TicketRequest[] = [];
 
@@ -56,6 +65,11 @@ export function useAdminData() {
     queryFn: getAdminScheduleEvents,
   });
 
+  const newsQuery = useQuery({
+    queryKey: adminQueryKeys.news,
+    queryFn: getAdminNews,
+  });
+
   const messagesQuery = useQuery({
     queryKey: adminQueryKeys.contactMessages,
     queryFn: getAdminContactMessages,
@@ -68,18 +82,21 @@ export function useAdminData() {
 
   const players = playersQuery.data ?? EMPTY_PLAYERS;
   const scheduleEvents = scheduleEventsQuery.data ?? EMPTY_SCHEDULE_EVENTS;
+  const news = newsQuery.data ?? EMPTY_NEWS;
   const messages = messagesQuery.data ?? EMPTY_MESSAGES;
   const ticketRequests = ticketRequestsQuery.data ?? EMPTY_TICKET_REQUESTS;
 
   const isLoading =
     playersQuery.isLoading ||
     scheduleEventsQuery.isLoading ||
+    newsQuery.isLoading ||
     messagesQuery.isLoading ||
     ticketRequestsQuery.isLoading;
 
   const loadError =
     getUnknownErrorMessage(playersQuery.error, '') ||
     getUnknownErrorMessage(scheduleEventsQuery.error, '') ||
+    getUnknownErrorMessage(newsQuery.error, '') ||
     getUnknownErrorMessage(messagesQuery.error, '') ||
     getUnknownErrorMessage(ticketRequestsQuery.error, '');
 
@@ -100,6 +117,9 @@ export function useAdminData() {
       }),
       queryClient.invalidateQueries({
         queryKey: adminQueryKeys.scheduleEvents,
+      }),
+      queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.news,
       }),
       queryClient.invalidateQueries({
         queryKey: adminQueryKeys.contactMessages,
@@ -237,6 +257,43 @@ export function useAdminData() {
     },
   });
 
+  const createNewsMutation = useMutation({
+    mutationFn: createAdminNews,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.news,
+      });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось добавить новость'));
+    },
+  });
+
+  const updateNewsMutation = useMutation({
+    mutationFn: ({ id, payload }: { id: number; payload: NewsPayload }) =>
+      updateAdminNews(id, payload),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.news,
+      });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось обновить новость'));
+    },
+  });
+
+  const deleteNewsMutation = useMutation({
+    mutationFn: deleteAdminNews,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: adminQueryKeys.news,
+      });
+    },
+    onError: (error) => {
+      alert(getUnknownErrorMessage(error, 'Не удалось удалить новость'));
+    },
+  });
+
   const handleMarkMessageAsRead = async (id: number) => {
     await markMessageAsReadMutation.mutateAsync(id);
   };
@@ -286,9 +343,22 @@ export function useAdminData() {
     await deleteScheduleEventMutation.mutateAsync(id);
   };
 
+  const handleCreateNews = async (payload: NewsPayload) => {
+    await createNewsMutation.mutateAsync(payload);
+  };
+
+  const handleUpdateNews = async (id: number, payload: NewsPayload) => {
+    await updateNewsMutation.mutateAsync({ id, payload });
+  };
+
+  const handleDeleteNews = async (id: number) => {
+    await deleteNewsMutation.mutateAsync(id);
+  };
+
   return {
     players,
     scheduleEvents,
+    news,
     messages,
     ticketRequests,
 
@@ -313,5 +383,9 @@ export function useAdminData() {
     handleCreateScheduleEvent,
     handleUpdateScheduleEvent,
     handleDeleteScheduleEvent,
+
+    handleCreateNews,
+    handleUpdateNews,
+    handleDeleteNews,
   };
 }

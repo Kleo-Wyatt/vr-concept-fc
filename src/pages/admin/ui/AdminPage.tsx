@@ -15,6 +15,7 @@ export function AdminPage() {
   const {
     players,
     scheduleEvents,
+    news,
     messages,
     ticketRequests,
 
@@ -39,6 +40,10 @@ export function AdminPage() {
     handleCreateScheduleEvent,
     handleUpdateScheduleEvent,
     handleDeleteScheduleEvent,
+
+    handleCreateNews,
+    handleUpdateNews,
+    handleDeleteNews,
   } = useAdminData();
 
   return (
@@ -58,6 +63,7 @@ export function AdminPage() {
             activeSection={activeSection}
             players={players}
             scheduleEvents={scheduleEvents}
+            news={news}
             messages={messages}
             ticketRequests={ticketRequests}
             isLoading={isLoading}
@@ -70,6 +76,9 @@ export function AdminPage() {
             onCreateScheduleEvent={handleCreateScheduleEvent}
             onUpdateScheduleEvent={handleUpdateScheduleEvent}
             onDeleteScheduleEvent={handleDeleteScheduleEvent}
+            onCreateNews={handleCreateNews}
+            onUpdateNews={handleUpdateNews}
+            onDeleteNews={handleDeleteNews}
             onMarkMessageAsRead={handleMarkMessageAsRead}
             onDeleteMessage={handleDeleteMessage}
             onMarkTicketRequestAsRead={handleMarkTicketRequestAsRead}
