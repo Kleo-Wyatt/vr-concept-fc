@@ -23,4 +23,7 @@ export type { DrawerProps } from './Drawer/Drawer';
 
 export { ScrollableFrame } from './ScrollableFrame/ScrollableFrame';
 
+export { FilterTabs } from './FilterTabs/FilterTabs';
+export type { FilterTabItem, FilterTabsProps } from './FilterTabs/FilterTabs';
+
 export { PageStub } from './PageStub/PageStub';

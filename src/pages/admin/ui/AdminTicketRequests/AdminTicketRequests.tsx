@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
-import { Button, Card } from '@shared/ui';
+import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
 
 import styles from './AdminTicketRequests.module.css';
 
@@ -32,6 +32,28 @@ export function AdminTicketRequests({
     null,
   );
   const [filter, setFilter] = useState<RequestFilter>('all');
+
+  const unreadRequestsCount = useMemo(
+    () => ticketRequests.filter((request) => !request.read).length,
+    [ticketRequests],
+  );
+
+  const readRequestsCount = ticketRequests.length - unreadRequestsCount;
+
+  const filterItems: FilterTabItem<RequestFilter>[] = [
+    {
+      value: 'all',
+      label: `Все (${ticketRequests.length})`,
+    },
+    {
+      value: 'unread',
+      label: `Непрочитано (${unreadRequestsCount})`,
+    },
+    {
+      value: 'read',
+      label: `Прочитано (${readRequestsCount})`,
+    },
+  ];
 
   const selectedRequest = useMemo(
     () =>
@@ -76,8 +98,7 @@ export function AdminTicketRequests({
         <div>
           <h2>Заявки на билеты</h2>
           <p>
-            Всего: {ticketRequests.length} · Непрочитано:{' '}
-            {ticketRequests.filter((request) => !request.read).length}
+            Всего: {ticketRequests.length} · Непрочитано: {unreadRequestsCount}
           </p>
         </div>
 
@@ -86,35 +107,12 @@ export function AdminTicketRequests({
         </Button>
       </div>
 
-      <div className={styles.filters}>
-        {[
-          { value: 'all', label: `Все (${ticketRequests.length})` },
-          {
-            value: 'unread',
-            label: `Непрочитано (${
-              ticketRequests.filter((request) => !request.read).length
-            })`,
-          },
-          {
-            value: 'read',
-            label: `Прочитано (${
-              ticketRequests.filter((request) => request.read).length
-            })`,
-          },
-        ].map((item) => (
-          <button
-            className={[
-              styles.filterButton,
-              filter === item.value ? styles.filterButtonActive : '',
-            ].join(' ')}
-            key={item.value}
-            type="button"
-            onClick={() => setFilter(item.value as RequestFilter)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
+      <FilterTabs
+        items={filterItems}
+        value={filter}
+        onChange={setFilter}
+        ariaLabel="Фильтр заявок на билеты"
+      />
 
       <div className={styles.masterDetailLayout}>
         <div className={styles.listPanel}>

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import type { ContactMessage } from '@pages/contacts/model/types';
-import { Button, Card } from '@shared/ui';
+import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
 
 import styles from './AdminMessages.module.css';
 
@@ -32,6 +32,28 @@ export function AdminMessages({
     null,
   );
   const [filter, setFilter] = useState<MessageFilter>('all');
+
+  const unreadMessagesCount = useMemo(
+    () => messages.filter((message) => !message.read).length,
+    [messages],
+  );
+
+  const readMessagesCount = messages.length - unreadMessagesCount;
+
+  const filterItems: FilterTabItem<MessageFilter>[] = [
+    {
+      value: 'all',
+      label: `Все (${messages.length})`,
+    },
+    {
+      value: 'unread',
+      label: `Непрочитано (${unreadMessagesCount})`,
+    },
+    {
+      value: 'read',
+      label: `Прочитано (${readMessagesCount})`,
+    },
+  ];
 
   const selectedMessage = useMemo(
     () => messages.find((message) => message.id === selectedMessageId) ?? null,
@@ -74,8 +96,7 @@ export function AdminMessages({
         <div>
           <h2>Сообщения</h2>
           <p>
-            Всего: {messages.length} · Непрочитано:{' '}
-            {messages.filter((message) => !message.read).length}
+            Всего: {messages.length} · Непрочитано: {unreadMessagesCount}
           </p>
         </div>
 
@@ -84,35 +105,12 @@ export function AdminMessages({
         </Button>
       </div>
 
-      <div className={styles.filters}>
-        {[
-          { value: 'all', label: `Все (${messages.length})` },
-          {
-            value: 'unread',
-            label: `Непрочитано (${
-              messages.filter((message) => !message.read).length
-            })`,
-          },
-          {
-            value: 'read',
-            label: `Прочитано (${
-              messages.filter((message) => message.read).length
-            })`,
-          },
-        ].map((item) => (
-          <button
-            className={[
-              styles.filterButton,
-              filter === item.value ? styles.filterButtonActive : '',
-            ].join(' ')}
-            key={item.value}
-            type="button"
-            onClick={() => setFilter(item.value as MessageFilter)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
+      <FilterTabs
+        items={filterItems}
+        value={filter}
+        onChange={setFilter}
+        ariaLabel="Фильтр сообщений"
+      />
 
       <div className={styles.masterDetailLayout}>
         <div className={styles.listPanel}>
@@ -148,7 +146,7 @@ export function AdminMessages({
             ))
           ) : (
             <Card>
-              <p className={styles.emptyText}>Нет сообщений</p>
+              <p className={styles.emptyText}>Сообщений пока нет</p>
             </Card>
           )}
         </div>
@@ -187,9 +185,7 @@ export function AdminMessages({
                 {selectedMessage.phone && (
                   <div>
                     <span>Телефон</span>
-                    <a href={`tel:${selectedMessage.phone}`}>
-                      {selectedMessage.phone}
-                    </a>
+                    <strong>{selectedMessage.phone}</strong>
                   </div>
                 )}
 
@@ -207,14 +203,14 @@ export function AdminMessages({
               </div>
 
               <div className={styles.detailActions}>
-                <Button as="a" href={`mailto:${selectedMessage.email}`}>
+                <Button href={`mailto:${selectedMessage.email}`}>
                   Ответить
                 </Button>
               </div>
             </>
           ) : (
             <p className={styles.emptyText}>
-              Выберите сообщение слева, чтобы посмотреть детали
+              Выберите сообщение из списка, чтобы посмотреть детали
             </p>
           )}
         </Card>
