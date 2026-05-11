@@ -1,15 +1,26 @@
 import { Button } from '@shared/ui';
 
-import { formatMatchDate } from '../../model/lib';
 import type { UpcomingMatch } from '../../model/types';
 
 import styles from './UpcomingMatchSection.module.css';
+import { CalendarOutlined, EnvironmentFilled } from '@ant-design/icons';
 
 type UpcomingMatchSectionProps = {
   match: UpcomingMatch | null;
   isLoading?: boolean;
   error?: string;
 };
+
+function formatCardDate(date: string, time: string) {
+  const matchDate = new Date(`${date}T${time}`);
+
+  const formattedDate = matchDate.toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+  });
+
+  return `${formattedDate}, ${time}`;
+}
 
 export function UpcomingMatchSection({
   match,
@@ -20,10 +31,11 @@ export function UpcomingMatchSection({
     return (
       <section className={styles.section}>
         <div className={styles.container}>
-          <h2 className={styles.title}>Ближайший матч</h2>
-
-          <div className={styles.state}>
-            Загружаем информацию о ближайшем матче...
+          <div className={styles.card}>
+            <h2 className={styles.title}>Ближайший матч</h2>
+            <div className={styles.state}>
+              Загружаем информацию о ближайшем матче...
+            </div>
           </div>
         </div>
       </section>
@@ -34,9 +46,10 @@ export function UpcomingMatchSection({
     return (
       <section className={styles.section}>
         <div className={styles.container}>
-          <h2 className={styles.title}>Ближайший матч</h2>
-
-          <div className={styles.state}>{error}</div>
+          <div className={styles.card}>
+            <h2 className={styles.title}>Ближайший матч</h2>
+            <div className={styles.state}>{error}</div>
+          </div>
         </div>
       </section>
     );
@@ -46,68 +59,63 @@ export function UpcomingMatchSection({
     return (
       <section className={styles.section}>
         <div className={styles.container}>
-          <h2 className={styles.title}>Ближайший матч</h2>
-
-          <div className={styles.state}>
-            Ближайший матч пока не запланирован
+          <div className={styles.card}>
+            <h2 className={styles.title}>Ближайший матч</h2>
+            <div className={styles.state}>
+              Ближайший матч пока не запланирован
+            </div>
           </div>
         </div>
       </section>
     );
   }
 
-  const matchDate = new Date(`${match.date}T${match.time}`);
-
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Ближайший матч</h2>
-
         <div className={styles.card}>
-          <div className={styles.date}>
-            <span className={styles.day}>{matchDate.getDate()}</span>
-            <span className={styles.month}>
-              {matchDate.toLocaleDateString('ru-RU', { month: 'short' })}
-            </span>
+          <div className={styles.header}>
+            <h2 className={styles.title}>Ближайший матч</h2>
+
+            <div className={styles.location}>
+              <EnvironmentFilled className={styles.metaIcon} />
+              <span>{match.location}</span>
+            </div>
           </div>
 
-          <div className={styles.teams}>
+          <div className={styles.topRow}>
+            <div className={styles.meta}>
+              <CalendarOutlined className={styles.metaIcon} />
+              <span>{formatCardDate(match.date, match.time)}</span>
+            </div>
+          </div>
+
+          <div className={styles.matchRow}>
             <div className={styles.team}>
-              <span className={styles.teamName}>{match.homeTeam}</span>
-              <span className={styles.teamLogo}>⚽</span>
+              <div className={styles.logoBox}>⚽</div>
+              <div className={styles.teamName}>{match.homeTeam}</div>
+              <div className={styles.teamSide}>HOME</div>
             </div>
 
             <div className={styles.center}>
-              <span className={styles.time}>{match.time}</span>
-              <span className={styles.vs}>VS</span>
+              <div className={styles.vs}>VS</div>
+              <div className={styles.stage}>{match.tournament}</div>
             </div>
 
             <div className={styles.team}>
-              <span className={styles.teamLogo}>⚽</span>
-              <span className={styles.teamName}>{match.awayTeam}</span>
+              <div className={styles.logoBox}>⚽</div>
+              <div className={styles.teamName}>{match.awayTeam}</div>
+              <div className={styles.teamSide}>AWAY</div>
             </div>
           </div>
 
-          <div className={styles.details}>
-            <p>
-              <span>Дата и время:</span>
-              {formatMatchDate(match.date)} в {match.time}
-            </p>
+          <div className={styles.divider} />
 
-            <p>
-              <span>Место:</span>
-              {match.location}
-            </p>
-
-            <p>
-              <span>Турнир:</span>
-              {match.tournament}
-            </p>
+          <div className={styles.actions}>
+            <Button className={styles.ticketButton} variant="cta" size="large">
+              Купить билеты
+            </Button>
           </div>
-
-          <Button variant="cta" size="large">
-            Получить билет
-          </Button>
         </div>
       </div>
     </section>
