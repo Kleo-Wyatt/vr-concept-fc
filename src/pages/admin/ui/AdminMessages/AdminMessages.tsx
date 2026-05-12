@@ -5,9 +5,13 @@ import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
 import { formatDateTimeRu } from '@shared/lib/date';
 
 import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
-import { type AdminInfoGridItem, AdminInfoGrid } from '../AdminInfoGrid/AdminInfoGrid';
+import {
+  type AdminInfoGridItem,
+  AdminInfoGrid,
+} from '../AdminInfoGrid/AdminInfoGrid';
 
 import styles from './AdminMessages.module.css';
+import { AdminListItem } from '../AdminListItem/AdminListItem';
 
 type MessageFilter = 'all' | 'unread' | 'read';
 
@@ -17,10 +21,6 @@ type AdminMessagesProps = {
   onMarkAsRead: (id: number) => void;
   onDelete: (id: number) => void;
 };
-
-function getMessagePreview(message: string) {
-  return message.length > 100 ? `${message.slice(0, 100)}...` : message;
-}
 
 export function AdminMessages({
   messages,
@@ -144,33 +144,16 @@ export function AdminMessages({
         <div className={styles.listPanel}>
           {filteredMessages.length > 0 ? (
             filteredMessages.map((message) => (
-              <button
-                className={[
-                  styles.listItem,
-                  !message.read ? styles.listItemUnread : '',
-                  selectedMessageId === message.id ? styles.listItemActive : '',
-                ].join(' ')}
+              <AdminListItem
                 key={message.id}
-                type="button"
+                header={message.name}
+                title={message.subject || message.email}
+                preview={message.message}
+                date={formatDateTimeRu(message.date)}
+                unread={!message.read}
+                active={selectedMessageId === message.id}
                 onClick={() => handleSelectMessage(message)}
-              >
-                <span className={styles.listItemHeader}>
-                  <strong>{message.name}</strong>
-                  {!message.read && <span className={styles.badge}>Новое</span>}
-                </span>
-
-                <span className={styles.listItemTitle}>
-                  {message.subject || message.email}
-                </span>
-
-                <span className={styles.listItemPreview}>
-                  {getMessagePreview(message.message)}
-                </span>
-
-                <span className={styles.listItemDate}>
-                  {formatDateTimeRu(message.date)}
-                </span>
-              </button>
+              />
             ))
           ) : (
             <Card>

@@ -11,6 +11,7 @@ import {
 import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 
 import styles from './AdminTicketRequests.module.css';
+import { AdminListItem } from '../AdminListItem/AdminListItem';
 
 type RequestFilter = 'all' | 'unread' | 'read';
 
@@ -161,33 +162,16 @@ export function AdminTicketRequests({
         <div className={styles.listPanel}>
           {filteredRequests.length > 0 ? (
             filteredRequests.map((request) => (
-              <button
-                className={[
-                  styles.listItem,
-                  !request.read ? styles.listItemUnread : '',
-                  selectedRequestId === request.id ? styles.listItemActive : '',
-                ].join(' ')}
+              <AdminListItem
                 key={request.id}
-                type="button"
+                header={request.name}
+                title={request.matchTitle}
+                preview={`Билетов: ${request.ticketCount}`}
+                date={formatDateTimeRu(request.createdAt)}
+                unread={!request.read}
+                active={selectedRequestId === request.id}
                 onClick={() => handleSelectRequest(request)}
-              >
-                <span className={styles.listItemHeader}>
-                  <strong>{request.name}</strong>
-                  {!request.read && <span className={styles.badge}>Новое</span>}
-                </span>
-
-                <span className={styles.listItemTitle}>
-                  {request.matchTitle}
-                </span>
-
-                <span className={styles.listItemPreview}>
-                  Билетов: {request.ticketCount}
-                </span>
-
-                <span className={styles.listItemDate}>
-                  {formatDateTimeRu(request.createdAt)}
-                </span>
-              </button>
+              />
             ))
           ) : (
             <Card>
