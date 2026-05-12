@@ -13,6 +13,7 @@ import {
 import styles from './AdminMessages.module.css';
 import { AdminListItem } from '../AdminListItem/AdminListItem';
 import { AdminMasterDetailLayout } from '../AdminMasterDetailLayout/AdminMasterDetailLayout';
+import { AdminDetailHeader } from '../AdminDetailHeader/AdminDetailHeader';
 
 type MessageFilter = 'all' | 'unread' | 'read';
 
@@ -165,20 +166,19 @@ export function AdminMessages({
         detail={
           selectedMessage ? (
             <>
-              <div className={styles.detailHeader}>
-                <div>
-                  <h3>Сообщение от {selectedMessage.name}</h3>
-                  <p>{formatDateTimeRu(selectedMessage.date)}</p>
-                </div>
-
-                <Button
-                  variant="danger"
-                  size="small"
-                  onClick={() => handleDelete(selectedMessage.id)}
-                >
-                  Удалить
-                </Button>
-              </div>
+              <AdminDetailHeader
+                title={`Сообщение от ${selectedMessage.name}`}
+                description={formatDateTimeRu(selectedMessage.date)}
+                actions={
+                  <Button
+                    variant="danger"
+                    size="small"
+                    onClick={() => handleDelete(selectedMessage.id)}
+                  >
+                    Удалить
+                  </Button>
+                }
+              />
 
               <AdminInfoGrid items={selectedMessageInfoItems} />
 

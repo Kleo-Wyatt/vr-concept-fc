@@ -13,6 +13,7 @@ import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 import styles from './AdminTicketRequests.module.css';
 import { AdminListItem } from '../AdminListItem/AdminListItem';
 import { AdminMasterDetailLayout } from '../AdminMasterDetailLayout/AdminMasterDetailLayout';
+import { AdminDetailHeader } from '../AdminDetailHeader/AdminDetailHeader';
 
 type RequestFilter = 'all' | 'unread' | 'read';
 
@@ -183,20 +184,19 @@ export function AdminTicketRequests({
         detail={
           selectedRequest ? (
             <>
-              <div className={styles.detailHeader}>
-                <div>
-                  <h3>{selectedRequest.matchTitle}</h3>
-                  <p>{formatDateTimeRu(selectedRequest.createdAt)}</p>
-                </div>
-
-                <Button
-                  variant="danger"
-                  size="small"
-                  onClick={() => handleDelete(selectedRequest.id)}
-                >
-                  Удалить
-                </Button>
-              </div>
+              <AdminDetailHeader
+                title={selectedRequest.matchTitle}
+                description={formatDateTimeRu(selectedRequest.createdAt)}
+                actions={
+                  <Button
+                    variant="danger"
+                    size="small"
+                    onClick={() => handleDelete(selectedRequest.id)}
+                  >
+                    Удалить
+                  </Button>
+                }
+              />
 
               <AdminInfoGrid items={selectedRequestInfoItems} />
 
