@@ -1,11 +1,14 @@
+import { AppErrorBoundary } from '@app/providers/AppErrorBoundary';
 import { AppQueryProvider } from '@app/providers/AppQueryProvider';
 import { AppRouterProvider } from '@app/providers/AppRouterProvider';
 
 function App() {
   return (
-    <AppQueryProvider>
-      <AppRouterProvider />
-    </AppQueryProvider>
+    <AppErrorBoundary>
+      <AppQueryProvider>
+        <AppRouterProvider />
+      </AppQueryProvider>
+    </AppErrorBoundary>
   );
 }
 
