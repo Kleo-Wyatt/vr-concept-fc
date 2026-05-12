@@ -12,6 +12,7 @@ import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 
 import styles from './AdminTicketRequests.module.css';
 import { AdminListItem } from '../AdminListItem/AdminListItem';
+import { AdminMasterDetailLayout } from '../AdminMasterDetailLayout/AdminMasterDetailLayout';
 
 type RequestFilter = 'all' | 'unread' | 'read';
 
@@ -158,9 +159,9 @@ export function AdminTicketRequests({
         ariaLabel="Фильтр заявок на билеты"
       />
 
-      <div className={styles.masterDetailLayout}>
-        <div className={styles.listPanel}>
-          {filteredRequests.length > 0 ? (
+      <AdminMasterDetailLayout
+        list={
+          filteredRequests.length > 0 ? (
             filteredRequests.map((request) => (
               <AdminListItem
                 key={request.id}
@@ -177,11 +178,10 @@ export function AdminTicketRequests({
             <Card>
               <p className={styles.emptyText}>Нет заявок на билеты</p>
             </Card>
-          )}
-        </div>
-
-        <Card className={styles.detailPanel}>
-          {selectedRequest ? (
+          )
+        }
+        detail={
+          selectedRequest ? (
             <>
               <div className={styles.detailHeader}>
                 <div>
@@ -217,9 +217,9 @@ export function AdminTicketRequests({
             <p className={styles.emptyText}>
               Выберите заявку слева, чтобы посмотреть детали
             </p>
-          )}
-        </Card>
-      </div>
+          )
+        }
+      />
     </div>
   );
 }

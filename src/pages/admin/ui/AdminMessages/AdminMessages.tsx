@@ -12,6 +12,7 @@ import {
 
 import styles from './AdminMessages.module.css';
 import { AdminListItem } from '../AdminListItem/AdminListItem';
+import { AdminMasterDetailLayout } from '../AdminMasterDetailLayout/AdminMasterDetailLayout';
 
 type MessageFilter = 'all' | 'unread' | 'read';
 
@@ -140,9 +141,9 @@ export function AdminMessages({
         ariaLabel="Фильтр сообщений"
       />
 
-      <div className={styles.masterDetailLayout}>
-        <div className={styles.listPanel}>
-          {filteredMessages.length > 0 ? (
+      <AdminMasterDetailLayout
+        list={
+          filteredMessages.length > 0 ? (
             filteredMessages.map((message) => (
               <AdminListItem
                 key={message.id}
@@ -159,11 +160,10 @@ export function AdminMessages({
             <Card>
               <p className={styles.emptyText}>Сообщений пока нет</p>
             </Card>
-          )}
-        </div>
-
-        <Card className={styles.detailPanel}>
-          {selectedMessage ? (
+          )
+        }
+        detail={
+          selectedMessage ? (
             <>
               <div className={styles.detailHeader}>
                 <div>
@@ -197,9 +197,9 @@ export function AdminMessages({
             <p className={styles.emptyText}>
               Выберите сообщение из списка, чтобы посмотреть детали
             </p>
-          )}
-        </Card>
-      </div>
+          )
+        }
+      />
     </div>
   );
 }
