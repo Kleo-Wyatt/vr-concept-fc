@@ -21,7 +21,6 @@ import {
 } from './playerForm';
 
 import styles from './AdminPlayers.module.css';
-import { scheduleEvents } from '@pages/schedule/model/mockData';
 import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 
 type AdminPlayersProps = {
