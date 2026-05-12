@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">TECH United icon</title>
+  <desc id="desc">Colorful football crest with microchip and united U mark in cyan navy green palette.</desc>
+  <defs>
+    <linearGradient id="bg" x1="28" y1="20" x2="226" y2="238" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="0.48" stop-color="#0891B2"/>
+      <stop offset="1" stop-color="#34D399"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#082F49" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <path filter="url(#shadow)" d="M128 14 218 48v68c0 56-36 101-90 126-54-25-90-70-90-126V48l90-34Z" fill="url(#bg)"/>
+  <path d="M128 27 205 56v59c0 46-28 83-77 106-49-23-77-60-77-106V56l77-29Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.86" stroke-width="6"/>
+  <g stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.75">
+    <path d="M83 73v18M105 69v18M151 69v18M173 73v18M83 165v18M105 169v18M151 169v18M173 165v18M60 104h18M60 128h18M60 152h18M178 104h18M178 128h18M178 152h18"/>
+  </g>
+  <rect x="78" y="84" width="100" height="88" rx="19" fill="#FFFFFF"/>
+  <rect x="91" y="97" width="74" height="62" rx="12" fill="#0F172A"/>
+  <path d="M106 111v23c0 15 9 25 22 25s22-10 22-25v-23" fill="none" stroke="#34D399" stroke-width="12" stroke-linecap="round"/>
+  <path d="M111 133h34" stroke="#22D3EE" stroke-width="8" stroke-linecap="round"/>
+  <g transform="translate(128 198)">
+    <circle r="19" fill="#FFFFFF"/>
+    <path d="M0-11 10-4 6 9H-6l-10-13Z" fill="#0F172A"/>
+  </g>
+  <text x="128" y="65" text-anchor="middle" font-family="Space Grotesk, Lexend, Arial, sans-serif" font-size="22" font-weight="800" fill="#FFFFFF" letter-spacing="1.2">TECH</text>
+</svg>

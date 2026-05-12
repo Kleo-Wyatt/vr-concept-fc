@@ -1,14 +1,20 @@
+import { CalendarOutlined, EnvironmentFilled } from '@ant-design/icons';
+
+import { DEFAULT_TEAM_ICON, getTeamIcon } from '@shared/config/teamIcons';
 import { Button } from '@shared/ui';
 
 import type { UpcomingMatch } from '../../model/types';
 
 import styles from './UpcomingMatchSection.module.css';
-import { CalendarOutlined, EnvironmentFilled } from '@ant-design/icons';
 
 type UpcomingMatchSectionProps = {
   match: UpcomingMatch | null;
   isLoading?: boolean;
   error?: string;
+};
+
+type TeamLogoProps = {
+  teamName: string;
 };
 
 function formatCardDate(date: string, time: string) {
@@ -20,6 +26,22 @@ function formatCardDate(date: string, time: string) {
   });
 
   return `${formattedDate}, ${time}`;
+}
+
+function TeamLogo({ teamName }: TeamLogoProps) {
+  return (
+    <img
+      src={getTeamIcon(teamName)}
+      alt={`Логотип ${teamName}`}
+      className={styles.teamLogo}
+      loading="lazy"
+      onError={(event) => {
+        if (!event.currentTarget.src.includes(DEFAULT_TEAM_ICON)) {
+          event.currentTarget.src = DEFAULT_TEAM_ICON;
+        }
+      }}
+    />
+  );
 }
 
 export function UpcomingMatchSection({
@@ -92,28 +114,30 @@ export function UpcomingMatchSection({
 
           <div className={styles.matchRow}>
             <div className={styles.team}>
-              <div className={styles.logoBox}>⚽</div>
+              <div className={styles.logoBox}>
+                <TeamLogo teamName={match.homeTeam} />
+              </div>
               <div className={styles.teamName}>{match.homeTeam}</div>
-              <div className={styles.teamSide}>HOME</div>
             </div>
 
-            <div className={styles.center}>
+            <div className={styles.centerBlock}>
               <div className={styles.vs}>VS</div>
               <div className={styles.stage}>{match.tournament}</div>
             </div>
 
             <div className={styles.team}>
-              <div className={styles.logoBox}>⚽</div>
+              <div className={styles.logoBox}>
+                <TeamLogo teamName={match.awayTeam} />
+              </div>
               <div className={styles.teamName}>{match.awayTeam}</div>
-              <div className={styles.teamSide}>AWAY</div>
             </div>
           </div>
 
           <div className={styles.divider} />
 
           <div className={styles.actions}>
-            <Button className={styles.ticketButton} variant="cta" size="large">
-              Купить билеты
+            <Button className={styles.ticketButton} size="large">
+              Получить билет
             </Button>
           </div>
         </div>

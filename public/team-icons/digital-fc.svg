@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Digital FC icon</title>
+  <desc id="desc">Colorful digital football crest with circuit nodes and blue purple gradient.</desc>
+  <defs>
+    <linearGradient id="bg" x1="34" y1="28" x2="224" y2="232" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="0.48" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#172554" flood-opacity="0.26"/>
+    </filter>
+  </defs>
+  <path filter="url(#shadow)" d="M128 14 218 48v68c0 56-36 101-90 126-54-25-90-70-90-126V48l90-34Z" fill="url(#bg)"/>
+  <path d="M128 28 204 57v58c0 45-27 81-76 105-49-24-76-60-76-105V57l76-29Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="6"/>
+  <g opacity="0.26" stroke="#FFFFFF" stroke-width="3" fill="none">
+    <path d="M54 86h54M148 58v48M92 172h72M185 110h22M74 126h26M158 144h44"/>
+    <circle cx="110" cy="86" r="5" fill="#FFFFFF"/><circle cx="148" cy="58" r="5" fill="#FFFFFF"/><circle cx="92" cy="172" r="5" fill="#FFFFFF"/><circle cx="202" cy="144" r="5" fill="#FFFFFF"/>
+  </g>
+  <g transform="translate(128 126)">
+    <circle r="53" fill="#FFFFFF"/>
+    <circle r="42" fill="#0F172A"/>
+    <path d="M0-28 27-8 17 25h-34L-27-8Z" fill="#22D3EE"/>
+    <path d="M0-42v14M40-13 27-8M25 34 17 25M-25 34-17 25M-40-13-27-8" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+    <path d="M-10-3h20v16h-20z" fill="#FFFFFF" opacity="0.92"/>
+  </g>
+  <text x="128" y="211" text-anchor="middle" font-family="Space Grotesk, Lexend, Arial, sans-serif" font-size="21" font-weight="800" fill="#FFFFFF" letter-spacing="1.2">DIGITAL</text>
+</svg>
