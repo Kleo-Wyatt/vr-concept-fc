@@ -1,15 +1,21 @@
+import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 
+import { isAuthenticated } from '@features/auth/model/authToken';
 import { AppRoute, navigationItems } from '@shared/config/routes';
 
-import styles from './MobileMenu.module.css';import clsx from 'clsx';
-
+import styles from './MobileMenu.module.css';
 
 type MobileMenuProps = {
   onClose: () => void;
 };
 
 export function MobileMenu({ onClose }: MobileMenuProps) {
+  const isAdminAuthenticated = isAuthenticated();
+
+  const adminLinkPath = isAdminAuthenticated ? AppRoute.admin : '/admin/login';
+  const adminLinkLabel = isAdminAuthenticated ? 'Админ-панель' : 'Войти';
+
   return (
     <nav className={styles.menu} aria-label="Мобильная навигация">
       <div className={styles.content}>
@@ -19,10 +25,7 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  clsx(
-                    styles.link,
-                    isActive && styles.active,
-                  )
+                  clsx(styles.link, isActive && styles.active)
                 }
                 onClick={onClose}
               >
@@ -33,17 +36,13 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
 
           <li>
             <NavLink
-              to={AppRoute.admin}
+              to={adminLinkPath}
               className={({ isActive }) =>
-                clsx(
-                  styles.link,
-                  styles.adminLink,
-                  isActive && styles.active,
-                )
+                clsx(styles.link, styles.adminLink, isActive && styles.active)
               }
               onClick={onClose}
             >
-              Админ-панель
+              {adminLinkLabel}
             </NavLink>
           </li>
         </ul>

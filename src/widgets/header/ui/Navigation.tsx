@@ -1,19 +1,21 @@
+import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 
+import { isAuthenticated } from '@features/auth/model/authToken';
 import { AppRoute, navigationItems } from '@shared/config/routes';
 
-import styles from './Navigation.module.css';import clsx from 'clsx';
-
+import styles from './Navigation.module.css';
 
 type NavigationProps = {
   className?: string;
 };
 
 export function Navigation({ className = '' }: NavigationProps) {
-  const navigationClassName = clsx(
-    styles.navigation,
-    className,
-  );
+  const navigationClassName = clsx(styles.navigation, className);
+  const isAdminAuthenticated = isAuthenticated();
+
+  const adminLinkPath = isAdminAuthenticated ? AppRoute.admin : '/admin/login';
+  const adminLinkLabel = isAdminAuthenticated ? 'Админ' : 'Войти';
 
   return (
     <nav className={navigationClassName} aria-label="Основная навигация">
@@ -23,10 +25,7 @@ export function Navigation({ className = '' }: NavigationProps) {
             <NavLink
               to={item.path}
               className={({ isActive }) =>
-                clsx(
-                  styles.link,
-                  isActive && styles.active,
-                )
+                clsx(styles.link, isActive && styles.active)
               }
             >
               {item.label}
@@ -36,15 +35,12 @@ export function Navigation({ className = '' }: NavigationProps) {
 
         <li>
           <NavLink
-            to={AppRoute.admin}
+            to={adminLinkPath}
             className={({ isActive }) =>
-              clsx(
-                styles.adminLink,
-                isActive && styles.adminLinkActive,
-              )
+              clsx(styles.adminLink, isActive && styles.adminLinkActive)
             }
           >
-            Админ
+            {adminLinkLabel}
           </NavLink>
         </li>
       </ul>

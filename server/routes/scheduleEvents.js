@@ -8,6 +8,8 @@ import {
   sendNotFound,
 } from '../lib/httpResponses.js';
 
+import { requireAuth } from '../middleware/requireAuth.js';
+
 export const scheduleEventsRouter = Router();
 
 const allowedStatuses = ['upcoming', 'finished', 'training'];
@@ -195,7 +197,7 @@ scheduleEventsRouter.get('/', (_req, res) => {
   res.json(rows.map(mapScheduleEvent));
 });
 
-scheduleEventsRouter.post('/', (req, res) => {
+scheduleEventsRouter.post('/', requireAuth, (req, res) => {
   const payload = normalizeScheduleEventPayload(req.body);
   const validationError = validateScheduleEventPayload(payload);
 
@@ -238,7 +240,7 @@ scheduleEventsRouter.post('/', (req, res) => {
   res.status(201).json(mapScheduleEvent(createdEvent));
 });
 
-scheduleEventsRouter.patch('/:id', (req, res) => {
+scheduleEventsRouter.patch('/:id', requireAuth, (req, res) => {
   const id = parseIdParam(req);
 
   if (id === null) {
@@ -294,7 +296,7 @@ scheduleEventsRouter.patch('/:id', (req, res) => {
   res.json(mapScheduleEvent(updatedEvent));
 });
 
-scheduleEventsRouter.delete('/:id', (req, res) => {
+scheduleEventsRouter.delete('/:id', requireAuth, (req, res) => {
   const id = parseIdParam(req);
 
   if (id === null) {

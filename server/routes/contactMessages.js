@@ -7,6 +7,8 @@ import {
   sendNotFound,
 } from '../lib/httpResponses.js';
 
+import { requireAuth } from '../middleware/requireAuth.js';
+
 export const contactMessagesRouter = Router();
 
 function mapContactMessage(row) {
@@ -22,7 +24,7 @@ function mapContactMessage(row) {
   };
 }
 
-contactMessagesRouter.get('/', (_req, res) => {
+contactMessagesRouter.get('/', requireAuth, (_req, res) => {
   const rows = db
     .prepare(
       `
@@ -76,7 +78,7 @@ contactMessagesRouter.post('/', (req, res) => {
   res.status(201).json(mapContactMessage(createdMessage));
 });
 
-contactMessagesRouter.patch('/:id/read', (req, res) => {
+contactMessagesRouter.patch('/:id/read', requireAuth, (req, res) => {
   const id = parseIdParam(req);
 
   if (id === null) {
@@ -110,7 +112,7 @@ contactMessagesRouter.patch('/:id/read', (req, res) => {
   res.json(mapContactMessage(updatedMessage));
 });
 
-contactMessagesRouter.delete('/:id', (req, res) => {
+contactMessagesRouter.delete('/:id', requireAuth, (req, res) => {
   const id = parseIdParam(req);
 
   if (id === null) {

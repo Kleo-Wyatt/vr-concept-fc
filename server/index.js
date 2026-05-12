@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import express from 'express';
 import cors from 'cors';
 import path from 'node:path';
@@ -5,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 import './db/database.js';
 
+import { authRouter } from './routes/auth.js';
 import { contactMessagesRouter } from './routes/contactMessages.js';
 import { ticketRequestsRouter } from './routes/ticketRequests.js';
 import { playersRouter } from './routes/players.js';
@@ -49,6 +52,8 @@ app.get('/api/health', (_req, res) => {
     message: 'VR CONCEPT FC API is running',
   });
 });
+
+app.use('/api/auth', authRouter);
 
 app.use('/api/contact-messages', contactMessagesRouter);
 app.use('/api/ticket-requests', ticketRequestsRouter);

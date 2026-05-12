@@ -7,6 +7,8 @@ import {
   sendNotFound,
 } from '../lib/httpResponses.js';
 
+import { requireAuth } from '../middleware/requireAuth.js';
+
 export const newsRouter = Router();
 
 function mapNews(row) {
@@ -90,7 +92,7 @@ newsRouter.get('/featured', (_req, res) => {
   res.json(mapNews(row));
 });
 
-newsRouter.post('/', (req, res) => {
+newsRouter.post('/', requireAuth, (req, res) => {
   const payload = normalizeNewsPayload(req.body);
   const validationError = validateNewsPayload(payload);
 
@@ -135,7 +137,7 @@ newsRouter.post('/', (req, res) => {
   res.status(201).json(mapNews(createdNews));
 });
 
-newsRouter.patch('/:id', (req, res) => {
+newsRouter.patch('/:id', requireAuth, (req, res) => {
   const id = parseIdParam(req);
 
   if (id === null) {
@@ -193,7 +195,7 @@ newsRouter.patch('/:id', (req, res) => {
   res.json(mapNews(updatedNews));
 });
 
-newsRouter.delete('/:id', (req, res) => {
+newsRouter.delete('/:id', requireAuth, (req, res) => {
   const id = parseIdParam(req);
 
   if (id === null) {

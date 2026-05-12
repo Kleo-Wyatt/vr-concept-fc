@@ -7,6 +7,8 @@ import {
   sendNotFound,
 } from '../lib/httpResponses.js';
 
+import { requireAuth } from '../middleware/requireAuth.js';
+
 export const playersRouter = Router();
 
 function mapPlayer(row) {
@@ -66,7 +68,7 @@ playersRouter.get('/', (_req, res) => {
   res.json(rows.map(mapPlayer));
 });
 
-playersRouter.post('/', (req, res) => {
+playersRouter.post('/', requireAuth, (req, res) => {
   const payload = normalizePlayerPayload(req.body);
   const validationError = validatePlayerPayload(payload);
 
@@ -115,7 +117,7 @@ playersRouter.post('/', (req, res) => {
   res.status(201).json(mapPlayer(createdPlayer));
 });
 
-playersRouter.patch('/:id', (req, res) => {
+playersRouter.patch('/:id', requireAuth, (req, res) => {
   const id = parseIdParam(req);
 
   if (id === null) {
@@ -177,7 +179,7 @@ playersRouter.patch('/:id', (req, res) => {
   res.json(mapPlayer(updatedPlayer));
 });
 
-playersRouter.delete('/:id', (req, res) => {
+playersRouter.delete('/:id', requireAuth, (req, res) => {
   const id = parseIdParam(req);
 
   if (id === null) {

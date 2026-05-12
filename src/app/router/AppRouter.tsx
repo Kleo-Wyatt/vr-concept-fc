@@ -15,6 +15,8 @@ import { AdminLayout } from '@widgets/admin-layout/ui/AdminLayout';
 import { PublicLayout } from '@widgets/public-layout/ui/PublicLayout';
 
 import { AppRoute } from '@shared/config/routes';
+import { LoginPage } from '@features/auth/ui/LoginPage';
+import { ProtectedAdminRoute } from '@features/auth/ui/ProtectedAdminRoute';
 
 export function AppRouter() {
   return (
@@ -30,9 +32,25 @@ export function AppRouter() {
         <Route path={AppRoute.contacts} element={<ContactsPage />} />
       </Route>
 
+      <Route path="/admin/login" element={<LoginPage />} />
+
       <Route element={<AdminLayout />}>
-        <Route path={AppRoute.admin} element={<AdminPage />} />
-        <Route path={`${AppRoute.admin}/:section`} element={<AdminPage />} />
+        <Route
+          path={AppRoute.admin}
+          element={
+            <ProtectedAdminRoute>
+              <AdminPage />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path={`${AppRoute.admin}/:section`}
+          element={
+            <ProtectedAdminRoute>
+              <AdminPage />
+            </ProtectedAdminRoute>
+          }
+        />
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />

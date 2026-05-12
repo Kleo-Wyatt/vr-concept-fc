@@ -1,0 +1,77 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100vh;
+  padding: var(--spacing-xl);
+
+  background:
+    radial-gradient(circle at top, rgb(0 196 190 / 14%), transparent 36%),
+    var(--color-background);
+}
+
+.card {
+  width: 100%;
+  max-width: 460px;
+}
+
+.badge {
+  display: inline-flex;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-lg);
+
+  color: var(--color-primary-text);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+
+  background-color: var(--color-cta);
+}
+
+.title {
+  margin-bottom: var(--spacing-sm);
+}
+
+.description {
+  margin-bottom: var(--spacing-xl);
+  color: var(--color-secondary-text);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+
+  color: var(--color-primary-text);
+  font-weight: 700;
+}
+
+.field input {
+  min-height: 46px;
+  padding: 0 var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  color: var(--color-primary-text);
+  font: inherit;
+
+  background-color: var(--color-white);
+}
+
+.field input:focus {
+  outline: 3px solid var(--color-primary-soft);
+  border-color: var(--color-primary-btn);
+}
+
+.error {
+  margin: 0;
+  color: var(--color-error);
+  font-weight: 700;
+}

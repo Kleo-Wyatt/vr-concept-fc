@@ -1,5 +1,7 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
+import { removeAuthToken } from '@features/auth/model/authToken';
+
 import { useAdminData } from '../hooks/useAdminData';
 import {
   getAdminSectionFromParam,
@@ -61,6 +63,14 @@ export function AdminPage() {
     navigate(getAdminSectionPath(nextSection));
   };
 
+  const handleLogout = () => {
+    removeAuthToken();
+
+    navigate(AppRoute.home, {
+      replace: true,
+    });
+  };
+
   if (!isValidSection) {
     return <Navigate to={AppRoute.admin} replace />;
   }
@@ -74,7 +84,7 @@ export function AdminPage() {
       />
 
       <main className={styles.content}>
-        <AdminHeader />
+        <AdminHeader onLogout={handleLogout} />
 
         <section className={styles.section}>
           <AdminSectionContent

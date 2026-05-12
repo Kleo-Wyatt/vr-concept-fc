@@ -7,6 +7,8 @@ import {
   sendNotFound,
 } from '../lib/httpResponses.js';
 
+import { requireAuth } from '../middleware/requireAuth.js';
+
 export const ticketRequestsRouter = Router();
 
 function mapTicketRequest(row) {
@@ -26,7 +28,7 @@ function mapTicketRequest(row) {
   };
 }
 
-ticketRequestsRouter.get('/', (_req, res) => {
+ticketRequestsRouter.get('/', requireAuth, (_req, res) => {
   const rows = db
     .prepare(
       `
@@ -116,7 +118,7 @@ ticketRequestsRouter.post('/', (req, res) => {
   res.status(201).json(mapTicketRequest(createdRequest));
 });
 
-ticketRequestsRouter.patch('/:id/read', (req, res) => {
+ticketRequestsRouter.patch('/:id/read', requireAuth, (req, res) => {
   const id = parseIdParam(req);
 
   if (id === null) {
@@ -150,7 +152,7 @@ ticketRequestsRouter.patch('/:id/read', (req, res) => {
   res.json(mapTicketRequest(updatedRequest));
 });
 
-ticketRequestsRouter.delete('/:id', (req, res) => {
+ticketRequestsRouter.delete('/:id', requireAuth, (req, res) => {
   const id = parseIdParam(req);
 
   if (id === null) {

@@ -5,6 +5,8 @@ import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
+import { requireAuth } from '../middleware/requireAuth.js';
+
 export const uploadsRouter = Router();
 
 const currentFilePath = fileURLToPath(import.meta.url);
@@ -70,7 +72,7 @@ const upload = multer({
   },
 });
 
-uploadsRouter.post('/player-photo', (req, res) => {
+uploadsRouter.post('/player-photo', requireAuth, (req, res) => {
   upload.single('photo')(req, res, (error) => {
     if (error) {
       res.status(400).json({
