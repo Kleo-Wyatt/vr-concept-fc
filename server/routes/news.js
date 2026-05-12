@@ -1,6 +1,11 @@
 import { Router } from 'express';
 
 import { db } from '../db/database.js';
+import {
+  parseIdParam,
+  sendBadRequest,
+  sendNotFound,
+} from '../lib/httpResponses.js';
 
 export const newsRouter = Router();
 
@@ -78,9 +83,7 @@ newsRouter.get('/featured', (_req, res) => {
     .get();
 
   if (!row) {
-    res.status(404).json({
-      message: 'Новости не найдены',
-    });
+    sendNotFound(res, 'Новости не найдены');
     return;
   }
 
@@ -92,9 +95,7 @@ newsRouter.post('/', (req, res) => {
   const validationError = validateNewsPayload(payload);
 
   if (validationError) {
-    res.status(400).json({
-      message: validationError,
-    });
+    sendBadRequest(res, validationError);
     return;
   }
 
@@ -135,12 +136,10 @@ newsRouter.post('/', (req, res) => {
 });
 
 newsRouter.patch('/:id', (req, res) => {
-  const id = Number(req.params.id);
+  const id = parseIdParam(req);
 
-  if (!Number.isInteger(id)) {
-    res.status(400).json({
-      message: 'Некорректный id новости',
-    });
+  if (id === null) {
+    sendBadRequest(res, 'Некорректный id новости');
     return;
   }
 
@@ -148,9 +147,7 @@ newsRouter.patch('/:id', (req, res) => {
   const validationError = validateNewsPayload(payload);
 
   if (validationError) {
-    res.status(400).json({
-      message: validationError,
-    });
+    sendBadRequest(res, validationError);
     return;
   }
 
@@ -179,9 +176,7 @@ newsRouter.patch('/:id', (req, res) => {
     );
 
   if (result.changes === 0) {
-    res.status(404).json({
-      message: 'Новость не найдена',
-    });
+    sendNotFound(res, 'Новость не найдена');
     return;
   }
 
@@ -199,12 +194,10 @@ newsRouter.patch('/:id', (req, res) => {
 });
 
 newsRouter.delete('/:id', (req, res) => {
-  const id = Number(req.params.id);
+  const id = parseIdParam(req);
 
-  if (!Number.isInteger(id)) {
-    res.status(400).json({
-      message: 'Некорректный id новости',
-    });
+  if (id === null) {
+    sendBadRequest(res, 'Некорректный id новости');
     return;
   }
 
@@ -218,9 +211,7 @@ newsRouter.delete('/:id', (req, res) => {
     .run(id);
 
   if (result.changes === 0) {
-    res.status(404).json({
-      message: 'Новость не найдена',
-    });
+    sendNotFound(res, 'Новость не найдена');
     return;
   }
 

@@ -1,6 +1,11 @@
 import { Router } from 'express';
 
 import { db } from '../db/database.js';
+import {
+  parseIdParam,
+  sendBadRequest,
+  sendNotFound,
+} from '../lib/httpResponses.js';
 
 export const playersRouter = Router();
 
@@ -66,9 +71,7 @@ playersRouter.post('/', (req, res) => {
   const validationError = validatePlayerPayload(payload);
 
   if (validationError) {
-    res.status(400).json({
-      message: validationError,
-    });
+    sendBadRequest(res, validationError);
     return;
   }
 
@@ -113,21 +116,18 @@ playersRouter.post('/', (req, res) => {
 });
 
 playersRouter.patch('/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const payload = normalizePlayerPayload(req.body);
-  const validationError = validatePlayerPayload(payload);
+  const id = parseIdParam(req);
 
-  if (!Number.isInteger(id)) {
-    res.status(400).json({
-      message: 'Некорректный id игрока',
-    });
+  if (id === null) {
+    sendBadRequest(res, 'Некорректный id игрока');
     return;
   }
 
+  const payload = normalizePlayerPayload(req.body);
+  const validationError = validatePlayerPayload(payload);
+
   if (validationError) {
-    res.status(400).json({
-      message: validationError,
-    });
+    sendBadRequest(res, validationError);
     return;
   }
 
@@ -160,9 +160,7 @@ playersRouter.patch('/:id', (req, res) => {
     );
 
   if (result.changes === 0) {
-    res.status(404).json({
-      message: 'Игрок не найден',
-    });
+    sendNotFound(res, 'Игрок не найден');
     return;
   }
 
@@ -180,12 +178,10 @@ playersRouter.patch('/:id', (req, res) => {
 });
 
 playersRouter.delete('/:id', (req, res) => {
-  const id = Number(req.params.id);
+  const id = parseIdParam(req);
 
-  if (!Number.isInteger(id)) {
-    res.status(400).json({
-      message: 'Некорректный id игрока',
-    });
+  if (id === null) {
+    sendBadRequest(res, 'Некорректный id игрока');
     return;
   }
 
@@ -199,9 +195,7 @@ playersRouter.delete('/:id', (req, res) => {
     .run(id);
 
   if (result.changes === 0) {
-    res.status(404).json({
-      message: 'Игрок не найден',
-    });
+    sendNotFound(res, 'Игрок не найден');
     return;
   }
 

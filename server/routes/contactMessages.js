@@ -1,6 +1,11 @@
 import { Router } from 'express';
 
 import { db } from '../db/database.js';
+import {
+  parseIdParam,
+  sendBadRequest,
+  sendNotFound,
+} from '../lib/httpResponses.js';
 
 export const contactMessagesRouter = Router();
 
@@ -35,9 +40,7 @@ contactMessagesRouter.post('/', (req, res) => {
   const { name, email, phone = '', subject = '', message } = req.body;
 
   if (!name || !email || !message) {
-    res.status(400).json({
-      message: 'Не заполнены обязательные поля',
-    });
+    sendBadRequest(res, 'Не заполнены обязательные поля');
     return;
   }
 
@@ -74,12 +77,10 @@ contactMessagesRouter.post('/', (req, res) => {
 });
 
 contactMessagesRouter.patch('/:id/read', (req, res) => {
-  const id = Number(req.params.id);
+  const id = parseIdParam(req);
 
-  if (!Number.isInteger(id)) {
-    res.status(400).json({
-      message: 'Некорректный id сообщения',
-    });
+  if (id === null) {
+    sendBadRequest(res, 'Некорректный id сообщения');
     return;
   }
 
@@ -102,9 +103,7 @@ contactMessagesRouter.patch('/:id/read', (req, res) => {
     .get(id);
 
   if (!updatedMessage) {
-    res.status(404).json({
-      message: 'Сообщение не найдено',
-    });
+    sendNotFound(res, 'Сообщение не найдено');
     return;
   }
 
@@ -112,12 +111,10 @@ contactMessagesRouter.patch('/:id/read', (req, res) => {
 });
 
 contactMessagesRouter.delete('/:id', (req, res) => {
-  const id = Number(req.params.id);
+  const id = parseIdParam(req);
 
-  if (!Number.isInteger(id)) {
-    res.status(400).json({
-      message: 'Некорректный id сообщения',
-    });
+  if (id === null) {
+    sendBadRequest(res, 'Некорректный id сообщения');
     return;
   }
 
@@ -131,9 +128,7 @@ contactMessagesRouter.delete('/:id', (req, res) => {
     .run(id);
 
   if (result.changes === 0) {
-    res.status(404).json({
-      message: 'Сообщение не найдено',
-    });
+    sendNotFound(res, 'Сообщение не найдено');
     return;
   }
 

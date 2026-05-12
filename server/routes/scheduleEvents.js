@@ -2,6 +2,11 @@ import { Router } from 'express';
 import { z } from 'zod';
 
 import { db } from '../db/database.js';
+import {
+  parseIdParam,
+  sendBadRequest,
+  sendNotFound,
+} from '../lib/httpResponses.js';
 
 export const scheduleEventsRouter = Router();
 
@@ -10,7 +15,9 @@ const allowedStatuses = ['upcoming', 'finished', 'training'];
 const scheduleEventSchema = z.object({
   date: z.string().min(1, 'Введите дату события'),
   time: z.string().min(1, 'Введите время события'),
-  status: z.enum(allowedStatuses, { error: 'Выберите корректный статус события' }),
+  status: z.enum(allowedStatuses, {
+    error: 'Выберите корректный статус события',
+  }),
   homeTeam: z.string(),
   awayTeam: z.string(),
   homeScore: z.number().int().min(0).nullable(),
@@ -19,30 +26,33 @@ const scheduleEventSchema = z.object({
   tournament: z.string().min(1, 'Введите турнир или тип события'),
 });
 
-const scheduleEventPayloadSchema = scheduleEventSchema.refine(
-  (data) => {
-    if (data.status === 'training') return true;
-    return data.homeTeam.length > 0 && data.awayTeam.length > 0;
-  },
-  { message: 'Введите домашнюю команду' },
-).refine(
-  (data) => {
-    if (data.status === 'training') return true;
-    return data.awayTeam.length > 0;
-  },
-  { message: 'Введите гостевую команду' },
-).refine(
-  (data) => {
-    if (data.status !== 'finished') return true;
-    return (
-      data.homeScore !== null &&
-      data.awayScore !== null &&
-      Number.isInteger(data.homeScore) &&
-      Number.isInteger(data.awayScore)
-    );
-  },
-  { message: 'Для завершенного матча укажите корректный счет' },
-);
+const scheduleEventPayloadSchema = scheduleEventSchema
+  .refine(
+    (data) => {
+      if (data.status === 'training') return true;
+      return data.homeTeam.length > 0 && data.awayTeam.length > 0;
+    },
+    { message: 'Введите домашнюю команду' },
+  )
+  .refine(
+    (data) => {
+      if (data.status === 'training') return true;
+      return data.awayTeam.length > 0;
+    },
+    { message: 'Введите гостевую команду' },
+  )
+  .refine(
+    (data) => {
+      if (data.status !== 'finished') return true;
+      return (
+        data.homeScore !== null &&
+        data.awayScore !== null &&
+        Number.isInteger(data.homeScore) &&
+        Number.isInteger(data.awayScore)
+      );
+    },
+    { message: 'Для завершенного матча укажите корректный счет' },
+  );
 
 function mapScheduleEvent(row) {
   const baseEvent = {
@@ -164,9 +174,7 @@ scheduleEventsRouter.get('/upcoming-match', (_req, res) => {
     .get();
 
   if (!row) {
-    res.status(404).json({
-      message: 'Ближайший матч не найден',
-    });
+    sendNotFound(res, 'Ближайший матч не найден');
     return;
   }
 
@@ -192,9 +200,7 @@ scheduleEventsRouter.post('/', (req, res) => {
   const validationError = validateScheduleEventPayload(payload);
 
   if (validationError) {
-    res.status(400).json({
-      message: validationError,
-    });
+    sendBadRequest(res, validationError);
     return;
   }
 
@@ -233,12 +239,10 @@ scheduleEventsRouter.post('/', (req, res) => {
 });
 
 scheduleEventsRouter.patch('/:id', (req, res) => {
-  const id = Number(req.params.id);
+  const id = parseIdParam(req);
 
-  if (!Number.isInteger(id)) {
-    res.status(400).json({
-      message: 'Некорректный id события',
-    });
+  if (id === null) {
+    sendBadRequest(res, 'Некорректный id события');
     return;
   }
 
@@ -246,9 +250,7 @@ scheduleEventsRouter.patch('/:id', (req, res) => {
   const validationError = validateScheduleEventPayload(payload);
 
   if (validationError) {
-    res.status(400).json({
-      message: validationError,
-    });
+    sendBadRequest(res, validationError);
     return;
   }
 
@@ -283,9 +285,7 @@ scheduleEventsRouter.patch('/:id', (req, res) => {
     );
 
   if (result.changes === 0) {
-    res.status(404).json({
-      message: 'Событие не найдено',
-    });
+    sendNotFound(res, 'Событие не найдено');
     return;
   }
 
@@ -295,12 +295,10 @@ scheduleEventsRouter.patch('/:id', (req, res) => {
 });
 
 scheduleEventsRouter.delete('/:id', (req, res) => {
-  const id = Number(req.params.id);
+  const id = parseIdParam(req);
 
-  if (!Number.isInteger(id)) {
-    res.status(400).json({
-      message: 'Некорректный id события',
-    });
+  if (id === null) {
+    sendBadRequest(res, 'Некорректный id события');
     return;
   }
 
@@ -314,9 +312,7 @@ scheduleEventsRouter.delete('/:id', (req, res) => {
     .run(id);
 
   if (result.changes === 0) {
-    res.status(404).json({
-      message: 'Событие не найдено',
-    });
+    sendNotFound(res, 'Событие не найдено');
     return;
   }
 

@@ -1,6 +1,11 @@
 import { Router } from 'express';
 
 import { db } from '../db/database.js';
+import {
+  parseIdParam,
+  sendBadRequest,
+  sendNotFound,
+} from '../lib/httpResponses.js';
 
 export const ticketRequestsRouter = Router();
 
@@ -49,9 +54,7 @@ ticketRequestsRouter.post('/', (req, res) => {
   } = req.body;
 
   if (!name || !email || !matchTitle || !matchDate || !matchTime || !location) {
-    res.status(400).json({
-      message: 'Не заполнены обязательные поля',
-    });
+    sendBadRequest(res, 'Не заполнены обязательные поля');
     return;
   }
 
@@ -62,9 +65,7 @@ ticketRequestsRouter.post('/', (req, res) => {
     normalizedTicketCount < 1 ||
     normalizedTicketCount > 10
   ) {
-    res.status(400).json({
-      message: 'Количество билетов должно быть от 1 до 10',
-    });
+    sendBadRequest(res, 'Количество билетов должно быть от 1 до 10');
     return;
   }
 
@@ -116,12 +117,10 @@ ticketRequestsRouter.post('/', (req, res) => {
 });
 
 ticketRequestsRouter.patch('/:id/read', (req, res) => {
-  const id = Number(req.params.id);
+  const id = parseIdParam(req);
 
-  if (!Number.isInteger(id)) {
-    res.status(400).json({
-      message: 'Некорректный id заявки',
-    });
+  if (id === null) {
+    sendBadRequest(res, 'Некорректный id заявки');
     return;
   }
 
@@ -144,9 +143,7 @@ ticketRequestsRouter.patch('/:id/read', (req, res) => {
     .get(id);
 
   if (!updatedRequest) {
-    res.status(404).json({
-      message: 'Заявка не найдена',
-    });
+    sendNotFound(res, 'Заявка не найдена');
     return;
   }
 
@@ -154,12 +151,10 @@ ticketRequestsRouter.patch('/:id/read', (req, res) => {
 });
 
 ticketRequestsRouter.delete('/:id', (req, res) => {
-  const id = Number(req.params.id);
+  const id = parseIdParam(req);
 
-  if (!Number.isInteger(id)) {
-    res.status(400).json({
-      message: 'Некорректный id заявки',
-    });
+  if (id === null) {
+    sendBadRequest(res, 'Некорректный id заявки');
     return;
   }
 
@@ -173,9 +168,7 @@ ticketRequestsRouter.delete('/:id', (req, res) => {
     .run(id);
 
   if (result.changes === 0) {
-    res.status(404).json({
-      message: 'Заявка не найдена',
-    });
+    sendNotFound(res, 'Заявка не найдена');
     return;
   }
 
