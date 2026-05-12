@@ -1,16 +1,27 @@
-import { useState } from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import { useAdminData } from '../hooks/useAdminData';
+import {
+  getAdminSectionFromParam,
+  getAdminSectionPath,
+  isAdminSectionPathParam,
+} from '../lib/adminRoutes';
 import type { AdminSection } from '../model/types';
 
 import { AdminHeader } from './AdminHeader/AdminHeader';
 import { AdminSectionContent } from './AdminSectionContent/AdminSectionContent';
 import { AdminSidebar } from './AdminSidebar/AdminSidebar';
 
+import { AppRoute } from '@shared/config/routes';
+
 import styles from './AdminPage.module.css';
 
 export function AdminPage() {
-  const [activeSection, setActiveSection] = useState<AdminSection>('dashboard');
+  const { section } = useParams<{ section?: string }>();
+  const navigate = useNavigate();
+
+  const activeSection = getAdminSectionFromParam(section);
+  const isValidSection = isAdminSectionPathParam(section);
 
   const {
     players,
@@ -46,13 +57,20 @@ export function AdminPage() {
     handleDeleteNews,
   } = useAdminData();
 
+  const handleSelectSection = (nextSection: AdminSection) => {
+    navigate(getAdminSectionPath(nextSection));
+  };
+
+  if (!isValidSection) {
+    return <Navigate to={AppRoute.admin} replace />;
+  }
+
   return (
     <div className={styles.layout}>
       <AdminSidebar
         activeSection={activeSection}
         unreadMessagesCount={unreadMessagesCount}
         unreadTicketRequestsCount={unreadTicketRequestsCount}
-        onSelectSection={setActiveSection}
       />
 
       <main className={styles.content}>
@@ -69,7 +87,7 @@ export function AdminPage() {
             isLoading={isLoading}
             loadError={loadError}
             onRefresh={refreshAdminData}
-            onSelectSection={setActiveSection}
+            onSelectSection={handleSelectSection}
             onCreatePlayer={handleCreatePlayer}
             onUpdatePlayer={handleUpdatePlayer}
             onDeletePlayer={handleDeletePlayer}

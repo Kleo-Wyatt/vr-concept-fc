@@ -32,6 +32,7 @@ export function AppRouter() {
 
       <Route element={<AdminLayout />}>
         <Route path={AppRoute.admin} element={<AdminPage />} />
+        <Route path={`${AppRoute.admin}/:section`} element={<AdminPage />} />
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />

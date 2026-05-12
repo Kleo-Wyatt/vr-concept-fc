@@ -1,5 +1,7 @@
+import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 
+import { getAdminSectionPath } from '../../lib/adminRoutes';
 import { adminNavItems } from '../../model/adminNav';
 import type { AdminSection } from '../../model/types';
 
@@ -9,14 +11,12 @@ type AdminSidebarProps = {
   activeSection: AdminSection;
   unreadMessagesCount: number;
   unreadTicketRequestsCount: number;
-  onSelectSection: (section: AdminSection) => void;
 };
 
 export function AdminSidebar({
   activeSection,
   unreadMessagesCount,
   unreadTicketRequestsCount,
-  onSelectSection,
 }: AdminSidebarProps) {
   return (
     <aside className={styles.sidebar}>
@@ -35,14 +35,14 @@ export function AdminSidebar({
                 : 0;
 
           return (
-            <button
+            <NavLink
               className={clsx(
                 styles.navItem,
                 activeSection === item.id && styles.navItemActive,
               )}
               key={item.id}
-              type="button"
-              onClick={() => onSelectSection(item.id)}
+              to={getAdminSectionPath(item.id)}
+              end={item.id === 'dashboard'}
             >
               <span className={styles.navIcon}>{item.icon}</span>
               <span className={styles.navLabel}>{item.label}</span>
@@ -50,14 +50,14 @@ export function AdminSidebar({
               {badgeCount > 0 && (
                 <span className={styles.navBadge}>{badgeCount}</span>
               )}
-            </button>
+            </NavLink>
           );
         })}
       </nav>
 
       <div className={styles.sidebarFooter}>
-        <p>© {new Date().getFullYear()} VR CONCEPT FC</p>
-        <p>Версия 1.0</p>
+        <p>© 2026 VR CONCEPT FC</p>
+        <p>Администрирование сайта</p>
       </div>
     </aside>
   );

@@ -50,12 +50,17 @@
   color: var(--color-tertiary-text);
   font: inherit;
   text-align: left;
+  text-decoration: none;
 
   background: none;
   cursor: pointer;
   transition:
     color var(--transition-normal),
     background-color var(--transition-normal);
+}
+
+.navItem:hover {
+  text-decoration: none;
 }
 
 .navItem:hover,
