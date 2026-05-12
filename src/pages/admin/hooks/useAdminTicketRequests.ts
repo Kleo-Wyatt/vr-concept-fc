@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
-import { getUnknownErrorMessage } from '@shared/lib/errors/getUnknownErrorMessage';
 
 import {
   deleteAdminTicketRequest,
@@ -11,6 +10,7 @@ import {
 } from '../model/adminStorage';
 import { adminQueryKeys } from '../model/queryKeys';
 import { getUnreadCount } from '../lib/getUnreadCount';
+import { showMutationError } from '@shared/lib/feedback/showMutationError';
 
 const EMPTY_TICKET_REQUESTS: TicketRequest[] = [];
 
@@ -40,7 +40,7 @@ export function useAdminTicketRequests() {
       void invalidateTicketRequests();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось обновить заявку'));
+      showMutationError(error, 'Не удалось обновить заявку');
     },
   });
 
@@ -50,7 +50,7 @@ export function useAdminTicketRequests() {
       void invalidateTicketRequests();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось удалить заявку'));
+      showMutationError(error, 'Не удалось удалить заявку');
     },
   });
 

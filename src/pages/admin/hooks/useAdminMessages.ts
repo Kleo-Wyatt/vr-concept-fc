@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { ContactMessage } from '@pages/contacts/model/types';
-import { getUnknownErrorMessage } from '@shared/lib/errors/getUnknownErrorMessage';
 
 import {
   deleteAdminContactMessage,
@@ -11,6 +10,7 @@ import {
 } from '../model/adminStorage';
 import { adminQueryKeys } from '../model/queryKeys';
 import { getUnreadCount } from '../lib/getUnreadCount';
+import { showMutationError } from '@shared/lib/feedback/showMutationError';
 
 const EMPTY_MESSAGES: ContactMessage[] = [];
 
@@ -40,7 +40,7 @@ export function useAdminMessages() {
       void invalidateMessages();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось обновить сообщение'));
+      showMutationError(error, 'Не удалось обновить сообщение');
     },
   });
 
@@ -50,7 +50,7 @@ export function useAdminMessages() {
       void invalidateMessages();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось удалить сообщение'));
+      showMutationError(error, 'Не удалось удалить сообщение');
     },
   });
 

@@ -1,7 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getUnknownErrorMessage } from '@shared/lib/errors/getUnknownErrorMessage';
-
 import {
   createAdminNews,
   deleteAdminNews,
@@ -11,6 +9,7 @@ import {
   type NewsPayload,
 } from '../model/newsApi';
 import { adminQueryKeys } from '../model/queryKeys';
+import { showMutationError } from '@shared/lib/feedback/showMutationError';
 
 const EMPTY_NEWS: AdminNewsItem[] = [];
 
@@ -33,7 +32,7 @@ export function useAdminNews() {
       void invalidateNews();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось добавить новость'));
+      showMutationError(error, 'Не удалось добавить новость');
     },
   });
 
@@ -44,7 +43,7 @@ export function useAdminNews() {
       void invalidateNews();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось обновить новость'));
+      showMutationError(error, 'Не удалось обновить новость');
     },
   });
 
@@ -54,7 +53,7 @@ export function useAdminNews() {
       void invalidateNews();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось удалить новость'));
+      showMutationError(error, 'Не удалось удалить новость');
     },
   });
 

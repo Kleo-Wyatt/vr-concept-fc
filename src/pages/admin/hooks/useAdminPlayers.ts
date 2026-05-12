@@ -1,7 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getUnknownErrorMessage } from '@shared/lib/errors/getUnknownErrorMessage';
-
 import {
   createAdminPlayer,
   deleteAdminPlayer,
@@ -11,6 +9,7 @@ import {
   type PlayerPayload,
 } from '../model/playersApi';
 import { adminQueryKeys } from '../model/queryKeys';
+import { showMutationError } from '@shared/lib/feedback/showMutationError';
 
 const EMPTY_PLAYERS: Player[] = [];
 
@@ -33,7 +32,7 @@ export function useAdminPlayers() {
       void invalidatePlayers();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось добавить игрока'));
+      showMutationError(error, 'Не удалось добавить игрока');
     },
   });
 
@@ -44,7 +43,7 @@ export function useAdminPlayers() {
       void invalidatePlayers();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось обновить игрока'));
+      showMutationError(error, 'Не удалось обновить игрока');
     },
   });
 
@@ -54,7 +53,7 @@ export function useAdminPlayers() {
       void invalidatePlayers();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось удалить игрока'));
+      showMutationError(error, 'Не удалось удалить игрока');
     },
   });
 

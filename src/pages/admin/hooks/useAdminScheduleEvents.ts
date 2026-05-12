@@ -1,7 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getUnknownErrorMessage } from '@shared/lib/errors/getUnknownErrorMessage';
-
 import {
   createAdminScheduleEvent,
   deleteAdminScheduleEvent,
@@ -11,6 +9,7 @@ import {
   type ScheduleEventPayload,
 } from '../model/scheduleEventsApi';
 import { adminQueryKeys } from '../model/queryKeys';
+import { showMutationError } from '@shared/lib/feedback/showMutationError';
 
 const EMPTY_SCHEDULE_EVENTS: AdminScheduleEvent[] = [];
 
@@ -33,7 +32,7 @@ export function useAdminScheduleEvents() {
       void invalidateScheduleEvents();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось добавить событие'));
+      showMutationError(error, 'Не удалось добавить событие');
     },
   });
 
@@ -49,7 +48,7 @@ export function useAdminScheduleEvents() {
       void invalidateScheduleEvents();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось обновить событие'));
+      showMutationError(error, 'Не удалось обновить событие');
     },
   });
 
@@ -59,7 +58,7 @@ export function useAdminScheduleEvents() {
       void invalidateScheduleEvents();
     },
     onError: (error) => {
-      alert(getUnknownErrorMessage(error, 'Не удалось удалить событие'));
+      showMutationError(error, 'Не удалось удалить событие');
     },
   });
 
