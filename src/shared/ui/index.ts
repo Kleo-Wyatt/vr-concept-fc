@@ -26,4 +26,6 @@ export { ScrollableFrame } from './ScrollableFrame/ScrollableFrame';
 export { FilterTabs } from './FilterTabs/FilterTabs';
 export type { FilterTabItem, FilterTabsProps } from './FilterTabs/FilterTabs';
 
+export { ScrollToTop } from './ScrollToTop/ScrollToTop';
+
 export { PageStub } from './PageStub/PageStub';
