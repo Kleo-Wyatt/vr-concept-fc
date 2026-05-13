@@ -1,8 +1,6 @@
 import type { GalleryItem } from './types';
 
-// const unavailablePhoto = '/images/gallery/photo-unavailable.png';
-
-const unavailablePhoto = '/images/gallery/shavlinskoe-ozero.jpg';
+const unavailablePhoto = '/images/gallery/photo-unavailable.png';
 
 export const galleryItems: GalleryItem[] = [
   {
