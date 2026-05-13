@@ -8,11 +8,11 @@ export const initialContactFormData: ContactFormData = {
   message: '',
 };
 
-export const MAX_NAME_LENGTH = 20;
+export const MAX_NAME_LENGTH = 30;
 export const MAX_EMAIL_LENGTH = 30;
 export const MAX_PHONE_LENGTH = 20;
 export const MAX_SUBJECT_LENGTH = 50;
-export const MAX_MESSAGE_LENGTH = 100;
+export const MAX_MESSAGE_LENGTH = 200;
 
 const EMAIL_REGEXP = /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PHONE_REGEXP = /^\+?[\d\s()-]{7,20}$/;
@@ -98,7 +98,9 @@ export function validateContactForm(formData: ContactFormData) {
   return errors;
 }
 
-export function normalizeContactForm(formData: ContactFormData): ContactFormData {
+export function normalizeContactForm(
+  formData: ContactFormData,
+): ContactFormData {
   return {
     name: formData.name.trim(),
     email: formData.email.trim(),

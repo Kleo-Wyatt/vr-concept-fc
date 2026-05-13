@@ -1,4 +1,4 @@
-import type { SubmitEventHandler } from 'react';
+import type { FormEventHandler } from 'react';
 
 import { Button, FormField } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
@@ -20,7 +20,7 @@ type TicketRequestFormProps = {
   errors: TicketRequestFormErrors;
   isSending: boolean;
   onChange: (event: FormFieldChangeEvent) => void;
-  onSubmit: SubmitEventHandler<HTMLFormElement>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
   onCancel: () => void;
 };
 

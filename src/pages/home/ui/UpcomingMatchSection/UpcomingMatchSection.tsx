@@ -1,7 +1,7 @@
 import { CalendarOutlined, EnvironmentFilled } from '@ant-design/icons';
 
 import { DEFAULT_TEAM_ICON, getTeamIcon } from '@shared/config/teamIcons';
-import { Button } from '@shared/ui';
+import { TicketRequestButton } from '@features/ticket-request';
 
 import type { UpcomingMatch } from '../../model/types';
 
@@ -136,9 +136,13 @@ export function UpcomingMatchSection({
           <div className={styles.divider} />
 
           <div className={styles.actions}>
-            <Button className={styles.ticketButton} size="large">
-              Получить билет
-            </Button>
+            <TicketRequestButton
+              match={match}
+              className={styles.ticketButton}
+              size="large"
+            >
+              Приобрести билет
+            </TicketRequestButton>
           </div>
         </div>
       </div>

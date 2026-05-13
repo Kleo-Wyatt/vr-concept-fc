@@ -1,5 +1,5 @@
 import type { ContactMessage } from '@pages/contacts/model/types';
-import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
+import type { TicketRequest } from '@features/ticket-request';
 import { galleryItems } from '@pages/gallery/model/mockData';
 import { Card } from '@shared/ui';
 

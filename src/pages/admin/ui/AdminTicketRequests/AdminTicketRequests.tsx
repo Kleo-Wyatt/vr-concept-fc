@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
+import type { TicketRequest } from '@features/ticket-request';
 import { formatDateTimeRu, formatMatchDateTimeRu } from '@shared/lib/date';
 import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
 

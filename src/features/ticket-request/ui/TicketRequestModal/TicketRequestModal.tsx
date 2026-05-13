@@ -1,10 +1,9 @@
-import type { SubmitEventHandler } from 'react';
-import { useState } from 'react';
+import { useState, type FormEventHandler } from 'react';
 
 import { Modal } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
 
-import type { UpcomingMatch } from '../../model/types';
+import type { TicketMatch } from '../../model/types';
 import {
   initialTicketRequestFormData,
   normalizeTicketRequestForm,
@@ -23,7 +22,7 @@ import { TicketRequestSuccess } from './TicketRequestSuccess';
 import styles from './TicketRequestModal.module.css';
 
 type TicketRequestModalProps = {
-  match: UpcomingMatch;
+  match: TicketMatch;
   open: boolean;
   onClose: () => void;
 };
@@ -69,7 +68,7 @@ export function TicketRequestModal({
     setSubmitError('');
   };
 
-  const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (event) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     const nextErrors = validateTicketRequestForm(formData);

@@ -1,8 +1,8 @@
 import { apiRequest } from '@shared/api/http';
 import { getContactMessages } from '@pages/contacts/model/contactMessagesStorage';
-import { getTicketRequests } from '@pages/schedule/model/ticketRequestStorage';
+import { getTicketRequests } from '@features/ticket-request';
 import type { ContactMessage } from '@pages/contacts/model/types';
-import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
+import type { TicketRequest } from '@features/ticket-request';
 
 export function getAdminContactMessages() {
   return getContactMessages();

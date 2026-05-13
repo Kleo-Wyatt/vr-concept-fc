@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { TicketRequest } from '@pages/schedule/model/ticketRequestStorage';
+import type { TicketRequest } from '@features/ticket-request';
 
 import {
   deleteAdminTicketRequest,

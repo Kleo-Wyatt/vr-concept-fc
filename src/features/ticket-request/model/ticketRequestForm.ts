@@ -1,5 +1,14 @@
 import type { TicketRequestFormData } from './ticketRequestStorage';
 
+export const MAX_NAME_LENGTH = 30;
+export const MAX_EMAIL_LENGTH = 30;
+export const MAX_PHONE_LENGTH = 20;
+export const MAX_COMMENT_LENGTH = 200;
+export const MAX_TICKET_COUNT = 10;
+
+const EMAIL_REGEXP = /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const PHONE_REGEXP = /^\+?[\d\s()-]{7,20}$/;
+
 export type TicketRequestFormErrors = Partial<
   Record<keyof TicketRequestFormData, string>
 >;
@@ -12,71 +21,25 @@ export const initialTicketRequestFormData: TicketRequestFormData = {
   comment: '',
 };
 
-export const MAX_NAME_LENGTH = 60;
-export const MAX_EMAIL_LENGTH = 80;
-export const MAX_PHONE_LENGTH = 20;
-export const MAX_COMMENT_LENGTH = 300;
-export const MAX_TICKET_COUNT = 10;
-
-const EMAIL_REGEXP = /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const PHONE_REGEXP = /^\+?[\d\s()-]{7,20}$/;
-
-function limitText(value: unknown, maxLength: number) {
-  return String(value ?? '').slice(0, maxLength);
-}
-
-function sanitizeEmail(value: unknown) {
-  return String(value ?? '')
-    .replace(/[^a-zA-Z0-9@._+-]/g, '')
-    .slice(0, MAX_EMAIL_LENGTH);
-}
-
-function sanitizePhone(value: unknown) {
-  const cleanedValue = String(value ?? '')
-    .replace(/[^\d+()\s-]/g, '')
-    .slice(0, MAX_PHONE_LENGTH);
-
-  const startsWithPlus = cleanedValue.trimStart().startsWith('+');
-  const valueWithoutPlus = cleanedValue.replace(/\+/g, '');
-
-  return startsWithPlus ? `+${valueWithoutPlus.trimStart()}` : valueWithoutPlus;
-}
-
-function sanitizeTicketCount(value: unknown) {
-  const numericValue = Number(value);
-
-  if (!Number.isFinite(numericValue)) {
-    return 1;
-  }
-
-  return Math.min(Math.max(Math.trunc(numericValue), 1), MAX_TICKET_COUNT);
-}
-
-export function sanitizeTicketRequestField(
-  fieldName: keyof TicketRequestFormData,
-  value: unknown,
-) {
+export function sanitizeTicketRequestField<
+  FieldName extends keyof TicketRequestFormData,
+>(fieldName: FieldName, value: unknown): TicketRequestFormData[FieldName] {
   if (fieldName === 'ticketCount') {
-    return sanitizeTicketCount(value);
+    const numericValue = Number(value);
+
+    if (!Number.isFinite(numericValue)) {
+      return 1 as TicketRequestFormData[FieldName];
+    }
+
+    const normalizedValue = Math.trunc(numericValue);
+
+    return Math.min(
+      Math.max(normalizedValue, 1),
+      MAX_TICKET_COUNT,
+    ) as TicketRequestFormData[FieldName];
   }
 
-  if (fieldName === 'phone') {
-    return sanitizePhone(value);
-  }
-
-  if (fieldName === 'email') {
-    return sanitizeEmail(value);
-  }
-
-  if (fieldName === 'name') {
-    return limitText(value, MAX_NAME_LENGTH);
-  }
-
-  if (fieldName === 'comment') {
-    return limitText(value, MAX_COMMENT_LENGTH);
-  }
-
-  return String(value ?? '');
+  return String(value ?? '') as TicketRequestFormData[FieldName];
 }
 
 export function validateTicketRequestForm(formData: TicketRequestFormData) {
@@ -91,16 +54,22 @@ export function validateTicketRequestForm(formData: TicketRequestFormData) {
     errors.name = 'Введите имя';
   } else if (trimmedName.length < 2) {
     errors.name = 'Имя должно быть не короче 2 символов';
+  } else if (trimmedName.length > MAX_NAME_LENGTH) {
+    errors.name = `Имя должно быть не длиннее ${MAX_NAME_LENGTH} символов`;
   }
 
   if (!trimmedEmail) {
     errors.email = 'Введите email';
   } else if (!EMAIL_REGEXP.test(trimmedEmail)) {
-    errors.email = 'Введите корректный email латинскими символами';
+    errors.email = 'Введите корректный email';
+  } else if (trimmedEmail.length > MAX_EMAIL_LENGTH) {
+    errors.email = `Email должен быть не длиннее ${MAX_EMAIL_LENGTH} символов`;
   }
 
   if (trimmedPhone && !PHONE_REGEXP.test(trimmedPhone)) {
     errors.phone = 'Введите корректный телефон';
+  } else if (trimmedPhone.length > MAX_PHONE_LENGTH) {
+    errors.phone = `Телефон должен быть не длиннее ${MAX_PHONE_LENGTH} символов`;
   }
 
   if (!Number.isInteger(formData.ticketCount)) {
