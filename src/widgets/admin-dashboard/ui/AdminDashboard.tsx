@@ -1,12 +1,11 @@
 import type { ContactMessage } from '@entities/contact-message';
 import { galleryItems } from '@entities/gallery';
 import type { TicketRequest } from '@entities/ticket-request';
+import { formatShortDateRu } from '@shared/lib/date';
 import { Card } from '@shared/ui';
-
 import type { AdminSection } from '@widgets/admin-sidebar';
 
 import styles from './AdminDashboard.module.css';
-import { formatShortDateRu } from '@shared/lib/date';
 
 type AdminDashboardProps = {
   playersCount: number;

@@ -10,7 +10,7 @@ import type {
 } from '@entities/schedule-event';
 import type { AdminSection } from '@widgets/admin-sidebar';
 
-import { AdminDashboard } from '../AdminDashboard/AdminDashboard';
+import { AdminDashboard } from '@widgets/admin-dashboard';
 import { AdminMessages } from '../AdminMessages/AdminMessages';
 import { AdminNews } from '../AdminNews/AdminNews';
 import { AdminPlayers } from '../AdminPlayers/AdminPlayers';
