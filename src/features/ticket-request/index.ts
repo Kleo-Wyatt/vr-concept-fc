@@ -5,6 +5,6 @@ export type {
   CreateTicketRequestPayload,
   TicketRequest,
   TicketRequestFormData,
-} from './model/ticketRequestStorage';
+} from '@entities/ticket-request';
 
-export { getTicketRequests, saveTicketRequest } from './model/ticketRequestStorage';
+export { getTicketRequests, saveTicketRequest } from '@entities/ticket-request';

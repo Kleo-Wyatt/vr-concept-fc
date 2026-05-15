@@ -1,9 +1,4 @@
-import { apiRequest } from '@shared/api/http';
-
-import type { ScheduleEvent } from './types';
-
-export const scheduleEventsQueryKey = ['schedule-events'] as const;
-
-export function getScheduleEvents() {
-  return apiRequest<ScheduleEvent[]>('/schedule-events');
-}
+export {
+  getScheduleEvents,
+  scheduleEventQueryKeys as scheduleEventsQueryKey,
+} from '@entities/schedule-event';
