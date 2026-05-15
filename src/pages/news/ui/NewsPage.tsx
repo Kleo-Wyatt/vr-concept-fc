@@ -1,9 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
-import { getNews } from '../model/api';
+import {
+  getNews,
+  newsQueryKeys,
+  type NewsCategoryFilter,
+  type NewsItem,
+} from '@entities/news';
 import { getActualNews, getArchiveNews, getNewsCategories } from '../model/lib';
-import type { NewsCategoryFilter, NewsItem } from '../model/types';
 
 import { FeaturedNewsSection } from './FeaturedNewsSection/FeaturedNewsSection';
 import { NewsArchiveSection } from './NewsArchiveSection/NewsArchiveSection';
@@ -22,7 +26,7 @@ export function NewsPage() {
   const [isNewsDrawerOpen, setIsNewsDrawerOpen] = useState(false);
 
   const newsQuery = useQuery({
-    queryKey: ['news'],
+    queryKey: newsQueryKeys.all,
     queryFn: getNews,
   });
 

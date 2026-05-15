@@ -1,9 +1,8 @@
-import type { ScheduleStatus } from '@pages/schedule/model/types';
-
 import type {
-  AdminScheduleEvent,
+  ScheduleEvent as AdminScheduleEvent,
   ScheduleEventPayload,
-} from '../../model/scheduleEventsApi';
+  ScheduleStatus,
+} from '@entities/schedule-event';
 
 export const initialScheduleEventFormData: ScheduleEventPayload = {
   date: '',

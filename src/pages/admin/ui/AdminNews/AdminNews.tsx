@@ -4,7 +4,7 @@ import { getApiErrorMessage } from '@shared/api/http';
 import { Button, Card } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
 
-import type { AdminNewsItem, NewsPayload } from '../../model/newsApi';
+import type { NewsItem as AdminNewsItem, NewsPayload } from '@entities/news';
 
 import { NewsFormModal } from './NewsFormModal';
 import {

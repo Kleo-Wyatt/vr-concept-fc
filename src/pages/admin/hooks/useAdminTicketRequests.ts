@@ -1,16 +1,16 @@
 import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { TicketRequest } from '@features/ticket-request';
-
 import {
-  deleteAdminTicketRequest,
-  getAdminTicketRequests,
-  markAdminTicketRequestAsRead,
-} from '../model/adminStorage';
-import { adminQueryKeys } from '../model/queryKeys';
-import { getUnreadCount } from '../lib/getUnreadCount';
+  deleteTicketRequest,
+  getTicketRequests,
+  markTicketRequestAsRead,
+  ticketRequestQueryKeys,
+  type TicketRequest,
+} from '@entities/ticket-request';
 import { showMutationError } from '@shared/lib/feedback/showMutationError';
+
+import { getUnreadCount } from '../lib/getUnreadCount';
 
 const EMPTY_TICKET_REQUESTS: TicketRequest[] = [];
 
@@ -18,8 +18,8 @@ export function useAdminTicketRequests() {
   const queryClient = useQueryClient();
 
   const ticketRequestsQuery = useQuery({
-    queryKey: adminQueryKeys.ticketRequests,
-    queryFn: getAdminTicketRequests,
+    queryKey: ticketRequestQueryKeys.admin,
+    queryFn: getTicketRequests,
   });
 
   const ticketRequests = ticketRequestsQuery.data ?? EMPTY_TICKET_REQUESTS;
@@ -31,11 +31,11 @@ export function useAdminTicketRequests() {
 
   const invalidateTicketRequests = () =>
     queryClient.invalidateQueries({
-      queryKey: adminQueryKeys.ticketRequests,
+      queryKey: ticketRequestQueryKeys.admin,
     });
 
   const markTicketRequestAsReadMutation = useMutation({
-    mutationFn: markAdminTicketRequestAsRead,
+    mutationFn: markTicketRequestAsRead,
     onSuccess: () => {
       void invalidateTicketRequests();
     },
@@ -45,7 +45,7 @@ export function useAdminTicketRequests() {
   });
 
   const deleteTicketRequestMutation = useMutation({
-    mutationFn: deleteAdminTicketRequest,
+    mutationFn: deleteTicketRequest,
     onSuccess: () => {
       void invalidateTicketRequests();
     },

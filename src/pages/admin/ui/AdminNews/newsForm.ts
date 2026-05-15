@@ -1,4 +1,4 @@
-import type { AdminNewsItem, NewsPayload } from '../../model/newsApi';
+import type { NewsItem as AdminNewsItem, NewsPayload } from '@entities/news';
 
 export const categoryOptions = [
   'Матч',

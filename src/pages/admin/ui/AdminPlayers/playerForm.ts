@@ -1,4 +1,4 @@
-import type { Player, PlayerPayload } from '../../model/playersApi';
+import type { Player, PlayerPayload } from '@entities/player';
 
 export const PLAYER_PLACEHOLDER_IMAGE =
   '/images/players/player-placeholder.png';

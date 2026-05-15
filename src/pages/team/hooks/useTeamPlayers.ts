@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getTeamPlayers, type TeamPlayer } from '../model/playersApi';
-import { teamQueryKeys } from '../model/queryKeys';
+import { getPlayers, playerQueryKeys, type Player } from '@entities/player';
 
-const EMPTY_PLAYERS: TeamPlayer[] = [];
+const EMPTY_PLAYERS: Player[] = [];
 
 export function useTeamPlayers() {
   const query = useQuery({
-    queryKey: teamQueryKeys.players,
-    queryFn: getTeamPlayers,
+    queryKey: playerQueryKeys.all,
+    queryFn: getPlayers,
   });
 
   return {

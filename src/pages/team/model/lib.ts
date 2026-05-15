@@ -1,18 +1,15 @@
-import type { TeamPlayer } from './playersApi';
+import type { Player } from '@entities/player';
 
 export type TeamInfoItem = {
   value: string;
   label: string;
 };
 
-export function getTeamPositions(players: TeamPlayer[]) {
+export function getTeamPositions(players: Player[]) {
   return ['all', ...new Set(players.map((player) => player.position))];
 }
 
-export function filterTeamPlayers(
-  players: TeamPlayer[],
-  selectedPosition: string,
-) {
+export function filterTeamPlayers(players: Player[], selectedPosition: string) {
   if (selectedPosition === 'all') {
     return players;
   }
@@ -20,7 +17,7 @@ export function filterTeamPlayers(
   return players.filter((player) => player.position === selectedPosition);
 }
 
-export function getTeamInfo(players: TeamPlayer[]): TeamInfoItem[] {
+export function getTeamInfo(players: Player[]): TeamInfoItem[] {
   return [
     {
       value: String(players.length),

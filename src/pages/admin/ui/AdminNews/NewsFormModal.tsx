@@ -1,7 +1,7 @@
 import { Button, FormField, Modal } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
 
-import type { NewsPayload } from '../../model/newsApi';
+import type { NewsPayload } from '@entities/news';
 
 import { categoryOptions } from './newsForm';
 

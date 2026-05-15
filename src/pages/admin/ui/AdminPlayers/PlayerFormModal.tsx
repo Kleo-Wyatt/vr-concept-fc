@@ -1,7 +1,7 @@
 import { Button, FormField, Modal } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
 
-import type { PlayerPayload } from '../../model/playersApi';
+import type { PlayerPayload } from '@entities/player';
 
 import { PlayerPhotoUpload } from './PlayerPhotoUpload';
 import { positionOptions } from './playerForm';

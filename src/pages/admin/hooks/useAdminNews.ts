@@ -1,33 +1,33 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
-  createAdminNews,
-  deleteAdminNews,
-  getAdminNews,
-  updateAdminNews,
-  type AdminNewsItem,
+  createNews,
+  deleteNews,
+  getNews,
+  newsQueryKeys,
+  updateNews,
+  type NewsItem,
   type NewsPayload,
-} from '../model/newsApi';
-import { adminQueryKeys } from '../model/queryKeys';
+} from '@entities/news';
 import { showMutationError } from '@shared/lib/feedback/showMutationError';
 
-const EMPTY_NEWS: AdminNewsItem[] = [];
+const EMPTY_NEWS: NewsItem[] = [];
 
 export function useAdminNews() {
   const queryClient = useQueryClient();
 
   const newsQuery = useQuery({
-    queryKey: adminQueryKeys.news,
-    queryFn: getAdminNews,
+    queryKey: newsQueryKeys.all,
+    queryFn: getNews,
   });
 
   const invalidateNews = () =>
     queryClient.invalidateQueries({
-      queryKey: adminQueryKeys.news,
+      queryKey: newsQueryKeys.all,
     });
 
   const createNewsMutation = useMutation({
-    mutationFn: createAdminNews,
+    mutationFn: createNews,
     onSuccess: () => {
       void invalidateNews();
     },
@@ -38,7 +38,7 @@ export function useAdminNews() {
 
   const updateNewsMutation = useMutation({
     mutationFn: ({ id, payload }: { id: number; payload: NewsPayload }) =>
-      updateAdminNews(id, payload),
+      updateNews(id, payload),
     onSuccess: () => {
       void invalidateNews();
     },
@@ -48,7 +48,7 @@ export function useAdminNews() {
   });
 
   const deleteNewsMutation = useMutation({
-    mutationFn: deleteAdminNews,
+    mutationFn: deleteNews,
     onSuccess: () => {
       void invalidateNews();
     },

@@ -3,13 +3,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { getApiErrorMessage } from '@shared/api/http';
 import { Button, Card } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
-import { PlayerPhotoCard } from '@entities/player/ui/PlayerPhotoCard';
-
 import {
-  uploadAdminPlayerPhoto,
+  PlayerPhotoCard,
+  uploadPlayerPhoto,
   type Player,
   type PlayerPayload,
-} from '../../model/playersApi';
+} from '@entities/player';
 
 import { PlayerFormModal } from './PlayerFormModal';
 import {
@@ -151,7 +150,7 @@ export function AdminPlayers({
       let payload: PlayerPayload = formData;
 
       if (selectedPhotoFile) {
-        const uploadedPhoto = await uploadAdminPlayerPhoto(selectedPhotoFile);
+        const uploadedPhoto = await uploadPlayerPhoto(selectedPhotoFile);
 
         payload = {
           ...formData,

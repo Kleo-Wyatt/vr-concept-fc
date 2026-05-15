@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import type { ContactMessage } from '@pages/contacts/model/types';
+import type { ContactMessage } from '@entities/contact-message';
 import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
 import { formatDateTimeRu } from '@shared/lib/date';
 

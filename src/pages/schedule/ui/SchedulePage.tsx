@@ -7,9 +7,9 @@ import { getEventTimestamp, isPastTrainingEvent } from '../model/lib';
 import { scheduleFilters } from '../model/mockData';
 import {
   getScheduleEvents,
-  scheduleEventsQueryKey,
-} from '../model/scheduleEventsApi';
-import type { StatusFilter } from '../model/types';
+  scheduleEventQueryKeys,
+  type StatusFilter,
+} from '@entities/schedule-event';
 
 import { ScheduleEventCard } from './ScheduleEventCard/ScheduleEventCard';
 import { ScheduleFilter } from './ScheduleFilter/ScheduleFilter';
@@ -28,7 +28,7 @@ export function SchedulePage() {
     error,
     refetch,
   } = useQuery({
-    queryKey: scheduleEventsQueryKey,
+    queryKey: scheduleEventQueryKeys.all,
     queryFn: getScheduleEvents,
   });
 

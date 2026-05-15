@@ -1,22 +1,22 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { AboutPage } from '@pages/about/ui/AboutPage';
-import { AdminPage } from '@pages/admin/ui/AdminPage';
-import { ContactsPage } from '@pages/contacts/ui/ContactsPage';
-import { GalleryPage } from '@pages/gallery/ui/GalleryPage';
-import { HomePage } from '@pages/home/ui/HomePage';
-import { NewsPage } from '@pages/news/ui/NewsPage';
-import { NotFoundPage } from '@pages/not-found/ui/NotFoundPage';
-import { SchedulePage } from '@pages/schedule/ui/SchedulePage';
-import { StandingsPage } from '@pages/standings/ui/StandingsPage';
-import { TeamPage } from '@pages/team/ui/TeamPage';
+import { AboutPage } from '@pages/about';
+import { AdminPage } from '@pages/admin';
+import { ContactsPage } from '@pages/contacts';
+import { GalleryPage } from '@pages/gallery';
+import { HomePage } from '@pages/home';
+import { NewsPage } from '@pages/news';
+import { NotFoundPage } from '@pages/not-found';
+import { SchedulePage } from '@pages/schedule';
+import { StandingsPage } from '@pages/standings';
+import { TeamPage } from '@pages/team';
 
-import { AdminLayout } from '@widgets/admin-layout/ui/AdminLayout';
-import { PublicLayout } from '@widgets/public-layout/ui/PublicLayout';
+import { AdminLayout } from '@widgets/admin-layout';
+import { PublicLayout } from '@widgets/public-layout';
+
+import { LoginPage, ProtectedAdminRoute } from '@features/auth';
 
 import { AppRoute } from '@shared/config/routes';
-import { LoginPage } from '@features/auth/ui/LoginPage';
-import { ProtectedAdminRoute } from '@features/auth/ui/ProtectedAdminRoute';
 
 export function AppRouter() {
   return (

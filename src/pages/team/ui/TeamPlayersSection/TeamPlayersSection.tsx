@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { Button, Card } from '@shared/ui';
 
-import type { TeamPlayer } from '../../model/playersApi';
+import type { Player as TeamPlayer } from '@entities/player';
 
 import { PlayerPhotoCard } from '@entities/player/ui/PlayerPhotoCard';
 

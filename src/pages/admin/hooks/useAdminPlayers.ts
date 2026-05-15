@@ -1,14 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
-  createAdminPlayer,
-  deleteAdminPlayer,
-  getAdminPlayers,
-  updateAdminPlayer,
+  createPlayer,
+  deletePlayer,
+  getPlayers,
+  playerQueryKeys,
+  updatePlayer,
   type Player,
   type PlayerPayload,
-} from '../model/playersApi';
-import { adminQueryKeys } from '../model/queryKeys';
+} from '@entities/player';
 import { showMutationError } from '@shared/lib/feedback/showMutationError';
 
 const EMPTY_PLAYERS: Player[] = [];
@@ -17,17 +17,17 @@ export function useAdminPlayers() {
   const queryClient = useQueryClient();
 
   const playersQuery = useQuery({
-    queryKey: adminQueryKeys.players,
-    queryFn: getAdminPlayers,
+    queryKey: playerQueryKeys.all,
+    queryFn: getPlayers,
   });
 
   const invalidatePlayers = () =>
     queryClient.invalidateQueries({
-      queryKey: adminQueryKeys.players,
+      queryKey: playerQueryKeys.all,
     });
 
   const createPlayerMutation = useMutation({
-    mutationFn: createAdminPlayer,
+    mutationFn: createPlayer,
     onSuccess: () => {
       void invalidatePlayers();
     },
@@ -38,7 +38,7 @@ export function useAdminPlayers() {
 
   const updatePlayerMutation = useMutation({
     mutationFn: ({ id, payload }: { id: number; payload: PlayerPayload }) =>
-      updateAdminPlayer(id, payload),
+      updatePlayer(id, payload),
     onSuccess: () => {
       void invalidatePlayers();
     },
@@ -48,7 +48,7 @@ export function useAdminPlayers() {
   });
 
   const deletePlayerMutation = useMutation({
-    mutationFn: deleteAdminPlayer,
+    mutationFn: deletePlayer,
     onSuccess: () => {
       void invalidatePlayers();
     },

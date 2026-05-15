@@ -1,14 +1,13 @@
 import { Button, Card } from '@shared/ui';
 
-import type { ContactMessage } from '@pages/contacts/model/types';
-import type { TicketRequest } from '@features/ticket-request';
-
-import type { AdminNewsItem, NewsPayload } from '../../model/newsApi';
-import type { Player, PlayerPayload } from '../../model/playersApi';
+import type { ContactMessage } from '@entities/contact-message';
+import type { TicketRequest } from '@entities/ticket-request';
+import type { NewsItem as AdminNewsItem, NewsPayload } from '@entities/news';
+import type { Player, PlayerPayload } from '@entities/player';
 import type {
-  AdminScheduleEvent,
+  ScheduleEvent as AdminScheduleEvent,
   ScheduleEventPayload,
-} from '../../model/scheduleEventsApi';
+} from '@entities/schedule-event';
 import type { AdminSection } from '../../model/types';
 
 import { AdminDashboard } from '../AdminDashboard/AdminDashboard';

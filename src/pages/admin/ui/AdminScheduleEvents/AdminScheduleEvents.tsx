@@ -3,11 +3,11 @@ import { useMemo, useState } from 'react';
 import { Button, Card } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
 
-import type { ScheduleStatus } from '@pages/schedule/model/types';
-import {
-  type AdminScheduleEvent,
-  type ScheduleEventPayload,
-} from '../../model/scheduleEventsApi';
+import type {
+  ScheduleEvent as AdminScheduleEvent,
+  ScheduleEventPayload,
+  ScheduleStatus,
+} from '@entities/schedule-event';
 
 import { ScheduleEventCard } from './ScheduleEventCard';
 import { ScheduleEventFormModal } from './ScheduleEventFormModal';

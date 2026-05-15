@@ -1,6 +1,6 @@
-import type { ContactMessage } from '@pages/contacts/model/types';
-import type { TicketRequest } from '@features/ticket-request';
-import { galleryItems } from '@pages/gallery/model/mockData';
+import type { ContactMessage } from '@entities/contact-message';
+import { galleryItems } from '@entities/gallery';
+import type { TicketRequest } from '@entities/ticket-request';
 import { Card } from '@shared/ui';
 
 import type { AdminSection } from '../../model/types';

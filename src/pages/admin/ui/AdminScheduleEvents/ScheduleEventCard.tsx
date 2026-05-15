@@ -1,6 +1,6 @@
 import { Button, Card } from '@shared/ui';
 
-import type { AdminScheduleEvent } from '../../model/scheduleEventsApi';
+import type { ScheduleEvent as AdminScheduleEvent } from '@entities/schedule-event';
 
 import { getEventTitle, statusLabels } from './scheduleEventForm';
 

@@ -1,6 +1,4 @@
-import { apiRequest } from '@shared/api/http';
-
-export type TeamPlayer = {
+export type Player = {
   id: number;
   number: number;
   name: string;
@@ -12,6 +10,6 @@ export type TeamPlayer = {
   weight: string;
 };
 
-export function getTeamPlayers() {
-  return apiRequest<TeamPlayer[]>('/players');
-}
+export type PlayerPayload = Omit<Player, 'id'>;
+
+export type UploadPlayerPhotoResponse = Pick<Player, 'image'>;

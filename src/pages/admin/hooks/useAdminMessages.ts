@@ -1,16 +1,16 @@
 import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { ContactMessage } from '@pages/contacts/model/types';
-
 import {
-  deleteAdminContactMessage,
-  getAdminContactMessages,
-  markAdminContactMessageAsRead,
-} from '../model/adminStorage';
-import { adminQueryKeys } from '../model/queryKeys';
-import { getUnreadCount } from '../lib/getUnreadCount';
+  contactMessageQueryKeys,
+  deleteContactMessage,
+  getContactMessages,
+  markContactMessageAsRead,
+  type ContactMessage,
+} from '@entities/contact-message';
 import { showMutationError } from '@shared/lib/feedback/showMutationError';
+
+import { getUnreadCount } from '../lib/getUnreadCount';
 
 const EMPTY_MESSAGES: ContactMessage[] = [];
 
@@ -18,8 +18,8 @@ export function useAdminMessages() {
   const queryClient = useQueryClient();
 
   const messagesQuery = useQuery({
-    queryKey: adminQueryKeys.contactMessages,
-    queryFn: getAdminContactMessages,
+    queryKey: contactMessageQueryKeys.admin,
+    queryFn: getContactMessages,
   });
 
   const messages = messagesQuery.data ?? EMPTY_MESSAGES;
@@ -31,11 +31,11 @@ export function useAdminMessages() {
 
   const invalidateMessages = () =>
     queryClient.invalidateQueries({
-      queryKey: adminQueryKeys.contactMessages,
+      queryKey: contactMessageQueryKeys.admin,
     });
 
   const markMessageAsReadMutation = useMutation({
-    mutationFn: markAdminContactMessageAsRead,
+    mutationFn: markContactMessageAsRead,
     onSuccess: () => {
       void invalidateMessages();
     },
@@ -45,7 +45,7 @@ export function useAdminMessages() {
   });
 
   const deleteMessageMutation = useMutation({
-    mutationFn: deleteAdminContactMessage,
+    mutationFn: deleteContactMessage,
     onSuccess: () => {
       void invalidateMessages();
     },

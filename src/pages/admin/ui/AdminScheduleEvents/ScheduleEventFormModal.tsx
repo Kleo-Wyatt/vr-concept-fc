@@ -1,7 +1,7 @@
 import { Button, FormField, Modal } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
 
-import type { ScheduleEventPayload } from '../../model/scheduleEventsApi';
+import type { ScheduleEventPayload } from '@entities/schedule-event';
 
 import { statusOptions } from './scheduleEventForm';
 

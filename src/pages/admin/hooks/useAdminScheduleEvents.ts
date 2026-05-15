@@ -1,33 +1,33 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
-  createAdminScheduleEvent,
-  deleteAdminScheduleEvent,
-  getAdminScheduleEvents,
-  updateAdminScheduleEvent,
-  type AdminScheduleEvent,
+  createScheduleEvent,
+  deleteScheduleEvent,
+  getScheduleEvents,
+  scheduleEventQueryKeys,
+  updateScheduleEvent,
+  type ScheduleEvent,
   type ScheduleEventPayload,
-} from '../model/scheduleEventsApi';
-import { adminQueryKeys } from '../model/queryKeys';
+} from '@entities/schedule-event';
 import { showMutationError } from '@shared/lib/feedback/showMutationError';
 
-const EMPTY_SCHEDULE_EVENTS: AdminScheduleEvent[] = [];
+const EMPTY_SCHEDULE_EVENTS: ScheduleEvent[] = [];
 
 export function useAdminScheduleEvents() {
   const queryClient = useQueryClient();
 
   const scheduleEventsQuery = useQuery({
-    queryKey: adminQueryKeys.scheduleEvents,
-    queryFn: getAdminScheduleEvents,
+    queryKey: scheduleEventQueryKeys.all,
+    queryFn: getScheduleEvents,
   });
 
   const invalidateScheduleEvents = () =>
     queryClient.invalidateQueries({
-      queryKey: adminQueryKeys.scheduleEvents,
+      queryKey: scheduleEventQueryKeys.all,
     });
 
   const createScheduleEventMutation = useMutation({
-    mutationFn: createAdminScheduleEvent,
+    mutationFn: createScheduleEvent,
     onSuccess: () => {
       void invalidateScheduleEvents();
     },
@@ -43,7 +43,7 @@ export function useAdminScheduleEvents() {
     }: {
       id: number;
       payload: ScheduleEventPayload;
-    }) => updateAdminScheduleEvent(id, payload),
+    }) => updateScheduleEvent(id, payload),
     onSuccess: () => {
       void invalidateScheduleEvents();
     },
@@ -53,7 +53,7 @@ export function useAdminScheduleEvents() {
   });
 
   const deleteScheduleEventMutation = useMutation({
-    mutationFn: deleteAdminScheduleEvent,
+    mutationFn: deleteScheduleEvent,
     onSuccess: () => {
       void invalidateScheduleEvents();
     },

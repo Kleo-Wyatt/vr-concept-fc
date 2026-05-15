@@ -1,7 +1,11 @@
 import { useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { adminQueryKeys } from '../model/queryKeys';
+import { newsQueryKeys } from '@entities/news';
+import { playerQueryKeys } from '@entities/player';
+import { scheduleEventQueryKeys } from '@entities/schedule-event';
+import { ticketRequestQueryKeys } from '@entities/ticket-request';
+import { contactMessageQueryKeys } from '@entities/contact-message';
 
 export function useRefreshAdminData() {
   const queryClient = useQueryClient();
@@ -9,19 +13,19 @@ export function useRefreshAdminData() {
   return useCallback(async () => {
     await Promise.all([
       queryClient.invalidateQueries({
-        queryKey: adminQueryKeys.players,
+        queryKey: playerQueryKeys.all,
       }),
       queryClient.invalidateQueries({
-        queryKey: adminQueryKeys.scheduleEvents,
+        queryKey: scheduleEventQueryKeys.all,
       }),
       queryClient.invalidateQueries({
-        queryKey: adminQueryKeys.news,
+        queryKey: newsQueryKeys.all,
       }),
       queryClient.invalidateQueries({
-        queryKey: adminQueryKeys.contactMessages,
+        queryKey: ticketRequestQueryKeys.admin,
       }),
       queryClient.invalidateQueries({
-        queryKey: adminQueryKeys.ticketRequests,
+        queryKey: contactMessageQueryKeys.admin,
       }),
     ]);
   }, [queryClient]);
