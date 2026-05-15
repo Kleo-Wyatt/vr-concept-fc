@@ -8,7 +8,7 @@ import type {
   ScheduleEvent as AdminScheduleEvent,
   ScheduleEventPayload,
 } from '@entities/schedule-event';
-import type { AdminSection } from '../../model/types';
+import type { AdminSection } from '@widgets/admin-sidebar';
 
 import { AdminDashboard } from '../AdminDashboard/AdminDashboard';
 import { AdminMessages } from '../AdminMessages/AdminMessages';

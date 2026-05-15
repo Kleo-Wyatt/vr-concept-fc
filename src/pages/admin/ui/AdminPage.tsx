@@ -1,20 +1,20 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
-import { removeAuthToken } from '@features/auth/model/authToken';
-
-import { useAdminData } from '../hooks/useAdminData';
+import { removeAuthToken } from '@features/auth';
 import {
+  AdminSidebar,
   getAdminSectionFromParam,
   getAdminSectionPath,
   isAdminSectionPathParam,
-} from '../lib/adminRoutes';
-import type { AdminSection } from '../model/types';
+  type AdminSection,
+} from '@widgets/admin-sidebar';
+
+import { AppRoute } from '@shared/config/routes';
+
+import { useAdminData } from '../hooks/useAdminData';
 
 import { AdminHeader } from './AdminHeader/AdminHeader';
 import { AdminSectionContent } from './AdminSectionContent/AdminSectionContent';
-import { AdminSidebar } from './AdminSidebar/AdminSidebar';
-
-import { AppRoute } from '@shared/config/routes';
 
 import styles from './AdminPage.module.css';
 

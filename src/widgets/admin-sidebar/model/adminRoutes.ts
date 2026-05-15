@@ -1,6 +1,6 @@
 import { AppRoute } from '@shared/config/routes';
 
-import type { AdminSection } from '../model/types';
+import type { AdminSection } from './types';
 
 const adminSectionByPathParam: Record<string, AdminSection> = {
   dashboard: 'dashboard',

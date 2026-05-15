@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 
-import { getAdminSectionPath } from '../../lib/adminRoutes';
-import { adminNavItems } from '../../model/adminNav';
-import type { AdminSection } from '../../model/types';
+import { getAdminSectionPath } from '../model/adminRoutes';
+import { adminNavItems } from '../model/adminNav';
+import type { AdminSection } from '../model/types';
 
 import styles from './AdminSidebar.module.css';
 

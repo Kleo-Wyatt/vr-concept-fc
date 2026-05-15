@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 
-import { isAuthenticated } from '@features/auth/model/authToken';
+import { isAuthenticated } from '@features/auth';
 import { AppRoute, navigationItems } from '@shared/config/routes';
 
 import styles from './Navigation.module.css';
