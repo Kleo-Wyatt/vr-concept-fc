@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 
+import type { NewsItem as AdminNewsItem, NewsPayload } from '@entities/news';
 import { getApiErrorMessage } from '@shared/api/http';
+import { formatShortDateRu } from '@shared/lib/date';
 import { Button, Card, SectionHeader } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
-
-import type { NewsItem as AdminNewsItem, NewsPayload } from '@entities/news';
 
 import { NewsFormModal } from './NewsFormModal';
 import {
@@ -14,8 +14,6 @@ import {
 } from './newsForm';
 
 import styles from './AdminNews.module.css';
-import { formatShortDateRu } from '@shared/lib/date';
-
 
 type AdminNewsProps = {
   news: AdminNewsItem[];
