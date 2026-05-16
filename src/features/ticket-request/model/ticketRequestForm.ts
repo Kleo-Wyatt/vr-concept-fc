@@ -1,4 +1,4 @@
-import type { TicketRequestFormData } from './ticketRequestStorage';
+import type { TicketRequestFormData } from '@entities/ticket-request';
 
 export const MAX_NAME_LENGTH = 30;
 export const MAX_EMAIL_LENGTH = 30;

@@ -1,4 +1,4 @@
-import type { FormEventHandler } from 'react';
+import type { SubmitEventHandler } from 'react';
 
 import { Button, FormField } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
@@ -11,7 +11,7 @@ import {
   MAX_TICKET_COUNT,
   type TicketRequestFormErrors,
 } from '../../model/ticketRequestForm';
-import type { TicketRequestFormData } from '../../model/ticketRequestStorage';
+import type { TicketRequestFormData } from '@entities/ticket-request';
 
 import styles from './TicketRequestModal.module.css';
 
@@ -20,7 +20,7 @@ type TicketRequestFormProps = {
   errors: TicketRequestFormErrors;
   isSending: boolean;
   onChange: (event: FormFieldChangeEvent) => void;
-  onSubmit: FormEventHandler<HTMLFormElement>;
+  onSubmit: SubmitEventHandler<HTMLFormElement>;
   onCancel: () => void;
 };
 

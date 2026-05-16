@@ -1,4 +1,4 @@
-import { useState, type FormEventHandler } from 'react';
+import { useState, type SubmitEventHandler } from 'react';
 
 import { Modal } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
@@ -14,7 +14,7 @@ import {
 import {
   saveTicketRequest,
   type TicketRequestFormData,
-} from '../../model/ticketRequestStorage';
+} from '@entities/ticket-request';
 
 import { TicketRequestForm } from './TicketRequestForm';
 import { TicketRequestSuccess } from './TicketRequestSuccess';
@@ -68,7 +68,7 @@ export function TicketRequestModal({
     setSubmitError('');
   };
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+  const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     const nextErrors = validateTicketRequestForm(formData);
