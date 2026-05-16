@@ -12,11 +12,11 @@ import type { AdminSection } from '@widgets/admin-sidebar';
 
 import { AdminDashboard } from '@widgets/admin-dashboard';
 
-import { AdminMessages } from '@pages/admin/ui/AdminMessages/AdminMessages';
+import { AdminMessages } from './AdminMessages/AdminMessages';
+import { AdminTicketRequests } from './AdminTicketRequests/AdminTicketRequests';
 import { AdminNews } from '@features/manage-news';
 import { AdminPlayers } from '@features/manage-player';
 import { AdminScheduleEvents } from '@features/manage-schedule-event';
-import { AdminTicketRequests } from '@pages/admin/ui/AdminTicketRequests/AdminTicketRequests';
 
 import styles from './AdminSectionContent.module.css';
 
