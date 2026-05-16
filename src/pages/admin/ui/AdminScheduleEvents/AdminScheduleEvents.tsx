@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { Button, Card } from '@shared/ui';
+import { Button, Card, SectionHeader } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
 
 import type {
@@ -22,7 +22,7 @@ import {
 } from './scheduleEventForm';
 
 import styles from './AdminScheduleEvents.module.css';
-import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
+
 
 type AdminScheduleEventsProps = {
   scheduleEvents: AdminScheduleEvent[];
@@ -201,7 +201,7 @@ export function AdminScheduleEvents({
 
   return (
     <div>
-      <AdminSectionHeader
+      <SectionHeader
         title="Расписание"
         description={`Всего событий: ${scheduleEvents.length}`}
         actions={

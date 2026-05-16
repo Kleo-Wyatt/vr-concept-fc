@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 
 import type { ContactMessage } from '@entities/contact-message';
-import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
+import { Button, Card, FilterTabs, SectionHeader, type FilterTabItem } from '@shared/ui';
 import { formatDateTimeRu } from '@shared/lib/date';
 
-import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
+
 import {
   type AdminInfoGridItem,
   AdminInfoGrid,
@@ -121,7 +121,7 @@ export function AdminMessages({
 
   return (
     <div>
-      <AdminSectionHeader
+      <SectionHeader
         title="Сообщения"
         description={
           <>

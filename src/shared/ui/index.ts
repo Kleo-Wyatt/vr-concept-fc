@@ -28,4 +28,6 @@ export type { FilterTabItem, FilterTabsProps } from './FilterTabs/FilterTabs';
 
 export { ScrollToTop } from './ScrollToTop/ScrollToTop';
 
+export { SectionHeader } from './SectionHeader';
+
 export { PageStub } from './PageStub/PageStub';

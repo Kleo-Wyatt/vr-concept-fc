@@ -3,8 +3,8 @@ import type { FormFieldChangeEvent } from '@shared/ui';
 
 import type { PlayerPayload } from '@entities/player';
 
-import { PlayerPhotoUpload } from './PlayerPhotoUpload';
-import { positionOptions } from './playerForm';
+import { positionOptions } from '../../model/playerForm';
+import { PlayerPhotoUpload } from '../PlayerPhotoUpload/PlayerPhotoUpload';
 
 import styles from './PlayerFormModal.module.css';
 

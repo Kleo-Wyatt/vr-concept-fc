@@ -1,21 +1,21 @@
 import type { ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from './AdminSectionHeader.module.css';
+import styles from './SectionHeader.module.css';
 
-type AdminSectionHeaderProps = {
+type SectionHeaderProps = {
   title: string;
   description?: ReactNode;
   actions?: ReactNode;
   className?: string;
 };
 
-export function AdminSectionHeader({
+export function SectionHeader({
   title,
   description,
   actions,
   className,
-}: AdminSectionHeaderProps) {
+}: SectionHeaderProps) {
   return (
     <div className={clsx(styles.header, className)}>
       <div>

@@ -2,13 +2,13 @@ import { useMemo, useState } from 'react';
 
 import type { TicketRequest } from '@entities/ticket-request';
 import { formatDateTimeRu, formatMatchDateTimeRu } from '@shared/lib/date';
-import { Button, Card, FilterTabs, type FilterTabItem } from '@shared/ui';
+import { Button, Card, FilterTabs, SectionHeader, type FilterTabItem } from '@shared/ui';
 
 import {
   type AdminInfoGridItem,
   AdminInfoGrid,
 } from '../AdminInfoGrid/AdminInfoGrid';
-import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
+
 
 import styles from './AdminTicketRequests.module.css';
 import { AdminListItem } from '../AdminListItem/AdminListItem';
@@ -139,7 +139,7 @@ export function AdminTicketRequests({
 
   return (
     <div>
-      <AdminSectionHeader
+      <SectionHeader
         title="Заявки на билеты"
         description={
           <>

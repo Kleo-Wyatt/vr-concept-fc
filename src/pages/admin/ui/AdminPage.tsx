@@ -14,9 +14,11 @@ import { AppRoute } from '@shared/config/routes';
 import { useAdminData } from '../hooks/useAdminData';
 
 import { AdminHeader } from './AdminHeader/AdminHeader';
-import { AdminSectionContent } from './AdminSectionContent/AdminSectionContent';
+
+import { AdminSectionContent } from '@widgets/admin-section-content';
 
 import styles from './AdminPage.module.css';
+
 
 export function AdminPage() {
   const { section } = useParams<{ section?: string }>();

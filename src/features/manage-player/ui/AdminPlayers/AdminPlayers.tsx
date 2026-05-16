@@ -1,26 +1,25 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { getApiErrorMessage } from '@shared/api/http';
-import { Button, Card } from '@shared/ui';
-import type { FormFieldChangeEvent } from '@shared/ui';
 import {
   PlayerPhotoCard,
   uploadPlayerPhoto,
   type Player,
   type PlayerPayload,
 } from '@entities/player';
+import { getApiErrorMessage } from '@shared/api/http';
+import { Button, Card, SectionHeader } from '@shared/ui';
+import type { FormFieldChangeEvent } from '@shared/ui';
 
-import { PlayerFormModal } from './PlayerFormModal';
 import {
   getPlayerFormData,
   initialPlayerFormData,
   PLAYER_PLACEHOLDER_IMAGE,
   validatePlayerForm,
   validatePlayerPhoto,
-} from './playerForm';
+} from '../../model/playerForm';
+import { PlayerFormModal } from '../PlayerFormModal/PlayerFormModal';
 
 import styles from './AdminPlayers.module.css';
-import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
 
 type AdminPlayersProps = {
   players: Player[];
@@ -199,7 +198,7 @@ export function AdminPlayers({
 
   return (
     <div>
-      <AdminSectionHeader
+      <SectionHeader
         title="Игроки"
         description={`Всего игроков: ${players.length}`}
         actions={

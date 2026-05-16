@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import { getApiErrorMessage } from '@shared/api/http';
-import { Button, Card } from '@shared/ui';
+import { Button, Card, SectionHeader } from '@shared/ui';
 import type { FormFieldChangeEvent } from '@shared/ui';
 
 import type { NewsItem as AdminNewsItem, NewsPayload } from '@entities/news';
@@ -15,7 +15,7 @@ import {
 
 import styles from './AdminNews.module.css';
 import { formatShortDateRu } from '@shared/lib/date';
-import { AdminSectionHeader } from '../AdminSectionHeader/AdminSectionHeader';
+
 
 type AdminNewsProps = {
   news: AdminNewsItem[];
@@ -124,7 +124,7 @@ export function AdminNews({
 
   return (
     <div>
-      <AdminSectionHeader
+      <SectionHeader
         title="Новости"
         description={`Всего новостей: ${news.length}`}
         actions={

@@ -1,4 +1,4 @@
-import { PLAYER_PLACEHOLDER_IMAGE } from './playerForm';
+import { PLAYER_PLACEHOLDER_IMAGE } from '../../model/playerForm';
 
 import styles from './PlayerPhotoUpload.module.css';
 
