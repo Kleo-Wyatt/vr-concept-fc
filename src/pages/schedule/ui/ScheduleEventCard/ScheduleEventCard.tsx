@@ -3,7 +3,7 @@ import { Card } from '@shared/ui';
 import { formatShortMonthRu } from '@shared/lib/date';
 
 import { formatScheduleDate, getEventTitle } from '../../model/lib';
-import type { ScheduleEvent } from '../../model/types';
+import type { ScheduleEvent } from '@entities/schedule-event';
 
 import styles from './ScheduleEventCard.module.css';
 

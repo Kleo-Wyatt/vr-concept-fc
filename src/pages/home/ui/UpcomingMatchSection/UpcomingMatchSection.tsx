@@ -3,7 +3,7 @@ import { CalendarOutlined, EnvironmentFilled } from '@ant-design/icons';
 import { DEFAULT_TEAM_ICON, getTeamIcon } from '@shared/config/teamIcons';
 import { TicketRequestButton } from '@features/ticket-request';
 
-import type { UpcomingMatch } from '../../model/types';
+import type { UpcomingMatch } from '@entities/schedule-event';
 
 import styles from './UpcomingMatchSection.module.css';
 

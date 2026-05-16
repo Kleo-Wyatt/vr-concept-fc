@@ -1,7 +1,8 @@
-import type { StatusFilter } from '../../model/types';
+import clsx from 'clsx';
 
-import styles from './ScheduleFilter.module.css';import clsx from 'clsx';
+import type { StatusFilter } from '@entities/schedule-event';
 
+import styles from './ScheduleFilter.module.css';
 
 type ScheduleFilterItem = {
   value: StatusFilter;

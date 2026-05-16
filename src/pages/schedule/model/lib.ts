@@ -1,4 +1,4 @@
-import type { ScheduleEvent } from './types';
+import type { ScheduleEvent } from '@entities/schedule-event';
 
 export function getEventTimestamp(event: ScheduleEvent) {
   return new Date(`${event.date}T${event.time}`).getTime();

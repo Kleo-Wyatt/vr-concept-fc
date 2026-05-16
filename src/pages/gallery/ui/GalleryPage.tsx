@@ -8,10 +8,11 @@ import { Button, Card, Modal, ScrollableFrame } from '@shared/ui';
 import {
   filterGalleryItems,
   formatGalleryDate,
+  galleryItems,
   getGalleryCategories,
-} from '../model/lib';
-import { galleryItems } from '../model/mockData';
-import type { GalleryCategoryFilter, GalleryItem } from '../model/types';
+  type GalleryCategoryFilter,
+  type GalleryItem,
+} from '@entities/gallery';
 
 import styles from './GalleryPage.module.css';
 
@@ -31,7 +32,6 @@ export function GalleryPage() {
 
   const hasScrollableGallery =
     filteredItems.length > VISIBLE_GALLERY_ITEMS_LIMIT;
-
 
   const closeModal = () => {
     setSelectedItem(null);

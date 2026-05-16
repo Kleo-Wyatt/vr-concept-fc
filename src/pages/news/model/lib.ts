@@ -1,4 +1,4 @@
-import type { NewsItem } from './types';
+import type { NewsItem } from '@entities/news';
 import defaultNewsImage from '@shared/assets/images/news-default.png';
 
 const ONE_MONTH_IN_MS = 30 * 24 * 60 * 60 * 1000;

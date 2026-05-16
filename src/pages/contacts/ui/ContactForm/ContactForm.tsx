@@ -15,8 +15,11 @@ import {
   sanitizeContactFormField,
   validateContactForm,
 } from '../../model/contactForm';
-import { saveContactMessage } from '../../model/contactMessagesStorage';
-import type { ContactFormData, ContactFormErrors } from '../../model/types';
+import {
+  saveContactMessage,
+  type ContactFormData,
+  type ContactFormErrors,
+} from '@entities/contact-message';
 
 import styles from './ContactForm.module.css';
 

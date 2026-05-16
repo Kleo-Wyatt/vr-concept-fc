@@ -1,4 +1,4 @@
-import type { ScheduleEvent, StatusFilter } from './types';
+import type { ScheduleEvent, StatusFilter } from '@entities/schedule-event';
 
 export const scheduleEvents: ScheduleEvent[] = [
   {

@@ -1,7 +1,7 @@
 import { ScrollableFrame } from '@shared/ui';
 
 import { formatNewsDate } from '../../model/lib';
-import type { NewsItem } from '../../model/types';
+import type { NewsItem } from '@entities/news';
 
 import styles from './NewsArchiveSection.module.css';
 

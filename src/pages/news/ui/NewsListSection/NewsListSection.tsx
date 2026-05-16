@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import type { NewsCategoryFilter, NewsItem } from '../../model/types';
+import type { NewsCategoryFilter, NewsItem } from '@entities/news';
 
 import { NewsCard } from '../NewsCard/NewsCard';
 

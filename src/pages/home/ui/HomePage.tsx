@@ -6,8 +6,7 @@ import { CtaSection } from './CtaSection/CtaSection';
 import { HeroSection } from './HeroSection/HeroSection';
 import { UpcomingMatchSection } from './UpcomingMatchSection/UpcomingMatchSection';
 
-import { getUpcomingMatch } from '../model/api';
-import type { UpcomingMatch } from '../model/types';
+import { getUpcomingMatch, type UpcomingMatch } from '@entities/schedule-event';
 
 import styles from './HomePage.module.css';
 

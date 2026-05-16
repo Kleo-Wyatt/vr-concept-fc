@@ -1,4 +1,7 @@
-import type { ContactFormData, ContactFormErrors } from './types';
+import type {
+  ContactFormData,
+  ContactFormErrors,
+} from '@entities/contact-message';
 
 export const initialContactFormData: ContactFormData = {
   name: '',

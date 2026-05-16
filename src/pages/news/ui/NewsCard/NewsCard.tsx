@@ -1,7 +1,7 @@
 import { Button, Card } from '@shared/ui';
 
 import { formatNewsDate, getNewsImage } from '../../model/lib';
-import type { NewsItem } from '../../model/types';
+import type { NewsItem } from '@entities/news';
 
 import styles from './NewsCard.module.css';
 
