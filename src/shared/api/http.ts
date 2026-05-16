@@ -1,6 +1,6 @@
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 
-import { getAuthToken, removeAuthToken } from '@features/auth/model/authToken';
+import { getAuthToken, removeAuthToken } from '@shared/lib/authToken';
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ?? 'http://localhost:3001/api';
