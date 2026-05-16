@@ -1,28 +1,26 @@
 import { useMemo, useState } from 'react';
 
-import { Button, Card, SectionHeader } from '@shared/ui';
-import type { FormFieldChangeEvent } from '@shared/ui';
-
 import type {
   ScheduleEvent as AdminScheduleEvent,
   ScheduleEventPayload,
   ScheduleStatus,
 } from '@entities/schedule-event';
+import { Button, Card, SectionHeader } from '@shared/ui';
+import type { FormFieldChangeEvent } from '@shared/ui';
 
 import { ScheduleEventCard } from './ScheduleEventCard';
 import { ScheduleEventFormModal } from './ScheduleEventFormModal';
 import {
-  getEventTitle,
   getScheduleEventFormData,
+  getEventTitle,
   initialScheduleEventFormData,
+  isPastTrainingEvent,
+  isScheduleEventNeedsScore,
   normalizeScheduleEventForm,
   validateScheduleEventForm,
-  isScheduleEventNeedsScore,
-  isPastTrainingEvent,
 } from './scheduleEventForm';
 
 import styles from './AdminScheduleEvents.module.css';
-
 
 type AdminScheduleEventsProps = {
   scheduleEvents: AdminScheduleEvent[];
