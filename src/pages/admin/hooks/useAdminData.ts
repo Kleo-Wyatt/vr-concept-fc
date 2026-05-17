@@ -1,10 +1,10 @@
 import { getAdminLoadError } from '../lib/getAdminLoadError';
 
-import { useAdminMessages } from './useAdminMessages';
-import { useAdminNews } from './useAdminNews';
-import { useAdminPlayers } from './useAdminPlayers';
-import { useAdminScheduleEvents } from './useAdminScheduleEvents';
-import { useAdminTicketRequests } from './useAdminTicketRequests';
+import { useAdminPlayers } from '@features/manage-player';
+import { useAdminScheduleEvents } from '@features/manage-schedule-event';
+import { useAdminNews } from '@features/manage-news';
+import { useAdminMessages } from '@widgets/admin-section-content';
+import { useAdminTicketRequests } from '@widgets/admin-section-content';
 import { useRefreshAdminData } from './useRefreshAdminData';
 
 export function useAdminData() {
