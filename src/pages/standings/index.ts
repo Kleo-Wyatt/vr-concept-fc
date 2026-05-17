@@ -1,1 +1,1 @@
-export { StandingsPage } from './ui/StandingsPage';
+export { StandingsPageAsync as StandingsPage } from './ui/StandingsPage.async';

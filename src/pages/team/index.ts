@@ -1,1 +1,1 @@
-export { TeamPage } from './ui/TeamPage';
+export { TeamPageAsync as TeamPage } from './ui/TeamPage.async';

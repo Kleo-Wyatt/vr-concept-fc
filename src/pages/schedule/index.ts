@@ -1,1 +1,1 @@
-export { SchedulePage } from './ui/SchedulePage';
+export { SchedulePageAsync as SchedulePage } from './ui/SchedulePage.async';

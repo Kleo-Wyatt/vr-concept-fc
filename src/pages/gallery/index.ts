@@ -1,1 +1,1 @@
-export { GalleryPage } from './ui/GalleryPage';
+export { GalleryPageAsync as GalleryPage } from './ui/GalleryPage.async';

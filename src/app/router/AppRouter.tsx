@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { AboutPage } from '@pages/about';
@@ -18,42 +19,52 @@ import { LoginPage, ProtectedAdminRoute } from '@features/auth';
 
 import { AppRoute } from '@shared/config/routes';
 
+function PageLoader() {
+  return (
+    <main className="container section">
+      <p>Загружаем страницу...</p>
+    </main>
+  );
+}
+
 export function AppRouter() {
   return (
-    <Routes>
-      <Route element={<PublicLayout />}>
-        <Route path={AppRoute.home} element={<HomePage />} />
-        <Route path={AppRoute.about} element={<AboutPage />} />
-        <Route path={AppRoute.team} element={<TeamPage />} />
-        <Route path={AppRoute.schedule} element={<SchedulePage />} />
-        <Route path={AppRoute.standings} element={<StandingsPage />} />
-        <Route path={AppRoute.news} element={<NewsPage />} />
-        <Route path={AppRoute.gallery} element={<GalleryPage />} />
-        <Route path={AppRoute.contacts} element={<ContactsPage />} />
-      </Route>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route element={<PublicLayout />}>
+          <Route path={AppRoute.home} element={<HomePage />} />
+          <Route path={AppRoute.about} element={<AboutPage />} />
+          <Route path={AppRoute.team} element={<TeamPage />} />
+          <Route path={AppRoute.schedule} element={<SchedulePage />} />
+          <Route path={AppRoute.standings} element={<StandingsPage />} />
+          <Route path={AppRoute.news} element={<NewsPage />} />
+          <Route path={AppRoute.gallery} element={<GalleryPage />} />
+          <Route path={AppRoute.contacts} element={<ContactsPage />} />
+        </Route>
 
-      <Route path="/admin/login" element={<LoginPage />} />
+        <Route path="/admin/login" element={<LoginPage />} />
 
-      <Route element={<AdminLayout />}>
-        <Route
-          path={AppRoute.admin}
-          element={
-            <ProtectedAdminRoute>
-              <AdminPage />
-            </ProtectedAdminRoute>
-          }
-        />
-        <Route
-          path={`${AppRoute.admin}/:section`}
-          element={
-            <ProtectedAdminRoute>
-              <AdminPage />
-            </ProtectedAdminRoute>
-          }
-        />
-      </Route>
+        <Route element={<AdminLayout />}>
+          <Route
+            path={AppRoute.admin}
+            element={
+              <ProtectedAdminRoute>
+                <AdminPage />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path={`${AppRoute.admin}/:section`}
+            element={
+              <ProtectedAdminRoute>
+                <AdminPage />
+              </ProtectedAdminRoute>
+            }
+          />
+        </Route>
 
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Suspense>
   );
 }
