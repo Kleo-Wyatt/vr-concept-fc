@@ -6,6 +6,7 @@ import {
   sendBadRequest,
   sendNotFound,
 } from '../lib/httpResponses.js';
+import { publicFormRateLimit } from '../middleware/rateLimit.js';
 
 import { requireAuth } from '../middleware/requireAuth.js';
 
@@ -38,7 +39,7 @@ contactMessagesRouter.get('/', requireAuth, (_req, res) => {
   res.json(rows.map(mapContactMessage));
 });
 
-contactMessagesRouter.post('/', (req, res) => {
+contactMessagesRouter.post('/', publicFormRateLimit, (req, res) => {
   const { name, email, phone = '', subject = '', message } = req.body;
 
   if (!name || !email || !message) {

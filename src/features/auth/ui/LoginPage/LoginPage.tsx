@@ -1,11 +1,10 @@
 import { type FormEvent, useState } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Button, Card } from '@shared/ui';
 import { getApiErrorMessage } from '@shared/api/http';
 
 import { loginAdmin } from '../../model/authApi';
-import { isAuthenticated, setAuthToken } from '../../model/authToken';
 
 import styles from './LoginPage.module.css';
 
@@ -25,10 +24,6 @@ export function LoginPage() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  if (isAuthenticated()) {
-    return <Navigate to="/admin" replace />;
-  }
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -36,12 +31,10 @@ export function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      const response = await loginAdmin({
+      await loginAdmin({
         login,
         password,
       });
-
-      setAuthToken(response.token);
 
       navigate(redirectTo, {
         replace: true,

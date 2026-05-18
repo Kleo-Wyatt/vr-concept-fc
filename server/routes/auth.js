@@ -2,6 +2,12 @@ import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { requireAuth } from '../middleware/requireAuth.js';
+import { authRateLimit } from '../middleware/rateLimit.js';
+import {
+  AUTH_COOKIE_NAME,
+  getAuthCookieClearOptions,
+  getAuthCookieOptions,
+} from '../lib/authCookie.js';
 
 export const authRouter = Router();
 
@@ -22,7 +28,7 @@ function getAdminCredentials() {
   };
 }
 
-authRouter.post('/login', (req, res) => {
+authRouter.post('/login', authRateLimit, (req, res) => {
   const login = String(req.body.login ?? '').trim();
   const password = String(req.body.password ?? '');
 
@@ -53,13 +59,19 @@ authRouter.post('/login', (req, res) => {
     },
   );
 
+  res.cookie(AUTH_COOKIE_NAME, token, getAuthCookieOptions());
+
   res.json({
-    token,
     user: {
       login: admin.login,
       role: 'admin',
     },
   });
+});
+
+authRouter.post('/logout', (_req, res) => {
+  res.clearCookie(AUTH_COOKIE_NAME, getAuthCookieClearOptions());
+  res.status(204).send();
 });
 
 authRouter.get('/me', requireAuth, (req, res) => {

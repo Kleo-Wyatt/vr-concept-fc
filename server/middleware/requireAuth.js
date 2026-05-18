@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 
+import { AUTH_COOKIE_NAME, getCookieValue } from '../lib/authCookie.js';
+
 function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
 
@@ -11,10 +13,9 @@ function getJwtSecret() {
 }
 
 export function requireAuth(req, res, next) {
-  const authorizationHeader = req.get('authorization') ?? '';
-  const [scheme, token] = authorizationHeader.split(' ');
+  const token = getCookieValue(req, AUTH_COOKIE_NAME);
 
-  if (scheme !== 'Bearer' || !token) {
+  if (!token) {
     res.status(401).json({
       message: 'Требуется авторизация',
     });

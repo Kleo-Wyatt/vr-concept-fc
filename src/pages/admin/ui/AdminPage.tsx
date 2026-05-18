@@ -1,6 +1,7 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { removeAuthToken } from '@features/auth';
+import { logoutAdmin } from '@features/auth';
 import {
   AdminSidebar,
   getAdminSectionFromParam,
@@ -19,8 +20,8 @@ import { AdminSectionContent } from '@widgets/admin-section-content';
 
 import styles from './AdminPage.module.css';
 
-
 export function AdminPage() {
+  const queryClient = useQueryClient();
   const { section } = useParams<{ section?: string }>();
   const navigate = useNavigate();
 
@@ -65,12 +66,18 @@ export function AdminPage() {
     navigate(getAdminSectionPath(nextSection));
   };
 
-  const handleLogout = () => {
-    removeAuthToken();
+  const handleLogout = async () => {
+    try {
+      await logoutAdmin();
+    } finally {
+      queryClient.removeQueries({
+        queryKey: ['auth', 'me'],
+      });
 
-    navigate(AppRoute.home, {
-      replace: true,
-    });
+      navigate(AppRoute.home, {
+        replace: true,
+      });
+    }
   };
 
   if (!isValidSection) {

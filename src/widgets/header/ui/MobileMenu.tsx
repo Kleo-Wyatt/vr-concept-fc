@@ -1,7 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 
-import { isAuthenticated } from '@features/auth';
+import { getCurrentAdmin } from '@features/auth';
+
 import { AppRoute, navigationItems } from '@shared/config/routes';
 
 import styles from './MobileMenu.module.css';
@@ -11,10 +13,15 @@ type MobileMenuProps = {
 };
 
 export function MobileMenu({ onClose }: MobileMenuProps) {
-  const isAdminAuthenticated = isAuthenticated();
+  const adminQuery = useQuery({
+    queryKey: ['auth', 'me'],
+    queryFn: getCurrentAdmin,
+    retry: false,
+  });
 
-  const adminLinkPath = isAdminAuthenticated ? AppRoute.admin : '/admin/login';
-  const adminLinkLabel = isAdminAuthenticated ? 'Админ-панель' : 'Войти';
+  const isAdmin = adminQuery.isSuccess;
+  const adminLinkPath = isAdmin ? AppRoute.admin : '/admin/login';
+  const adminLinkLabel = isAdmin ? 'Админ' : 'Войти';
 
   return (
     <nav className={styles.menu} aria-label="Мобильная навигация">
@@ -38,7 +45,7 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
             <NavLink
               to={adminLinkPath}
               className={({ isActive }) =>
-                clsx(styles.link, styles.adminLink, isActive && styles.active)
+                clsx(styles.adminLink, isActive && styles.adminLinkActive)
               }
               onClick={onClose}
             >

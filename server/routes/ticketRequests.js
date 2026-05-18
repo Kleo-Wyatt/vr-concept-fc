@@ -6,6 +6,7 @@ import {
   sendBadRequest,
   sendNotFound,
 } from '../lib/httpResponses.js';
+import { publicFormRateLimit } from '../middleware/rateLimit.js';
 
 import { requireAuth } from '../middleware/requireAuth.js';
 
@@ -42,7 +43,7 @@ ticketRequestsRouter.get('/', requireAuth, (_req, res) => {
   res.json(rows.map(mapTicketRequest));
 });
 
-ticketRequestsRouter.post('/', (req, res) => {
+ticketRequestsRouter.post('/', publicFormRateLimit, (req, res) => {
   const {
     name,
     email,

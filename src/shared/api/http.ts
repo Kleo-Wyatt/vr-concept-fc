@@ -1,7 +1,5 @@
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 
-import { getAuthToken, removeAuthToken } from '@shared/lib/authToken';
-
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ?? 'http://localhost:3001/api';
 
@@ -15,31 +13,11 @@ type ApiRequestOptions = Omit<AxiosRequestConfig, 'url' | 'data'> & {
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
-
-apiClient.interceptors.request.use((config) => {
-  const token = getAuthToken();
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
-
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error instanceof AxiosError && error.response?.status === 401) {
-      removeAuthToken();
-    }
-
-    return Promise.reject(error);
-  },
-);
 
 export function getApiErrorMessage(error: unknown) {
   if (error instanceof AxiosError) {
